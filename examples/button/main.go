@@ -33,7 +33,7 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 
-	"github.com/isangeles/mural/core/mtk"
+	"github.com/isangeles/mtk"
 )
 
 var (
