@@ -163,7 +163,7 @@ func (t *Textbox) updateTextVisibility() {
 		if i < t.startID {
 			continue
 		}
-		if visibleTextHeight > t.drawArea.H() {
+		if visibleTextHeight > t.Size().Y {
 			break
 		}
 		line := t.textContent[i]
