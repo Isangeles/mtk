@@ -104,10 +104,15 @@ func NewSwitch(size Size, color color.Color) *Switch {
 	s.size = size
 	s.color = color
 	// Buttons.
-	s.prevButton = NewButton(s.size-2, SHAPE_SQUARE, colornames.Red)
+	buttonParams := Params{
+		Size:      s.size-2,
+		Shape:     SHAPE_SQUARE,
+		MainColor: colornames.Red,
+	}
+	s.prevButton = NewButton(buttonParams)
 	s.prevButton.SetLabel("-")
 	s.prevButton.SetOnClickFunc(s.onPrevButtonClicked)
-	s.nextButton = NewButton(s.size-2, SHAPE_SQUARE, colornames.Red)
+	s.nextButton = NewButton(buttonParams)
 	s.nextButton.SetLabel("+")
 	s.nextButton.SetOnClickFunc(s.onNextButtonClicked)
 	// Label & info.

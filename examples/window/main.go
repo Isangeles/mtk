@@ -21,27 +21,22 @@
  *
  */
 
-// Example for creating simple MTK button with draw background
-// and custom on-click function.
+// Example for creating MTK window.
 package main
 
 import (
 	"fmt"
-
+	
 	"golang.org/x/image/colornames"
-
+	
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-
+	
 	"github.com/isangeles/mtk"
 )
 
-var (
-	exitreq bool // menu exit request flag
-)
-
 // Main function.
-func main() {
+func main () {
 	// Run Pixel graphic.
 	pixelgl.Run(run)
 }
@@ -50,7 +45,7 @@ func main() {
 func run() {
 	// Create Pixel window configuration.
 	cfg := pixelgl.WindowConfig{
-		Title:  "MTK button example",
+		Title:  "MTK window example",
 		Bounds: pixel.R(0, 0, 1600, 900),
 	}
 	// Create MTK warpper for Pixel window.
@@ -58,36 +53,11 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("fail_to_create_mtk_window:%v", err))
 	}
-	// Create MTK button for exit.
-	buttonParams := mtk.Params{
-		Size:      mtk.SIZE_BIG,
-		FontSize:  mtk.SIZE_MEDIUM,
-		Shape:     mtk.SHAPE_RECTANGLE,
-		MainColor: colornames.Red,
-	}
-	exitButton := mtk.NewButton(buttonParams)
-	exitButton.SetLabel("Exit")
-	exitButton.SetInfo("Exit menu")
-	// Set function for exit button click event.
-	exitButton.SetOnClickFunc(onExitButtonClicked)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
-		// Draw exit button.
-		exitButton.Draw(win, mtk.Matrix().Moved(win.Bounds().Center()))
 		// Update.
 		win.Update()
-		exitButton.Update(win)
-		// On exit request.
-		if exitreq {
-			win.SetClosed(true)
-		}
 	}
-}
-
-// onExitButtonClicked handles exit button click
-// event.
-func onExitButtonClicked(b *mtk.Button) {
-	exitreq = true
 }

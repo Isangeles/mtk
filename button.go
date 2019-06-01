@@ -29,22 +29,24 @@ import (
 	"golang.org/x/image/colornames"
 
 	"github.com/faiface/beep"
-	
+
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
 )
 
 var (
-	button_push_color = colornames.Grey
+	button_push_color  = colornames.Grey
 	button_hover_color = colornames.Crimson
 )
 
 // Button struct for UI button.
 type Button struct {
 	bgSpr      *pixel.Sprite
+	bgDraw     *imdraw.IMDraw
 	label      *Text
 	info       *InfoWindow
-	size       Size
+	size       pixel.Vec
 	shape      Shape
 	color      color.Color
 	colorPush  color.Color
@@ -58,17 +60,19 @@ type Button struct {
 	clickSound *beep.Buffer
 }
 
-// NewButton creates new button with specified size, shape and color.
-func NewButton(size Size, shape Shape, color color.Color) *Button {
+// NewButton creates new button with specified parameters.
+func NewButton(params Params) *Button {
 	b := new(Button)
-	// Background.
-	b.size = size
-	b.shape = shape
-	b.color = color
+	// Parameters.
+	b.shape = params.Shape
+	b.size = params.Size.ButtonSize(b.shape).Size()
+	b.color = params.MainColor
 	b.colorPush = button_push_color
 	b.colorHover = button_hover_color
+	// Background.
+	b.bgDraw = imdraw.New(nil)
 	// Label.
-	b.label = NewText(size, b.Size().X)
+	b.label = NewText(params.FontSize, b.Size().X)
 	// Info window.
 	b.info = NewInfoWindow(SIZE_SMALL, colornames.Grey)
 	// Global click sound.
@@ -131,7 +135,7 @@ func (b *Button) Update(win *Window) {
 	// On-hover.
 	b.hovered = b.DrawArea().Contains(win.MousePosition())
 	if b.hovered || b.Focused() {
-		if b.info != nil {	
+		if b.info != nil {
 			b.info.Update(win)
 		}
 	}
@@ -178,7 +182,7 @@ func (b *Button) Focused() bool {
 }
 
 // Active toggles button active state.
-func (b *Button) Active(active  bool) {
+func (b *Button) Active(active bool) {
 	b.disabled = !active
 }
 
@@ -207,7 +211,7 @@ func (b *Button) DrawArea() pixel.Rect {
 // Size returns button background size.
 func (b *Button) Size() pixel.Vec {
 	if b.bgSpr == nil {
-		return b.size.ButtonSize(b.shape).Size()
+		return b.size
 	}
 	return b.bgSpr.Frame().Size()
 }

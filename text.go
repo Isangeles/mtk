@@ -55,7 +55,6 @@ func NewText(fontSize Size, width float64) *Text {
 	atlas := Atlas(&font)
 	t.text = text.New(pixel.V(0, 0), atlas)
 	t.color = colornames.White // default color white
-	
 	return t
 }
 

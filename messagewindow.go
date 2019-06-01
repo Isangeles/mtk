@@ -25,9 +25,9 @@ package mtk
 
 import (
 	"image/color"
-	
+
 	"golang.org/x/image/colornames"
-	
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 
@@ -53,18 +53,24 @@ type MessageWindow struct {
 }
 
 // NewMessageWindow creates new message window instance.
-func NewMessageWindow(size Size, msg string) (*MessageWindow) {
+func NewMessageWindow(size Size, msg string) *MessageWindow {
 	mw := new(MessageWindow)
 	// Background.
 	mw.size = size
 	mw.color = colornames.Grey
 	mw.colorDisable = colornames.Darkgrey
 	// Buttons.
-	mw.acceptButton = NewButton(SIZE_SMALL, SHAPE_RECTANGLE, colornames.Red)
+	buttonParams := Params{
+		Size:      SIZE_SMALL,
+		FontSize:  SIZE_SMALL,
+		Shape:     SHAPE_RECTANGLE,
+		MainColor: colornames.Red,
+	}
+	mw.acceptButton = NewButton(buttonParams)
 	mw.acceptButton.SetLabel(lang.Text("gui", "accept_b_label"))
 	mw.acceptButton.SetOnClickFunc(mw.onAcceptButtonClicked)
 	// Textbox.
-	boxSize := pixel.V(mw.Size().X, mw.Size().Y - mw.acceptButton.Size().Y)
+	boxSize := pixel.V(mw.Size().X, mw.Size().Y-mw.acceptButton.Size().Y)
 	textbox := NewTextbox(boxSize, SIZE_MINI, SIZE_MEDIUM, colornames.Red,
 		colornames.Grey)
 	mw.textbox = textbox
@@ -73,11 +79,16 @@ func NewMessageWindow(size Size, msg string) (*MessageWindow) {
 }
 
 // NewDialogWindow creates new dialog window with message.
-func NewDialogWindow(size Size, msg string) (*MessageWindow) {
+func NewDialogWindow(size Size, msg string) *MessageWindow {
 	// Basic message window.
 	mw := NewMessageWindow(size, msg)
 	// Buttons.
-	mw.cancelButton = NewButton(SIZE_SMALL, SHAPE_RECTANGLE, colornames.Red)
+	buttonParams := Params{
+		Size:      SIZE_SMALL,
+		Shape:     SHAPE_RECTANGLE,
+		MainColor: colornames.Red,
+	}
+	mw.cancelButton = NewButton(buttonParams)
 	mw.cancelButton.SetLabel(lang.Text("gui", "cancel_b_label"))
 	mw.cancelButton.SetOnClickFunc(mw.onCancelButtonClicked)
 	return mw
@@ -184,7 +195,7 @@ func (mw *MessageWindow) DrawArea() pixel.Rect {
 // SetOnAcceptFunc sets specified function as function triggered after
 // message was accepted.
 func (mw *MessageWindow) SetOnAcceptFunc(f func(msg *MessageWindow)) {
-	mw.onAccept = f;
+	mw.onAccept = f
 }
 
 // SetOnCancelFunc sets specified function as function triggered after
@@ -195,7 +206,7 @@ func (mw *MessageWindow) SetOnCancelFunc(f func(msg *MessageWindow)) {
 
 // Triggered after accept button clicked.
 func (mw *MessageWindow) onAcceptButtonClicked(b *Button) {
-	if mw.Focused() {	
+	if mw.Focused() {
 		mw.accept()
 	}
 }

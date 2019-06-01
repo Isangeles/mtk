@@ -21,7 +21,7 @@
  *
  */
 
-// Toolkit package for mural GUI.
+// Toolkit package for Mural GUI.
 package mtk
 
 import (

@@ -1,2 +1,3 @@
-* Titles for messages windows
+* Titles for message windows
 * Auto scroll to last line for text box
+* Refactor all graphical widgets constructors to use params struct

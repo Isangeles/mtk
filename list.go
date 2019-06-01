@@ -59,12 +59,16 @@ func NewList(bgSize pixel.Vec, buttonsSize Size, bgColor,
 	l.secColor = secColor
 	l.accentColor = accentColor
 	// Buttons.
-	l.upButton = NewButton(buttonsSize, SHAPE_SQUARE,
-		accentColor)
+	buttonParams := Params{
+		Size:      buttonsSize,
+		FontSize:  buttonsSize,
+		Shape:     SHAPE_SQUARE,
+		MainColor: accentColor,
+	}
+	l.upButton = NewButton(buttonParams)
 	l.upButton.SetLabel("^")
 	l.upButton.SetOnClickFunc(l.onButtonUpClicked)
-	l.downButton = NewButton(buttonsSize, SHAPE_SQUARE,
-		accentColor)
+	l.downButton = NewButton(buttonParams)
 	l.downButton.SetLabel(".")
 	l.downButton.SetOnClickFunc(l.onButtonDownClicked)
 	return l
@@ -186,7 +190,7 @@ func (l *List) InsertItems(content map[string]interface{}) {
 // AddItem adds specified value with label to current
 // list content.
 func (l *List) AddItem(label string, value interface{}) {
-	itemSize := pixel.V(l.Size().X - l.upButton.Size().X, ConvSize(20))
+	itemSize := pixel.V(l.Size().X-l.upButton.Size().X, ConvSize(20))
 	itemSlot := NewCheckSlot(label, value, itemSize, l.secColor, l.accentColor)
 	itemSlot.SetOnCheckFunc(l.onItemSelected)
 	l.items = append(l.items, itemSlot)
