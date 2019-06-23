@@ -159,7 +159,7 @@ func (t *Textbox) updateTextVisibility() {
 		visibleTextHeight float64
 	)
 	boxWidth := t.Size().X
-	for i := 0; i < len(t.textContent); i++ {
+	for i := len(t.textContent)-1; i >= 0; i-- {
 		if i < t.startID {
 			continue
 		}
@@ -175,7 +175,8 @@ func (t *Textbox) updateTextVisibility() {
 		visibleTextHeight += t.textarea.BoundsOf(line).H() * float64(len(breakLines))
 	}
 	t.textarea.Clear()
-	for _, txt := range visibleText {
+	for i := len(visibleText)-1; i >= 0; i-- {
+		txt := visibleText[i]
 		fmt.Fprintf(t.textarea, txt)
 	}
 }
@@ -191,7 +192,7 @@ func (t *Textbox) breakLine(line string, width float64) []string {
 		for i, l := range breakLines {
 			if !strings.HasSuffix(l, "\n") {
 				breakLines[i] += "\n"
-			}	
+			}
 		}
 		lines = append(lines, breakLines...)
 	} else {
@@ -213,7 +214,7 @@ func (t *Textbox) breakPoint(line string, width float64) int {
 }
 
 // Triggered after button up clicked.
-func (t *Textbox) onButtonUpClicked(b *Button) {	
+func (t *Textbox) onButtonUpClicked(b *Button) {
 }
 
 // Triggered after button down clicked.
