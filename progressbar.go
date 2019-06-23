@@ -26,7 +26,7 @@ package mtk
 import (
 	"fmt"
 	"image/color"
-	
+
 	"github.com/faiface/pixel"
 )
 
@@ -36,11 +36,11 @@ type ProgressBar struct {
 	labelText  string
 	hovered    bool
 	bgSpr      *pixel.Sprite
-	size       Size
+	size       pixel.Vec
 	color      color.Color
 	label      *Text
 	drawArea   pixel.Rect
-	maxBounds  pixel.Rect
+	maxSize    pixel.Vec
 	bounds     pixel.Rect
 }
 
@@ -48,16 +48,16 @@ type ProgressBar struct {
 // background bar with specified size, color and label text.
 func NewProgressBar(size Size, color color.Color) *ProgressBar {
 	pb := new(ProgressBar)
-	pb.size = size
+	pb.size = size.BarSize()
 	pb.color = color
-	pb.maxBounds = pb.size.BarSize()
-	pb.label = NewText(pb.size-1, 0)
+	pb.maxSize = size.BarSize()
+	pb.label = NewText(size-1, 0)
 	return pb
 }
 
 // Draw draws progress bar.
 func (pb *ProgressBar) Draw(t pixel.Target, matrix pixel.Matrix) {
-	widthDiff := ConvSize(pb.maxBounds.W() - pb.Size().X)
+	widthDiff := ConvSize(pb.maxSize.X - pb.Size().X)
 	barPos := pixel.V(-widthDiff/2, 0)
 	mx := matrix.Moved(barPos)
 	pb.drawArea = MatrixToDrawArea(mx, pb.Size())
@@ -70,7 +70,7 @@ func (pb *ProgressBar) Draw(t pixel.Target, matrix pixel.Matrix) {
 	// Label.
 	if pb.hovered {
 		pb.label.Draw(t, matrix)
-	} 
+	}
 }
 
 // Update updates progress bar.
@@ -88,7 +88,7 @@ func (pb *ProgressBar) Update(win *Window) {
 func (pb *ProgressBar) SetBackground(p pixel.Picture) {
 	bounds := pixel.R(0, p.Bounds().Min.Y, 0, p.Bounds().Max.Y)
 	pb.bgSpr = pixel.NewSprite(p, bounds)
-	pb.maxBounds = pb.bgSpr.Picture().Bounds()
+	pb.maxSize = pb.bgSpr.Picture().Bounds().Size()
 	pb.SetColor(nil)
 }
 
@@ -141,9 +141,8 @@ func (pb *ProgressBar) DrawArea() pixel.Rect {
 // progress value.
 func (pb *ProgressBar) updateProgress() {
 	valPercent := float64(pb.Value()) * 1.0 / float64(pb.Max())
-	bgWidth := pb.maxBounds.W() * valPercent
-	pb.bounds = pixel.R(pb.maxBounds.Min.X, pb.maxBounds.Min.Y,
-		bgWidth, pb.maxBounds.Max.Y)
+	bgWidth := pb.maxSize.X * valPercent
+	pb.bounds = pixel.R(0, 0, bgWidth, pb.maxSize.Y)
 	if pb.bgSpr != nil {
 		pb.bgSpr = pixel.NewSprite(pb.bgSpr.Picture(), pb.bounds)
 	}

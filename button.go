@@ -36,8 +36,8 @@ import (
 )
 
 var (
-	button_push_color  = colornames.Grey
-	button_hover_color = colornames.Crimson
+	buttonPushColor  = colornames.Grey
+	buttonHoverColor = colornames.Crimson
 )
 
 // Button struct for UI button.
@@ -65,10 +65,10 @@ func NewButton(params Params) *Button {
 	b := new(Button)
 	// Parameters.
 	b.shape = params.Shape
-	b.size = params.Size.ButtonSize(b.shape).Size()
+	b.size = params.Size.ButtonSize(b.shape)
 	b.color = params.MainColor
-	b.colorPush = button_push_color
-	b.colorHover = button_hover_color
+	b.colorPush = buttonPushColor
+	b.colorHover = buttonHoverColor
 	// Background.
 	b.bgDraw = imdraw.New(nil)
 	// Label.
@@ -76,7 +76,7 @@ func NewButton(params Params) *Button {
 	// Info window.
 	b.info = NewInfoWindow(SIZE_SMALL, colornames.Grey)
 	// Global click sound.
-	b.SetClickSound(button_click_sound)
+	b.SetClickSound(buttonClickSound)
 	return b
 }
 

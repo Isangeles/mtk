@@ -37,7 +37,7 @@ import (
 // MessageWindow struct represents UI message window.
 type MessageWindow struct {
 	drawArea     pixel.Rect
-	size         Size
+	size         pixel.Vec
 	color        color.Color
 	colorDisable color.Color
 	textbox      *Textbox
@@ -56,7 +56,7 @@ type MessageWindow struct {
 func NewMessageWindow(size Size, msg string) *MessageWindow {
 	mw := new(MessageWindow)
 	// Background.
-	mw.size = size
+	mw.size = size.MessageWindowSize()
 	mw.color = colornames.Grey
 	mw.colorDisable = colornames.Darkgrey
 	// Buttons.
@@ -184,7 +184,7 @@ func (mw *MessageWindow) Disabled() bool {
 
 // Size resturns message window size.
 func (mw *MessageWindow) Size() pixel.Vec {
-	return mw.size.MessageWindowSize().Size()
+	return mw.size
 }
 
 // DrawArea returns size of current draw area.

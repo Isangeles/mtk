@@ -53,13 +53,13 @@ const (
 
 var (
 	// Font.
-	fallback_font  font.Face = basicfont.Face7x13
-	main_font_base *truetype.Font
+	fallbackFont font.Face = basicfont.Face7x13
+	mainFontBase *truetype.Font
 	// Audio.
-	audio              *AudioPlayer
-	button_click_sound *beep.Buffer
+	audio            *AudioPlayer
+	buttonClickSound *beep.Buffer
 	// Time.
-	sec_timer = time.Tick(time.Second)
+	secTimer = time.Tick(time.Second)
 )
 
 // Type for shapes of UI elements.
@@ -98,101 +98,100 @@ func (f *Focus) Focus(e Focuser) {
 
 // ButtonSize returns szie parameters for button with
 // this size and with specifed shape.
-func (s Size) ButtonSize(sh Shape) pixel.Rect {
+func (s Size) ButtonSize(sh Shape) pixel.Vec {
 	switch {
 	case s <= SIZE_MINI && sh == SHAPE_SQUARE:
-		return pixel.R(0, 0, ConvSize(30), ConvSize(30))
+		return ConvVec(pixel.V(30, 30))
 	case s == SIZE_SMALL && sh == SHAPE_SQUARE:
-		return pixel.R(0, 0, ConvSize(45), ConvSize(45))
+		return ConvVec(pixel.V(45, 45))
 	case s == SIZE_MEDIUM && sh == SHAPE_SQUARE:
-		return pixel.R(0, 0, ConvSize(60), ConvSize(60))
+		return ConvVec(pixel.V(60, 60))
 	case s >= SIZE_BIG && sh == SHAPE_SQUARE:
-		return pixel.R(0, 0, ConvSize(70), ConvSize(70))
+		return ConvVec(pixel.V(70, 70))
 	case s <= SIZE_MINI && sh == SHAPE_RECTANGLE:
-		return pixel.R(0, 0, ConvSize(30), ConvSize(15))
+		return ConvVec(pixel.V(30, 15))
 	case s == SIZE_SMALL && sh == SHAPE_RECTANGLE:
-		return pixel.R(0, 0, ConvSize(70), ConvSize(35))
+		return ConvVec(pixel.V(70, 35))
 	case s == SIZE_MEDIUM && sh == SHAPE_RECTANGLE:
-		return pixel.R(0, 0, ConvSize(100), ConvSize(50))
+		return ConvVec(pixel.V(100, 50))
 	case s >= SIZE_BIG && sh == SHAPE_RECTANGLE:
-		return pixel.R(0, 0, ConvSize(120), ConvSize(70))
+		return ConvVec(pixel.V(120, 70))
 	default:
-		return pixel.R(0, 0, ConvSize(70), ConvSize(35))
+		return ConvVec(pixel.V(70, 35))
 	}
 }
 
 // SwitchSize return rectangele parameters for switch
 // with this size.
-func (s Size) SwitchSize() pixel.Rect {
+func (s Size) SwitchSize() pixel.Vec {
 	switch {
 	case s <= SIZE_SMALL:
-		return pixel.R(0, 0, ConvSize(170), ConvSize(50))
+		return ConvVec(pixel.V(170, 50))
 	case s == SIZE_MEDIUM:
-		return pixel.R(0, 0, ConvSize(210), ConvSize(80))
+		return ConvVec(pixel.V(210, 80))
 	case s == SIZE_BIG:
-		return pixel.R(0, 0, ConvSize(260), ConvSize(140))
+		return ConvVec(pixel.V(260, 140))
 	case s >= SIZE_HUGE:
-		return pixel.R(0, 0, ConvSize(270), ConvSize(130))
+		return ConvVec(pixel.V(270, 130))
 	default:
-		return pixel.R(0, 0, ConvSize(70), ConvSize(35))
+		return ConvVec(pixel.V(70, 35))
 	}
 }
 
 // MessageWindowSize returns size parameters for message window.
-func (s Size) MessageWindowSize() pixel.Rect {
+func (s Size) MessageWindowSize() pixel.Vec {
 	switch {
 	case s <= SIZE_SMALL:
-		return pixel.R(0, 0, ConvSize(400), ConvSize(300))
+		return ConvVec(pixel.V(400, 300))
 	default:
-		return pixel.R(0, 0, ConvSize(400), ConvSize(300))
+		return ConvVec(pixel.V(400, 300))
 	}
 }
 
 // ListSize returns size parameters for list.
-func (s Size) ListSize() pixel.Rect {
+func (s Size) ListSize() pixel.Vec {
 	switch {
 	case s <= SIZE_MEDIUM:
-		return pixel.R(0, 0, ConvSize(600), ConvSize(500))
+		return ConvVec(pixel.V(600, 500))
 	default:
-		return pixel.R(0, 0, ConvSize(600), ConvSize(500))
+		return ConvVec(pixel.V(600, 500))
 	}
 }
 
 // BarSize returns size parameters for progress bar.
-func (s Size) BarSize() pixel.Rect {
+func (s Size) BarSize() pixel.Vec {
 	switch {
 	case s <= SIZE_MINI:
-		return pixel.R(0, 0, ConvSize(100), ConvSize(10))
+		return ConvVec(pixel.V(100, 10))
 	default:
-		return pixel.R(0, 0, ConvSize(100), ConvSize(10))
+		return ConvVec(pixel.V(100, 10))
 	}
 }
 
-// SlotSize returns size parameters for slot with specified
-// shape.
-func (s Size) SlotSize() pixel.Rect {
+// SlotSize returns size parameters for slot.
+func (s Size) SlotSize() pixel.Vec {
 	switch {
 	case s <= SIZE_SMALL:
-		return pixel.R(0, 0, ConvSize(25), ConvSize(25))
+		return ConvVec(pixel.V(25, 25))
 	case s == SIZE_MEDIUM:
-		return pixel.R(0, 0, ConvSize(30), ConvSize(30))
+		return ConvVec(pixel.V(30, 30))
 	case s >= SIZE_BIG:
-		return pixel.R(0, 0, ConvSize(40), ConvSize(40))
+		return ConvVec(pixel.V(40, 40))
 	default:
-		return pixel.R(0, 0, ConvSize(25), ConvSize(25))
+		return ConvVec(pixel.V(25, 25))
 	}
 }
 
 // Sets specified truetype font as current main font of
 // the interface.
 func SetMainFont(font *truetype.Font) {
-	main_font_base = font
+	mainFontBase = font
 }
 
 // SetButtonClickSound sets specified audio buffer
 // as on-click audio effect for all buttons.
 func SetButtonClickSound(s *beep.Buffer) {
-	button_click_sound = s
+	buttonClickSound = s
 }
 
 // MainFont returns main font in specified size from
@@ -248,10 +247,10 @@ func DrawRectangle(t pixel.Target, drawArea pixel.Rect, color color.Color) {
 // createMainFont creates new main font face with
 // specified size.
 func createMainFont(size float64) font.Face {
-	if main_font_base == nil {
-		return fallback_font
+	if mainFontBase == nil {
+		return fallbackFont
 	}
-	return truetype.NewFace(main_font_base, &truetype.Options{
+	return truetype.NewFace(mainFontBase, &truetype.Options{
 		Size:              size,
 		GlyphCacheEntries: 1,
 	})

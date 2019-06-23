@@ -25,7 +25,7 @@ package mtk
 
 import (
 	"time"
-	
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 )
@@ -58,7 +58,7 @@ func (w *Window) Update() {
 	w.Window.Update()
 	w.frameCount++
 	select {
-	case <-sec_timer:
+	case <-secTimer:
 		w.fps = w.frameCount
 		w.frameCount = 0
 	default:

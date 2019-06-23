@@ -63,7 +63,7 @@ func (s SwitchValue) Picture() (pixel.Picture, error) {
 func (s SwitchValue) IntValue() (int, error) {
 	num, ok := s.Value.(int)
 	if !ok {
-		return 0, fmt.Errorf("fail_to_retrieve_switch_integer_value")		
+		return 0, fmt.Errorf("fail_to_retrieve_switch_integer_value")
 	}
 	return num, nil
 }
@@ -87,7 +87,7 @@ type Switch struct {
 	label                  *Text
 	info                   *InfoWindow
 	drawArea               pixel.Rect // updated on each draw
-	size                   Size
+	size                   pixel.Vec
 	color                  color.Color
 	index                  int
 	focused                bool
@@ -98,14 +98,14 @@ type Switch struct {
 }
 
 // NewSwitch creates new switch with specified size and color.
-func NewSwitch(size Size, color color.Color) *Switch {
+func NewSwitch(params Params) *Switch {
 	s := new(Switch)
 	// Background.
-	s.size = size
-	s.color = color
+	s.size = params.Size.SwitchSize()
+	s.color = params.MainColor
 	// Buttons.
 	buttonParams := Params{
-		Size:      s.size-2,
+		Size:      params.Size-2,
 		Shape:     SHAPE_SQUARE,
 		MainColor: colornames.Red,
 	}
@@ -116,12 +116,12 @@ func NewSwitch(size Size, color color.Color) *Switch {
 	s.nextButton.SetLabel("+")
 	s.nextButton.SetOnClickFunc(s.onNextButtonClicked)
 	// Label & info.
-	s.label = NewText(s.size-1, s.Size().X)
+	s.label = NewText(params.Size-1, s.Size().X)
 	s.label.JustCenter()
 	s.info = NewInfoWindow(SIZE_SMALL, colornames.Grey)
 	// Values.
 	s.index = 0
-	s.valueText = NewText(s.size, 100)
+	s.valueText = NewText(params.Size, 100)
 	s.updateValueView()
 	return s
 }
@@ -165,7 +165,7 @@ func (s *Switch) Update(win *Window) {
 	// Mouse events.
 	if s.DrawArea().Contains(win.MousePosition()) {
 		s.hovered = true
-		if s.info != nil {	
+		if s.info != nil {
 			s.info.Update(win)
 		}
 	} else {
@@ -276,7 +276,7 @@ func (s *Switch) Disabled() bool {
 // Size returns switch background size.
 func (s *Switch) Size() pixel.Vec {
 	if s.bgSpr == nil {
-		return s.size.SwitchSize().Size()
+		return s.size
 	}
 	return s.bgSpr.Frame().Size()
 }

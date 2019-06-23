@@ -43,7 +43,7 @@ type Slot struct {
 	bgSpr              *pixel.Sprite
 	bgDraw             *imdraw.IMDraw
 	drawArea           pixel.Rect
-	size               Size
+	size               pixel.Vec
 	color              color.Color
 	fontSize           Size
 	label              *Text
@@ -65,7 +65,7 @@ func NewSlot(size, fontSize Size) *Slot {
 	s := new(Slot)
 	// Background.
 	s.bgDraw = imdraw.New(nil)
-	s.size = size
+	s.size = size.SlotSize()
 	s.color = def_slot_color
 	// Labels & info.
 	s.fontSize = fontSize
@@ -88,7 +88,7 @@ func SlotSwitch(slotA, slotB *Slot) {
 	slotB.SetValues(slotC.Values())
 	slotB.SetIcon(slotC.Icon())
 	slotB.SetInfo(slotC.info.String())
-	slotB.SetLabel(slotC.label.String())	
+	slotB.SetLabel(slotC.label.String())
 }
 
 // SlotCopy copies content from slot A to
@@ -262,7 +262,7 @@ func (s *Slot) DrawArea() pixel.Rect {
 // Size returns slot size.
 func (s *Slot) Size() pixel.Vec {
 	if s.bgSpr == nil {
-		return s.size.SlotSize().Size()
+		return s.size
 	}
 	return s.bgSpr.Frame().Size()
 }

@@ -27,7 +27,7 @@ import (
 	"image/color"
 
 	"golang.org/x/image/colornames"
-                                       
+
 	"github.com/faiface/pixel"
 )
 
@@ -65,10 +65,10 @@ func NewSlotList(bgSize pixel.Vec, bgColor color.Color, slotSize Size) *SlotList
 	sl.downButton.SetOnClickFunc(sl.onDownButtonClicked)
 	// Calculating amount of slots based on background and
 	// buttons sizes.
-	slotBounds := slotSize.SlotSize()
+	slotSizeRaw := slotSize.SlotSize()
 	bgWidth := sl.Size().X - sl.upButton.Size().X
-	sl.spl = int(bgWidth/(slotBounds.W() + ConvSize(2)))
-	sl.lines = int(sl.Size().Y / (slotBounds.H() + ConvSize(2))) - 1
+	sl.spl = int(bgWidth/(slotSizeRaw.X + ConvSize(2)))
+	sl.lines = int(sl.Size().Y / (slotSizeRaw.Y + ConvSize(2))) - 1
 	return sl
 }
 
