@@ -25,7 +25,7 @@ package mtk
 
 import (
 	"image/color"
-	
+
 	"github.com/faiface/pixel"
 )
 
@@ -39,7 +39,13 @@ type InfoWindow struct {
 // NewInfoWindow creates new information window.
 func NewInfoWindow(size Size, color color.Color) *InfoWindow {
 	iw := new(InfoWindow)
-	iw.Textbox = NewTextbox(pixel.V(0, 0), SIZE_MINI, size, color, color)
+	textboxParams := Params{
+		SizeRaw:     pixel.V(0, 0),
+		FontSize:    SIZE_MINI,
+		MainColor:   color,
+		AccentColor: color,
+	}
+	iw.Textbox = NewTextbox(textboxParams)
 	return iw
 }
 

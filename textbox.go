@@ -47,16 +47,15 @@ type Textbox struct {
 	buttons     bool
 }
 
-// NewTextbox creates new textbox with specified font size,
-// and background color.
-func NewTextbox(size pixel.Vec, buttonSize, fontSize Size,
-	color, accentColor color.Color) *Textbox {
+// NewTextbox creates new textbox with specified
+// parameters.
+func NewTextbox(params Params) *Textbox {
 	t := new(Textbox)
 	// Background.
-	t.bgSize = size
-	t.color = color
+	t.bgSize = params.SizeRaw
+	t.color = params.MainColor
 	// Text.
-	t.textarea = NewText(fontSize, t.bgSize.X)
+	t.textarea = NewText(params.FontSize, t.bgSize.X)
 	t.textarea.JustLeft()
 	// TODO: Buttons.
 	return t

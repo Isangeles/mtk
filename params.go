@@ -25,6 +25,8 @@ package mtk
 
 import (
 	"image/color"
+
+	"github.com/faiface/pixel"
 )
 
 // Struct for MTK graphical widget parameters.
@@ -33,6 +35,7 @@ type Params struct {
 	SecColor    color.Color
 	AccentColor color.Color
 	Size        Size
+	SizeRaw     pixel.Vec
 	FontSize    Size
 	Shape       Shape
 }
