@@ -170,7 +170,11 @@ func (t *Textbox) updateTextVisibility() {
 			continue
 		}
 		breakLines := t.breakLine(line, boxWidth)
-		visibleText = append(visibleText, breakLines...)
+		for j := len(breakLines)-1; j >= 0; j-- { // reverse order
+			bl := breakLines[j]
+			visibleText = append(visibleText, bl)
+		}
+		//visibleText = append(visibleText, breakLines...)
 		visibleTextHeight += t.textarea.BoundsOf(line).H() * float64(len(breakLines))
 	}
 	t.textarea.Clear()

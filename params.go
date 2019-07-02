@@ -38,4 +38,5 @@ type Params struct {
 	SizeRaw     pixel.Vec
 	FontSize    Size
 	Shape       Shape
+	Background  *pixel.Sprite
 }

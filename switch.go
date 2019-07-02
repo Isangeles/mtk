@@ -30,6 +30,7 @@ import (
 	"golang.org/x/image/colornames"
 
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
 )
 
 // Tuple for switch values, contains value to
@@ -80,6 +81,7 @@ func (s SwitchValue) TextValue() (string, error) {
 
 // Switch struct represents graphical switch for values.
 type Switch struct {
+	bgDraw                 *imdraw.IMDraw
 	bgSpr                  *pixel.Sprite
 	prevButton, nextButton *Button
 	valueText              *Text
@@ -101,8 +103,10 @@ type Switch struct {
 func NewSwitch(params Params) *Switch {
 	s := new(Switch)
 	// Background.
+	s.bgDraw = imdraw.New(nil)
 	s.size = params.Size.SwitchSize()
 	s.color = params.MainColor
+	s.bgSpr = params.Background
 	// Buttons.
 	buttonParams := Params{
 		Size:      params.Size-2,

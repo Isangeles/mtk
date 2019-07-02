@@ -1,5 +1,4 @@
 * Titles for message windows
 * Refactor all graphical widgets constructors to use params struct
-* Fix textbox lines oreder(smaller lines from one too long lines are in reverse order)
-* Add background texture to params struct
 * Examples for: switch, list, slot, bar, message, audio player
+* Scroll buttons for textbox

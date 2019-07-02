@@ -71,6 +71,7 @@ func NewButton(params Params) *Button {
 	b.colorHover = buttonHoverColor
 	// Background.
 	b.bgDraw = imdraw.New(nil)
+	b.bgSpr = params.Background
 	// Label.
 	b.label = NewText(params.FontSize, b.Size().X)
 	// Info window.

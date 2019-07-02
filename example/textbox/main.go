@@ -75,7 +75,7 @@ func run() {
 	// Insert text to textbox.
 	text := fmt.Sprintf("This is multi-line text,\nyou can scroll it with\nUP\nand\nDOWN\nkeys!\n")
 	textbox.SetText(text)
-	textbox.AddText("New line")
+	textbox.AddText("veeeeeeeeeeeeeeery veeeeeeeeery loooooooooooooooong linnnnnnnnnnnnnnnnnne? No problem!")
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
