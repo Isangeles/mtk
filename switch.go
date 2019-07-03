@@ -104,20 +104,25 @@ func NewSwitch(params Params) *Switch {
 	s := new(Switch)
 	// Background.
 	s.bgDraw = imdraw.New(nil)
+	s.bgSpr = params.Background
 	s.size = params.Size.SwitchSize()
 	s.color = params.MainColor
 	s.bgSpr = params.Background
 	// Buttons.
+	buttonColor := params.SecColor
+	if buttonColor == nil {
+		buttonColor = colornames.Red
+	}
 	buttonParams := Params{
 		Size:      params.Size-2,
 		Shape:     SHAPE_SQUARE,
-		MainColor: colornames.Red,
+		MainColor: buttonColor,
 	}
 	s.prevButton = NewButton(buttonParams)
-	s.prevButton.SetLabel("-")
+	s.prevButton.SetLabel("<")
 	s.prevButton.SetOnClickFunc(s.onPrevButtonClicked)
 	s.nextButton = NewButton(buttonParams)
-	s.nextButton.SetLabel("+")
+	s.nextButton.SetLabel(">")
 	s.nextButton.SetOnClickFunc(s.onNextButtonClicked)
 	// Label & info.
 	s.label = NewText(params.Size-1, s.Size().X)

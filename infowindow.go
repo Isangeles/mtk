@@ -41,7 +41,7 @@ func NewInfoWindow(size Size, color color.Color) *InfoWindow {
 	iw := new(InfoWindow)
 	textboxParams := Params{
 		SizeRaw:     pixel.V(0, 0),
-		FontSize:    SIZE_MINI,
+		FontSize:    size,
 		MainColor:   color,
 		AccentColor: color,
 	}
