@@ -39,4 +39,6 @@ type Params struct {
 	FontSize    Size
 	Shape       Shape
 	Background  *pixel.Sprite
+	Label       string
+	Info        string
 }

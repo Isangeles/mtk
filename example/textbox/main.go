@@ -66,7 +66,7 @@ func run() {
 	mtk.SetMainFont(font)
 	// Create textbox.
 	textboxParams := mtk.Params{
-		SizeRaw:     pixel.V(500, 300),
+		SizeRaw:     pixel.V(300, 300),
 		FontSize:    mtk.SIZE_MEDIUM,
 		MainColor:   colornames.Grey,
 		AccentColor: colornames.Red,

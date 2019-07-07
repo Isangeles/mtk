@@ -21,8 +21,7 @@
  *
  */
 
-// Example for creating simple MTK button with draw background
-// and custom on-click function.
+// Example for creating MTK message window.
 package main
 
 import (
@@ -50,7 +49,7 @@ func main() {
 func run() {
 	// Create Pixel window configuration.
 	cfg := pixelgl.WindowConfig{
-		Title:  "MTK button example",
+		Title:  "MTK message window example",
 		Bounds: pixel.R(0, 0, 1600, 900),
 	}
 	// Create MTK warpper for Pixel window.
@@ -58,7 +57,7 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("fail_to_create_mtk_window:%v", err))
 	}
-	// Create MTK button for exit.
+	// Create button for exit.
 	buttonParams := mtk.Params{
 		Size:      mtk.SIZE_BIG,
 		FontSize:  mtk.SIZE_MEDIUM,
@@ -68,18 +67,34 @@ func run() {
 	exitButton := mtk.NewButton(buttonParams)
 	exitButton.SetLabel("Exit")
 	exitButton.SetInfo("Exit menu")
+	// Create info message.
+	msgParams := mtk.Params{
+		Size:      mtk.SIZE_MEDIUM,
+		FontSize:  mtk.SIZE_MEDIUM,
+		MainColor: colornames.Grey,
+		SecColor:  colornames.Red,
+		Info:      "Click exit to close example program",
+	}
+	msg := mtk.NewMessageWindow(msgParams)
+	msg.SetAcceptLabel("OK")
+	msg.Show(true)
 	// Set function for exit button click event.
 	exitButton.SetOnClickFunc(onExitButtonClicked)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
-		// Draw exit button.
+		// Draw.
 		exitButtonPos := win.Bounds().Center()
+		msgPos := win.Bounds().Center()
 		exitButton.Draw(win, mtk.Matrix().Moved(exitButtonPos))
+		if msg.Opened() {
+			msg.Draw(win, mtk.Matrix().Moved(msgPos))
+		}
 		// Update.
 		win.Update()
 		exitButton.Update(win)
+		msg.Update(win)
 		// On exit request.
 		if exitreq {
 			win.SetClosed(true)

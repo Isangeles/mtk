@@ -30,8 +30,6 @@ import (
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-
-	"github.com/isangeles/flame/core/data/text/lang"
 )
 
 // MessageWindow struct represents UI message window.
@@ -53,48 +51,46 @@ type MessageWindow struct {
 }
 
 // NewMessageWindow creates new message window instance.
-func NewMessageWindow(size Size, msg string) *MessageWindow {
+func NewMessageWindow(params Params) *MessageWindow {
 	mw := new(MessageWindow)
 	// Background.
-	mw.size = size.MessageWindowSize()
-	mw.color = colornames.Grey
+	mw.size = params.Size.MessageWindowSize()
+	mw.color = params.MainColor
 	mw.colorDisable = colornames.Darkgrey
 	// Buttons.
 	buttonParams := Params{
 		Size:      SIZE_SMALL,
 		FontSize:  SIZE_SMALL,
 		Shape:     SHAPE_RECTANGLE,
-		MainColor: colornames.Red,
+		MainColor: params.SecColor,
 	}
 	mw.acceptButton = NewButton(buttonParams)
-	mw.acceptButton.SetLabel(lang.Text("gui", "accept_b_label"))
 	mw.acceptButton.SetOnClickFunc(mw.onAcceptButtonClicked)
 	// Textbox.
 	boxSize := pixel.V(mw.Size().X, mw.Size().Y-mw.acceptButton.Size().Y)
 	boxParams := Params{
 		SizeRaw:     boxSize,
-		FontSize:    SIZE_MINI,
-		MainColor:   colornames.Grey,
-		AccentColor: colornames.Red,
+		FontSize:    params.FontSize,
+		MainColor:   params.MainColor,
+		AccentColor: params.SecColor,
 	}
 	textbox := NewTextbox(boxParams)
 	mw.textbox = textbox
-	mw.textbox.SetText(msg)
+	mw.textbox.SetText(params.Info)
 	return mw
 }
 
 // NewDialogWindow creates new dialog window with message.
-func NewDialogWindow(size Size, msg string) *MessageWindow {
+func NewDialogWindow(params Params) *MessageWindow {
 	// Basic message window.
-	mw := NewMessageWindow(size, msg)
+	mw := NewMessageWindow(params)
 	// Buttons.
 	buttonParams := Params{
 		Size:      SIZE_SMALL,
 		Shape:     SHAPE_RECTANGLE,
-		MainColor: colornames.Red,
+		MainColor: params.SecColor,
 	}
 	mw.cancelButton = NewButton(buttonParams)
-	mw.cancelButton.SetLabel(lang.Text("gui", "cancel_b_label"))
 	mw.cancelButton.SetOnClickFunc(mw.onCancelButtonClicked)
 	return mw
 }
@@ -195,6 +191,19 @@ func (mw *MessageWindow) Size() pixel.Vec {
 // DrawArea returns size of current draw area.
 func (mw *MessageWindow) DrawArea() pixel.Rect {
 	return mw.drawArea
+}
+
+// SetAcceptLabel sets label for accept button.
+func (mw *MessageWindow) SetAcceptLabel(l string) {
+	mw.acceptButton.SetLabel(l)
+}
+
+// SetCancelLabel sets label for cancel button.
+func (mw *MessageWindow) SetCancelLabel(l string) {
+	if mw.cancelButton == nil {
+		return
+	}
+	mw.cancelButton.SetLabel(l)
 }
 
 // SetOnAcceptFunc sets specified function as function triggered after
