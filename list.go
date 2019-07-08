@@ -62,7 +62,7 @@ func NewList(bgSize pixel.Vec, buttonsSize Size, bgColor,
 	buttonParams := Params{
 		Size:      buttonsSize,
 		FontSize:  buttonsSize,
-		Shape:     SHAPE_SQUARE,
+		Shape:     ShapeSquare,
 		MainColor: accentColor,
 	}
 	l.upButton = NewButton(buttonParams)

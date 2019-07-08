@@ -41,14 +41,15 @@ import (
 )
 
 const (
-	SIZE_MINI Size = iota
-	SIZE_SMALL
-	SIZE_MEDIUM
-	SIZE_BIG
-	SIZE_HUGE
-
-	SHAPE_RECTANGLE Shape = iota
-	SHAPE_SQUARE
+	// Sizes.
+	SizeMini Size = iota
+	SizeSmall
+	SizeMedium
+	SizeBig
+	SizeHuge
+	// Shapes.
+	ShapeRectangle Shape = iota
+	ShapeSquare
 )
 
 var (
@@ -100,21 +101,21 @@ func (f *Focus) Focus(e Focuser) {
 // this size and with specifed shape.
 func (s Size) ButtonSize(sh Shape) pixel.Vec {
 	switch {
-	case s <= SIZE_MINI && sh == SHAPE_SQUARE:
+	case s <= SizeMini && sh == ShapeSquare:
 		return ConvVec(pixel.V(30, 30))
-	case s == SIZE_SMALL && sh == SHAPE_SQUARE:
+	case s == SizeSmall && sh == ShapeSquare:
 		return ConvVec(pixel.V(45, 45))
-	case s == SIZE_MEDIUM && sh == SHAPE_SQUARE:
+	case s == SizeMedium && sh == ShapeSquare:
 		return ConvVec(pixel.V(60, 60))
-	case s >= SIZE_BIG && sh == SHAPE_SQUARE:
+	case s >= SizeBig && sh == ShapeSquare:
 		return ConvVec(pixel.V(70, 70))
-	case s <= SIZE_MINI && sh == SHAPE_RECTANGLE:
+	case s <= SizeMini && sh == ShapeRectangle:
 		return ConvVec(pixel.V(30, 15))
-	case s == SIZE_SMALL && sh == SHAPE_RECTANGLE:
+	case s == SizeSmall && sh == ShapeRectangle:
 		return ConvVec(pixel.V(70, 35))
-	case s == SIZE_MEDIUM && sh == SHAPE_RECTANGLE:
+	case s == SizeMedium && sh == ShapeRectangle:
 		return ConvVec(pixel.V(100, 50))
-	case s >= SIZE_BIG && sh == SHAPE_RECTANGLE:
+	case s >= SizeBig && sh == ShapeRectangle:
 		return ConvVec(pixel.V(120, 70))
 	default:
 		return ConvVec(pixel.V(70, 35))
@@ -125,13 +126,13 @@ func (s Size) ButtonSize(sh Shape) pixel.Vec {
 // with this size.
 func (s Size) SwitchSize() pixel.Vec {
 	switch {
-	case s <= SIZE_SMALL:
+	case s <= SizeSmall:
 		return ConvVec(pixel.V(170, 50))
-	case s == SIZE_MEDIUM:
+	case s == SizeMedium:
 		return ConvVec(pixel.V(210, 80))
-	case s == SIZE_BIG:
+	case s == SizeBig:
 		return ConvVec(pixel.V(260, 140))
-	case s >= SIZE_HUGE:
+	case s >= SizeHuge:
 		return ConvVec(pixel.V(270, 130))
 	default:
 		return ConvVec(pixel.V(70, 35))
@@ -141,7 +142,7 @@ func (s Size) SwitchSize() pixel.Vec {
 // MessageWindowSize returns size parameters for message window.
 func (s Size) MessageWindowSize() pixel.Vec {
 	switch {
-	case s <= SIZE_SMALL:
+	case s <= SizeSmall:
 		return ConvVec(pixel.V(400, 300))
 	default:
 		return ConvVec(pixel.V(400, 300))
@@ -151,7 +152,7 @@ func (s Size) MessageWindowSize() pixel.Vec {
 // ListSize returns size parameters for list.
 func (s Size) ListSize() pixel.Vec {
 	switch {
-	case s <= SIZE_MEDIUM:
+	case s <= SizeMedium:
 		return ConvVec(pixel.V(600, 500))
 	default:
 		return ConvVec(pixel.V(600, 500))
@@ -161,7 +162,7 @@ func (s Size) ListSize() pixel.Vec {
 // BarSize returns size parameters for progress bar.
 func (s Size) BarSize() pixel.Vec {
 	switch {
-	case s <= SIZE_MINI:
+	case s <= SizeMini:
 		return ConvVec(pixel.V(100, 10))
 	default:
 		return ConvVec(pixel.V(100, 10))
@@ -171,11 +172,11 @@ func (s Size) BarSize() pixel.Vec {
 // SlotSize returns size parameters for slot.
 func (s Size) SlotSize() pixel.Vec {
 	switch {
-	case s <= SIZE_SMALL:
+	case s <= SizeSmall:
 		return ConvVec(pixel.V(25, 25))
-	case s == SIZE_MEDIUM:
+	case s == SizeMedium:
 		return ConvVec(pixel.V(30, 30))
-	case s >= SIZE_BIG:
+	case s >= SizeBig:
 		return ConvVec(pixel.V(40, 40))
 	default:
 		return ConvVec(pixel.V(25, 25))
@@ -198,13 +199,13 @@ func SetButtonClickSound(s *beep.Buffer) {
 // data package.
 func MainFont(s Size) font.Face {
 	switch {
-	case s <= SIZE_MINI:
+	case s <= SizeMini:
 		return createMainFont(10)
-	case s == SIZE_SMALL:
+	case s == SizeSmall:
 		return createMainFont(15)
-	case s == SIZE_MEDIUM:
+	case s == SizeMedium:
 		return createMainFont(20)
-	case s >= SIZE_BIG:
+	case s >= SizeBig:
 		return createMainFont(30)
 	default:
 		return createMainFont(10)

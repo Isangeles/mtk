@@ -59,9 +59,9 @@ func run() {
 	}
 	// Create button for exit.
 	buttonParams := mtk.Params{
-		Size:      mtk.SIZE_BIG,
-		FontSize:  mtk.SIZE_MEDIUM,
-		Shape:     mtk.SHAPE_RECTANGLE,
+		Size:      mtk.SizeBig,
+		FontSize:  mtk.SizeMedium,
+		Shape:     mtk.ShapeRectangle,
 		MainColor: colornames.Red,
 	}
 	exitButton := mtk.NewButton(buttonParams)
@@ -69,8 +69,8 @@ func run() {
 	exitButton.SetInfo("Exit menu")
 	// Create info message.
 	msgParams := mtk.Params{
-		Size:      mtk.SIZE_MEDIUM,
-		FontSize:  mtk.SIZE_MEDIUM,
+		Size:      mtk.SizeMedium,
+		FontSize:  mtk.SizeMedium,
 		MainColor: colornames.Grey,
 		SecColor:  colornames.Red,
 		Info:      "Click exit to close example program",

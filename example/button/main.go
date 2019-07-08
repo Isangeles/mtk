@@ -60,9 +60,9 @@ func run() {
 	}
 	// Create MTK button for exit.
 	buttonParams := mtk.Params{
-		Size:      mtk.SIZE_BIG,
-		FontSize:  mtk.SIZE_MEDIUM,
-		Shape:     mtk.SHAPE_RECTANGLE,
+		Size:      mtk.SizeBig,
+		FontSize:  mtk.SizeMedium,
+		Shape:     mtk.ShapeRectangle,
 		MainColor: colornames.Red,
 	}
 	exitButton := mtk.NewButton(buttonParams)

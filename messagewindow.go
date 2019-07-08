@@ -59,9 +59,9 @@ func NewMessageWindow(params Params) *MessageWindow {
 	mw.colorDisable = colornames.Darkgrey
 	// Buttons.
 	buttonParams := Params{
-		Size:      SIZE_SMALL,
-		FontSize:  SIZE_SMALL,
-		Shape:     SHAPE_RECTANGLE,
+		Size:      SizeSmall,
+		FontSize:  SizeSmall,
+		Shape:     ShapeRectangle,
 		MainColor: params.SecColor,
 	}
 	mw.acceptButton = NewButton(buttonParams)
@@ -86,8 +86,8 @@ func NewDialogWindow(params Params) *MessageWindow {
 	mw := NewMessageWindow(params)
 	// Buttons.
 	buttonParams := Params{
-		Size:      SIZE_SMALL,
-		Shape:     SHAPE_RECTANGLE,
+		Size:      SizeSmall,
+		Shape:     ShapeRectangle,
 		MainColor: params.SecColor,
 	}
 	mw.cancelButton = NewButton(buttonParams)

@@ -115,7 +115,7 @@ func NewSwitch(params Params) *Switch {
 	}
 	buttonParams := Params{
 		Size:      params.Size-2,
-		Shape:     SHAPE_SQUARE,
+		Shape:     ShapeSquare,
 		MainColor: buttonColor,
 	}
 	s.prevButton = NewButton(buttonParams)
@@ -127,7 +127,7 @@ func NewSwitch(params Params) *Switch {
 	// Label & info.
 	s.label = NewText(params.Size-1, s.Size().X)
 	s.label.JustCenter()
-	s.info = NewInfoWindow(SIZE_SMALL, colornames.Grey)
+	s.info = NewInfoWindow(SizeSmall, colornames.Grey)
 	// Values.
 	s.index = 0
 	s.valueText = NewText(params.Size, 100)

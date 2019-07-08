@@ -60,7 +60,7 @@ func run() {
 	}
   // Create switch.
   switchParams := mtk.Params{
-    Size:      mtk.SIZE_BIG,
+    Size:      mtk.SizeBig,
     MainColor: colornames.Grey,
     SecColor:  colornames.Red,
   }
@@ -74,9 +74,9 @@ func run() {
   exitSwitch.SetOnChangeFunc(onExitSwitchChanged)
   // Create button to enable/disable.
 	buttonParams := mtk.Params{
-		Size:      mtk.SIZE_BIG,
-		FontSize:  mtk.SIZE_MEDIUM,
-		Shape:     mtk.SHAPE_RECTANGLE,
+		Size:      mtk.SizeBig,
+		FontSize:  mtk.SizeMedium,
+		Shape:     mtk.ShapeRectangle,
 		MainColor: colornames.Red,
 	}
 	exitButton = mtk.NewButton(buttonParams)

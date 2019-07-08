@@ -25,7 +25,7 @@ package mtk
 
 import (
 	"image/color"
-	
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 )
@@ -49,7 +49,7 @@ func NewCheckSlot(label string, value interface{}, bgSize pixel.Vec,
 	cs.bgSize = bgSize
 	cs.bgColor = color
 	cs.checkColor = checkColor
-	cs.label = NewText(SIZE_MEDIUM, 0);
+	cs.label = NewText(SizeMedium, 0);
 	cs.label.SetText(label)
 	cs.value = value
 	return cs
@@ -125,4 +125,3 @@ func (cs *CheckSlot) Checked() bool {
 func (cs *CheckSlot) SetOnCheckFunc(f func(s *CheckSlot)) {
 	cs.onCheck = f
 }
-

@@ -35,7 +35,7 @@ import (
 )
 
 var (
-	def_slot_color = pixel.RGBA{0.1, 0.1, 0.1, 0.5} // default color
+	defSlotColor = pixel.RGBA{0.1, 0.1, 0.1, 0.5} // default color
 )
 
 // Struct for slot.
@@ -66,13 +66,13 @@ func NewSlot(size, fontSize Size) *Slot {
 	// Background.
 	s.bgDraw = imdraw.New(nil)
 	s.size = size.SlotSize()
-	s.color = def_slot_color
+	s.color = defSlotColor
 	// Labels & info.
 	s.fontSize = fontSize
 	s.label = NewText(fontSize, 0)
 	s.countLabel = NewText(fontSize, 0)
 	s.countLabel.JustCenter()
-	s.info = NewInfoWindow(SIZE_SMALL, colornames.Grey)
+	s.info = NewInfoWindow(SizeSmall, colornames.Grey)
 	return s
 }
 

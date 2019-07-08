@@ -52,9 +52,9 @@ func NewSlotList(bgSize pixel.Vec, bgColor color.Color, slotSize Size) *SlotList
 	sl.bgColor = bgColor
 	// Buttons.
 	buttonParams := Params{
-		Size:      SIZE_MINI,
-		FontSize:  SIZE_MINI,
-		Shape:     SHAPE_SQUARE,
+		Size:      SizeMini,
+		FontSize:  SizeMini,
+		Shape:     ShapeSquare,
 		MainColor: colornames.Red,
 	}
 	sl.upButton = NewButton(buttonParams)
