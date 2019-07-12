@@ -40,24 +40,25 @@ var (
 
 // Struct for slot.
 type Slot struct {
-	bgSpr              *pixel.Sprite
-	bgDraw             *imdraw.IMDraw
-	drawArea           pixel.Rect
-	size               pixel.Vec
-	color              color.Color
-	fontSize           Size
-	label              *Text
-	countLabel         *Text
-	info               *InfoWindow
-	icon               *pixel.Sprite
-	values             []interface{}
-	mousePos           pixel.Vec
-	specialKey         pixelgl.Button
-	onRightClick       func(s *Slot)
-	onLeftClick        func(s *Slot)
-	onSpecialLeftClick func(s *Slot)
-	hovered            bool
-	dragged            bool
+	bgSpr               *pixel.Sprite
+	bgDraw              *imdraw.IMDraw
+	drawArea            pixel.Rect
+	size                pixel.Vec
+	color               color.Color
+	fontSize            Size
+	label               *Text
+	countLabel          *Text
+	info                *InfoWindow
+	icon                *pixel.Sprite
+	values              []interface{}
+	mousePos            pixel.Vec
+	specialKey          pixelgl.Button
+	onRightClick        func(s *Slot)
+	onLeftClick         func(s *Slot)
+	onSpecialLeftClick  func(s *Slot)
+	onSpecialRightClick func(s *Slot)
+	hovered             bool
+	dragged             bool
 }
 
 // NewSlot creates new slot without background.
@@ -137,6 +138,11 @@ func (s *Slot) Update(win *Window) {
 	// Mouse events.
 	if s.DrawArea().Contains(s.mousePos) {
 		switch {
+		case s.specialKey != 0 && win.Pressed(s.specialKey) &&
+			win.JustPressed(pixelgl.MouseButtonRight):
+			if s.onSpecialRightClick != nil {
+				s.onSpecialRightClick(s)
+			}
 		case win.JustPressed(pixelgl.MouseButtonRight):
 			if s.onRightClick != nil {
 				s.onRightClick(s)
@@ -283,6 +289,12 @@ func (s *Slot) SetOnRightClickFunc(f func(s *Slot)) {
 // triggered after left mouse click event.
 func (s *Slot) SetOnLeftClickFunc(f func(s *Slot)) {
 	s.onLeftClick = f
+}
+
+// SetOnSpecialRightClickFunc set speicfied function as function
+// triggered after special key pressed + right mouse click event.
+func (s *Slot) SetOnSpecialRightClickFunc(f func(s *Slot)) {
+	s.onSpecialRightClick = f
 }
 
 // SetOnSpecialLeftClickFunc set speicfied function as function
