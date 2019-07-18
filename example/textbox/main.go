@@ -21,7 +21,7 @@
  *
  */
 
-// Example for creating and using MTK textbox.
+// Example of creating and using MTK textbox.
 package main
 
 import (

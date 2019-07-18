@@ -62,16 +62,19 @@ type Slot struct {
 }
 
 // NewSlot creates new slot without background.
-func NewSlot(size, fontSize Size) *Slot {
+func NewSlot(params Params) *Slot {
 	s := new(Slot)
 	// Background.
 	s.bgDraw = imdraw.New(nil)
-	s.size = size.SlotSize()
-	s.color = defSlotColor
+	s.size = params.Size.SlotSize()
+	s.color = params.MainColor
+	if s.color == nil {
+		s.color = defSlotColor
+	}
 	// Labels & info.
-	s.fontSize = fontSize
-	s.label = NewText(fontSize, 0)
-	s.countLabel = NewText(fontSize, 0)
+	s.fontSize = params.FontSize
+	s.label = NewText(params.FontSize, 0)
+	s.countLabel = NewText(params.FontSize, 0)
 	s.countLabel.JustCenter()
 	s.info = NewInfoWindow(SizeSmall, colornames.Grey)
 	return s

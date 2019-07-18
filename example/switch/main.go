@@ -36,12 +36,12 @@ import (
 )
 
 var (
-  exitreq    bool // menu exit request flag
-  exitButton *mtk.Button // button to enable/disable
+	exitreq    bool        // menu exit request flag
+	exitButton *mtk.Button // button to enable/disable
 )
 
 // Main function.
-func main () {
+func main() {
 	// Run Pixel graphic.
 	pixelgl.Run(run)
 }
@@ -58,21 +58,21 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("fail_to_create_mtk_window:%v", err))
 	}
-  // Create switch.
-  switchParams := mtk.Params{
-    Size:      mtk.SizeBig,
-    MainColor: colornames.Grey,
-    SecColor:  colornames.Red,
-  }
-  exitSwitch := mtk.NewSwitch(switchParams)
-  // Add values.
+	// Create switch.
+	switchParams := mtk.Params{
+		Size:      mtk.SizeBig,
+		MainColor: colornames.Grey,
+		SecColor:  colornames.Red,
+	}
+	exitSwitch := mtk.NewSwitch(switchParams)
+	// Add values.
 	onValue := mtk.SwitchValue{"on", true}
 	offValue := mtk.SwitchValue{"off", false}
-  switchValues := []mtk.SwitchValue{onValue, offValue}
-  exitSwitch.SetValues(switchValues)
-  exitSwitch.SetLabel("Toggle exit button")
-  exitSwitch.SetOnChangeFunc(onExitSwitchChanged)
-  // Create button to enable/disable.
+	switchValues := []mtk.SwitchValue{onValue, offValue}
+	exitSwitch.SetValues(switchValues)
+	exitSwitch.SetLabel("Toggle exit button")
+	exitSwitch.SetOnChangeFunc(onExitSwitchChanged)
+	// Create button to enable/disable.
 	buttonParams := mtk.Params{
 		Size:      mtk.SizeBig,
 		FontSize:  mtk.SizeMedium,
@@ -82,35 +82,35 @@ func run() {
 	exitButton = mtk.NewButton(buttonParams)
 	exitButton.SetLabel("Exit")
 	exitButton.SetInfo("Exit menu")
-  exitButton.SetOnClickFunc(onExitButtonClicked)
+	exitButton.SetOnClickFunc(onExitButtonClicked)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
-    // Draw switch.
-    switchPos := win.Bounds().Center()
-    exitSwitch.Draw(win, mtk.Matrix().Moved(switchPos))
-    // Draw button.
-    buttonPos := mtk.BottomOf(exitSwitch.DrawArea(), exitButton.Size(), 10)
-    exitButton.Draw(win, mtk.Matrix().Moved(buttonPos))
+		// Draw switch.
+		switchPos := win.Bounds().Center()
+		exitSwitch.Draw(win, mtk.Matrix().Moved(switchPos))
+		// Draw button.
+		buttonPos := mtk.BottomOf(exitSwitch.DrawArea(), exitButton.Size(), 10)
+		exitButton.Draw(win, mtk.Matrix().Moved(buttonPos))
 		// Update.
 		win.Update()
-    exitSwitch.Update(win)
-    exitButton.Update(win)
-    if exitreq {
-      win.SetClosed(true)
-    }
+		exitSwitch.Update(win)
+		exitButton.Update(win)
+		if exitreq {
+			win.SetClosed(true)
+		}
 	}
 }
 
 // onExitSwitchChanged handles exit switch change event.
 func onExitSwitchChanged(s *mtk.Switch, old, new *mtk.SwitchValue) {
-  enabled, ok := new.Value.(bool)
-  if !ok {
-    fmt.Printf("invalid switch value type")
-    return
-  }
-  exitButton.Active(enabled)
+	enabled, ok := new.Value.(bool)
+	if !ok {
+		fmt.Printf("invalid switch value type")
+		return
+	}
+	exitButton.Active(enabled)
 }
 
 // onExitButtonClicked handles exit button click event.

@@ -21,27 +21,30 @@
  *
  */
 
-// Example for creating simple MTK button with draw background
-// and custom on-click function.
+// Example of creating and using slot.
 package main
 
 import (
 	"fmt"
-
+	
 	"golang.org/x/image/colornames"
-
+	
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-
+	
 	"github.com/isangeles/mtk"
 )
 
 var (
-	exitreq bool // menu exit request flag
+	// Exit request flag.
+	exitreq bool
+	// Colors.
+	slotColor      = colornames.Grey
+	slotColorCheck = colornames.Red
 )
 
 // Main function.
-func main() {
+func main () {
 	// Run Pixel graphic.
 	pixelgl.Run(run)
 }
@@ -50,7 +53,7 @@ func main() {
 func run() {
 	// Create Pixel window configuration.
 	cfg := pixelgl.WindowConfig{
-		Title:  "MTK button example",
+		Title:  "MTK slot example",
 		Bounds: pixel.R(0, 0, 1600, 900),
 	}
 	// Create MTK warpper for Pixel window.
@@ -70,15 +73,27 @@ func run() {
 	exitButton.SetInfo("Exit menu")
 	// Set function for exit button click event.
 	exitButton.SetOnClickFunc(onExitButtonClicked)
+	// Create slot.
+	slotParams := mtk.Params{
+		Size:      mtk.SizeBig,
+		FontSize:  mtk.SizeMedium,
+		MainColor: slotColor,
+	}
+	slot := mtk.NewSlot(slotParams)
+	slot.AddValues(false)
+	slot.SetOnLeftClickFunc(onSlotClicked)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
-		// Draw exit button.
-		exitButtonPos := win.Bounds().Center()
+		// Draw.
+		slotPos := win.Bounds().Center()
+		slot.Draw(win, mtk.Matrix().Moved(slotPos))
+		exitButtonPos := mtk.BottomOf(slot.DrawArea(), slot.Size(), 20)
 		exitButton.Draw(win, mtk.Matrix().Moved(exitButtonPos))
 		// Update.
 		win.Update()
+		slot.Update(win)
 		exitButton.Update(win)
 		// On exit request.
 		if exitreq {
@@ -91,4 +106,26 @@ func run() {
 // event.
 func onExitButtonClicked(b *mtk.Button) {
 	exitreq = true
+}
+
+// onSlotClicked handles slot click event.
+func onSlotClicked(s *mtk.Slot) {
+	if len(s.Values()) < 1 {
+		return
+	}
+	// Get first slot value.
+	v, ok := s.Values()[0].(bool)
+	if !ok {
+		return
+	}
+	// Check/uncheck slot.
+	if v {
+		s.Clear()
+		s.AddValues(false)
+		s.SetColor(slotColor)
+	} else {
+		s.Clear()
+		s.AddValues(true)
+		s.SetColor(slotColorCheck)
+	}
 }
