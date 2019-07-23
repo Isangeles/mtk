@@ -26,17 +26,19 @@ package mtk
 import (
 	"fmt"
 	"time"
-	
+
 	"github.com/faiface/beep"
+	"github.com/faiface/beep/effects"
 	"github.com/faiface/beep/speaker"
 )
 
 // Struct for audio player.
 type AudioPlayer struct {
-	playlist  []beep.Streamer
-	playID    int
-	mixer     *beep.Mixer
-	ctrlMusic *beep.Ctrl
+	playlist []beep.Streamer
+	playID   int
+	mixer    *beep.Mixer
+	control  *beep.Ctrl
+	volume   *effects.Volume
 }
 
 // NewAudioPlayer creates new audio player for specified
@@ -45,14 +47,20 @@ func NewAudioPlayer(format beep.Format) *AudioPlayer {
 	p := new(AudioPlayer)
 	p.playlist = make([]beep.Streamer, 0)
 	p.mixer = new(beep.Mixer)
-	p.ctrlMusic = new(beep.Ctrl)
+	p.control = new(beep.Ctrl)
+	p.volume = &effects.Volume{
+		Streamer: p.control,
+		Base:     2,
+		Volume:   0,
+		Silent:   false,
+	}
 	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
 	speaker.Play(p.mixer)
 	return p
 }
 
-// Add adds specified audio stream to playlist.
-func (p *AudioPlayer) AddMusic(ab *beep.Buffer) error { 
+// AddAudio adds specified audio stream to playlist.
+func (p *AudioPlayer) AddAudio(ab *beep.Buffer) error {
 	s := ab.Streamer(0, ab.Len())
 	p.playlist = append(p.playlist, s)
 	return nil
@@ -65,13 +73,13 @@ func (p *AudioPlayer) SetPlaylist(playlist []beep.Streamer) {
 }
 
 // Play starts player.
-func (p *AudioPlayer) PlayMusic() error {
+func (p *AudioPlayer) ResumePlaylist() error {
 	if p.playID < 0 || p.playID > len(p.playlist)-1 {
-		return fmt.Errorf("audio_player:current playlist position nil")
+		return fmt.Errorf("audio_player: current playlist position nil")
 	}
 	m := p.playlist[p.playID]
-	p.ctrlMusic.Streamer = m
-	p.mixer.Add(p.ctrlMusic)
+	p.volume.Streamer = m
+	p.mixer.Add(p.volume)
 	return nil
 }
 
@@ -83,36 +91,59 @@ func (p *AudioPlayer) Play(ab *beep.Buffer) error {
 }
 
 // Stop stops player.
-func (p *AudioPlayer) StopMusic() {
-	if p.ctrlMusic.Streamer == nil {
+func (p *AudioPlayer) StopPlaylist() {
+	if p.control.Streamer == nil {
 		return
 	}
 	speaker.Lock()
-	p.ctrlMusic.Streamer = nil
+	p.control.Streamer = nil
 	speaker.Unlock()
 }
 
 // Reset stops player and moves play index to
 // first music playlist index.
 func (p *AudioPlayer) Reset() {
-	p.StopMusic()
+	p.StopPlaylist()
 	p.SetPlayIndex(0)
 }
 
 // Next moves play index to next position
 // on music playlist.
 func (p *AudioPlayer) Next() {
-	p.StopMusic()
-	p.SetPlayIndex(p.playID+1)
-	p.PlayMusic()
+	p.StopPlaylist()
+	p.SetPlayIndex(p.playID + 1)
+	p.ResumePlaylist()
 }
 
 // Prev moves play index to previous position
 // on music playlist.
 func (p *AudioPlayer) Prev() {
-	p.StopMusic()
-	p.SetPlayIndex(p.playID-1)
-	p.PlayMusic()
+	p.StopPlaylist()
+	p.SetPlayIndex(p.playID - 1)
+	p.ResumePlaylist()
+}
+
+// SetVolume sets specified value as current
+// value.
+// 0 - unmodified, > 0 - lauder, < 0 quieter.
+func (ap *AudioPlayer) SetVolume(v float64) {
+	ap.volume.Volume = v
+}
+
+// Volume returns current volume value.
+// 0 - unmodified, > 0 - lauder, < 0 quieter.
+func (ap *AudioPlayer) Volume() float64 {
+	return ap.volume.Volume
+}
+
+// SetMute mutes/unmutes audio player.
+func (ap *AudioPlayer) SetMute(m bool) {
+	ap.volume.Silent = m
+}
+
+// Muted check if audio player is muted.
+func (ap *AudioPlayer) Muted() bool {
+	return ap.volume.Silent
 }
 
 // Clear clears music playlist.
@@ -130,7 +161,7 @@ func (p *AudioPlayer) SetPlayIndex(id int) {
 	case id > len(p.playlist)-1:
 		p.playID = 0
 	case id < 0:
-		p.playID = len(p.playlist)-1
+		p.playID = len(p.playlist) - 1
 	default:
 		p.playID = id
 	}

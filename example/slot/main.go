@@ -89,7 +89,7 @@ func run() {
 		// Draw.
 		slotPos := win.Bounds().Center()
 		slot.Draw(win, mtk.Matrix().Moved(slotPos))
-		exitButtonPos := mtk.BottomOf(slot.DrawArea(), slot.Size(), 20)
+		exitButtonPos := mtk.BottomOf(slot.DrawArea(), exitButton.Size(), 10)
 		exitButton.Draw(win, mtk.Matrix().Moved(exitButtonPos))
 		// Update.
 		win.Update()

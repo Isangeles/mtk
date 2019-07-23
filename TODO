@@ -1,4 +1,4 @@
 * Titles for message windows
 * Refactor all graphical widgets constructors to use params struct
-* Examples for: list, slot list, bar, dialog, audio player
+* Examples for: list, slot list, bar, dialog
 * Scroll buttons for textbox
