@@ -48,22 +48,21 @@ type List struct {
 	onItemSelectFunc func(it *CheckSlot)
 }
 
-// NewList creates new list with specified size
-// and colors.
-func NewList(bgSize pixel.Vec, buttonsSize Size, bgColor,
-	secColor, accentColor color.Color) *List {
+// NewList creates new list with
+// specified parameters.
+func NewList(params Params) *List {
 	l := new(List)
 	// Background.
-	l.bgSize = bgSize
-	l.bgColor = bgColor
-	l.secColor = secColor
-	l.accentColor = accentColor
+	l.bgSize = params.SizeRaw
+	l.bgColor = params.MainColor
+	l.secColor = params.SecColor
+	l.accentColor = params.AccentColor
 	// Buttons.
 	buttonParams := Params{
-		Size:      buttonsSize,
-		FontSize:  buttonsSize,
+		Size:      SizeMini,
+		FontSize:  SizeMedium,
 		Shape:     ShapeSquare,
-		MainColor: accentColor,
+		MainColor: params.AccentColor,
 	}
 	l.upButton = NewButton(buttonParams)
 	l.upButton.SetLabel("^")
