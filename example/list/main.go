@@ -21,7 +21,7 @@
  *
  */
 
-// Example of creating MTK window.
+// Example of creating and using list.
 package main
 
 import (
@@ -45,7 +45,7 @@ func main () {
 func run() {
 	// Create Pixel window configuration.
 	cfg := pixelgl.WindowConfig{
-		Title:  "MTK window example",
+		Title:  "MTK list example",
 		Bounds: pixel.R(0, 0, 1600, 900),
 	}
 	// Create MTK warpper for Pixel window.
@@ -53,11 +53,29 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("fail to create mtk window: %v", err))
 	}
+  // Create list.
+  listParams := mtk.Params{
+    SizeRaw:     mtk.ConvVec(pixel.V(350, 500)),
+    MainColor:   colornames.Grey,
+    SecColor:    colornames.Red,
+    AccentColor: colornames.Blue,
+  }
+  list := mtk.NewList(listParams)
+  // Insert items to list.
+  items := make(map[string]interface{})
+  items["Item 1"] = "it1"
+  items["Item 2"] = "it2"
+  items["Item 3"] = "it3"
+  list.InsertItems(items)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
+    // Draw.
+    listPos := win.Bounds().Center()
+    list.Draw(win, mtk.Matrix().Moved(listPos))
 		// Update.
 		win.Update()
+    list.Update(win)
 	}
 }
