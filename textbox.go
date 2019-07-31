@@ -57,7 +57,19 @@ func NewTextbox(params Params) *Textbox {
 	// Text.
 	t.textarea = NewText(params.FontSize, t.bgSize.X)
 	t.textarea.JustLeft()
-	// TODO: Buttons.
+	// Buttons.
+	buttonParams := Params{
+		Size:      SizeMini,
+		FontSize:  SizeMedium,
+		Shape:     ShapeSquare,
+		MainColor: params.AccentColor,
+	}
+	t.upButton = NewButton(buttonParams)
+	t.upButton.SetLabel("^")
+	t.upButton.SetOnClickFunc(t.onButtonUpClicked)
+	t.downButton = NewButton(buttonParams)
+	t.downButton.SetLabel(".")
+	t.downButton.SetOnClickFunc(t.onButtonDownClicked)
 	return t
 }
 
@@ -69,6 +81,11 @@ func (tb *Textbox) Draw(t pixel.Target, matrix pixel.Matrix) {
 	// Text content.
 	tb.textarea.Draw(t, Matrix().Moved(pixel.V(tb.DrawArea().Min.X,
 		tb.DrawArea().Max.Y-tb.textarea.BoundsOf("AA").H())))
+	// Buttons.
+	upButtonPos := MoveTR(tb.Size(), tb.upButton.Size())
+	downButtonPos := MoveBR(tb.Size(), tb.downButton.Size())
+	tb.upButton.Draw(t, matrix.Moved(upButtonPos))
+	tb.downButton.Draw(t, matrix.Moved(downButtonPos))
 }
 
 // Update handles key events.
@@ -86,6 +103,9 @@ func (tb *Textbox) Update(win *Window) {
 			tb.updateTextVisibility()
 		}
 	}
+	// Elements.
+	tb.upButton.Update(win)
+	tb.downButton.Update(win)
 }
 
 // SetSize sets background size.
@@ -217,11 +237,15 @@ func (t *Textbox) breakPoint(line string, width float64) int {
 }
 
 // Triggered after button up clicked.
-func (t *Textbox) onButtonUpClicked(b *Button) {
+func (tb *Textbox) onButtonUpClicked(b *Button) {
+	tb.startID--
+	tb.updateTextVisibility()
 }
 
 // Triggered after button down clicked.
-func (t *Textbox) onButtonDownClicked(b *Button) {
+func (tb *Textbox) onButtonDownClicked(b *Button) {
+	tb.startID++
+	tb.updateTextVisibility()
 }
 
 // Splits string to chunks with n as max chunk width.
