@@ -27,37 +27,46 @@ import (
 	"image/color"
 
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
 )
 
 // InfoWindow struct for small text boxes that
 // follows mouse cursor.
 type InfoWindow struct {
-	*Textbox
+	*Text
+	draw     *imdraw.IMDraw
+	bgColor  color.Color
 	drawArea pixel.Rect
 }
 
 // NewInfoWindow creates new information window.
 func NewInfoWindow(size Size, color color.Color) *InfoWindow {
 	iw := new(InfoWindow)
-	textboxParams := Params{
-		SizeRaw:     pixel.V(0, 0),
-		FontSize:    size,
-		MainColor:   color,
-		AccentColor: color,
-	}
-	iw.Textbox = NewTextbox(textboxParams)
+	iw.Text = NewText(size, 0)
+	iw.draw = imdraw.New(nil)
+	iw.bgColor = color
 	return iw
 }
 
 // Draw draws info window.
 func (iw *InfoWindow) Draw(t pixel.Target) {
-	iw.Textbox.Draw(t, Matrix().Moved(iw.drawArea.Center()))
+	iw.drawBackground(t)
+	iw.Text.Draw(t, Matrix().Moved(iw.drawArea.Center()))
 }
 
 // Update updates info window.
 func (iw *InfoWindow) Update(win *Window) {
 	iw.drawArea = pixel.R(win.MousePosition().X, win.MousePosition().Y,
-		win.MousePosition().X + iw.TextSize().X,
-		win.MousePosition().Y + iw.TextSize().Y * 1.5)
-	iw.SetSize(iw.drawArea.Size())
+		win.MousePosition().X+iw.Size().X,
+		win.MousePosition().Y+iw.Size().Y*1.5)
+}
+
+// drawBackground draws info background.
+func (iw *InfoWindow) drawBackground(t pixel.Target) {
+	iw.draw.Clear()
+	iw.draw.Color = iw.bgColor
+	iw.draw.Push(iw.DrawArea().Min)
+	iw.draw.Push(iw.DrawArea().Max)
+	iw.draw.Rectangle(0)
+	iw.draw.Draw(t)
 }

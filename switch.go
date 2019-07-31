@@ -127,7 +127,7 @@ func NewSwitch(params Params) *Switch {
 	// Label & info.
 	s.label = NewText(params.Size-1, s.Size().X)
 	s.label.JustCenter()
-	s.info = NewInfoWindow(SizeSmall, colornames.Grey)
+	s.info = NewInfoWindow(SizeSmall, pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	// Values.
 	s.index = 0
 	s.valueText = NewText(params.Size, 100)

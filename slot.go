@@ -27,8 +27,6 @@ import (
 	"fmt"
 	"image/color"
 
-	"golang.org/x/image/colornames"
-
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/imdraw"
@@ -76,7 +74,7 @@ func NewSlot(params Params) *Slot {
 	s.label = NewText(params.FontSize, 0)
 	s.countLabel = NewText(params.FontSize, 0)
 	s.countLabel.JustCenter()
-	s.info = NewInfoWindow(SizeSmall, colornames.Grey)
+	s.info = NewInfoWindow(SizeSmall, pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	return s
 }
 
