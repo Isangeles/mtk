@@ -24,6 +24,8 @@
 package mtk
 
 import (
+	"bytes"
+	"fmt"
 	"strings"
 	"image/color"
 
@@ -41,6 +43,7 @@ type Text struct {
 	color    color.Color
 	fontSize Size
 	width    float64
+	align    Align
 }
 
 // NewText creates new text with specified text content,
@@ -55,19 +58,20 @@ func NewText(fontSize Size, width float64) *Text {
 	atlas := Atlas(&font)
 	t.text = text.New(pixel.V(0, 0), atlas)
 	t.color = colornames.White // default color white
+	t.align = AlignCenter
 	return t
 }
 
 // SetText sets specified text as text to display.
-func (tx *Text) SetText(text string) {
-	tx.content = text
+func (t *Text) SetText(text string) {
+	t.Clear()
 	// If text too wide, then split to more lines.
-	if tx.width != 0 && tx.text.BoundsOf(tx.content).W() > tx.width {
-		// TODO: figure out something better. Now its only
-		// replaces first blank line with '\n'.
-		tx.content = strings.Replace(tx.content, " ", "\n", 1)
+	breakLines := t.breakLine(text, t.width)
+	for j := 0; j < len(breakLines); j++ { // reverse order
+		bl := breakLines[j]
+		t.content = fmt.Sprintf("%s%s", t.content, bl)
 	}
-	tx.JustCenter()
+	t.Align(t.align)
 }
 
 // SetColor sets specified color as
@@ -81,6 +85,11 @@ func (tx *Text) SetMaxWidth(width float64) {
 	tx.width = width
 }
 
+// Content returs text content.
+func (t *Text) Content() string {
+	return t.content
+}
+
 // AddText adds specified text to current text
 // content.
 func (tx *Text) AddText(text string) {
@@ -92,6 +101,27 @@ func (tx *Text) AddText(text string) {
 // area.
 func (tx *Text) Write(p []byte) (n int, err error) {
 	return tx.text.Write(p)
+}
+
+// Align aligns text to specified position.
+func (t *Text) Align(a Align) {
+	t.align = a
+	switch(a) {
+	case AlignCenter:
+		mariginX := (-t.text.BoundsOf(t.content).Max.X) / 2
+		t.text.Orig = pixel.V(mariginX, 0)
+		t.text.Clear()
+		t.text.WriteString(t.content)
+	case AlignRight:
+		mariginX := (-t.text.BoundsOf(t.content).Max.X)
+		t.text.Orig = pixel.V(mariginX, 0)
+		t.text.Clear()
+		t.text.WriteString(t.content)
+	case AlignLeft:
+		t.text.Orig = pixel.V(0, 0)
+		t.text.Clear()
+		t.text.WriteString(t.content)
+	}
 }
 
 // JustRight adjusts text origin position to right.
@@ -136,8 +166,10 @@ func (tx *Text) BoundsOf(text string) pixel.Rect {
 }
 
 // Clear clears texts,
-func (tx *Text) Clear() {
-	tx.text.Clear()
+func (t *Text) Clear() {
+	t.text.Clear()
+	t.content = ""
+	t.Align(t.align)
 }
 
 // DrawArea returns current draw area of text.
@@ -148,4 +180,60 @@ func (tx *Text) DrawArea() pixel.Rect {
 // String returns text content.
 func (tx *Text) String() string {
 	return tx.content
+}
+
+// breakLine breaks specified line into few lines with specified
+// maximal width.
+func (t *Text) breakLine(line string, width float64) []string {
+	lines := make([]string, 0)
+	lineWidth := t.BoundsOf(line).W()
+	if width > 0 && lineWidth > width {
+		breakPoint := t.breakPoint(line, width)
+		breakLines := SplitSubN(line, breakPoint)
+		for i, l := range breakLines {
+			if !strings.HasSuffix(l, "\n") {
+				breakLines[i] += "\n"
+			}
+		}
+		lines = append(lines, breakLines...)
+	} else {
+		lines = append(lines, line)
+	}
+	return lines
+}
+
+// breakPoint return break position for specified line and width.
+func (t *Text) breakPoint(line string, width float64) int {
+	checkLine := ""
+	for i, c := range line {
+		checkLine += string(c)
+		if t.BoundsOf(checkLine).W() >= width {
+			return i
+		}
+	}
+	return len(line)-1
+}
+
+// Splits string to chunks with n as max chunk width.
+// Author: mozey(@stackoverflow).
+func SplitSubN(s string, n int) []string {
+	if n == 0 {
+		return []string{s}
+	}
+	sub := ""
+	subs := []string{}
+
+	runes := bytes.Runes([]byte(s))
+	l := len(runes)
+	for i, r := range runes {
+		sub = sub + string(r)
+		if (i+1)%n == 0 {
+			subs = append(subs, sub)
+			sub = ""
+		} else if (i + 1) == l {
+			subs = append(subs, sub)
+		}
+	}
+
+	return subs
 }

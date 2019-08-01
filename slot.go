@@ -73,7 +73,7 @@ func NewSlot(params Params) *Slot {
 	s.fontSize = params.FontSize
 	s.label = NewText(params.FontSize, 0)
 	s.countLabel = NewText(params.FontSize, 0)
-	s.countLabel.JustCenter()
+	s.countLabel.Align(AlignCenter)
 	s.info = NewInfoWindow(SizeSmall, pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	return s
 }

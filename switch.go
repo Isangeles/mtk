@@ -126,7 +126,7 @@ func NewSwitch(params Params) *Switch {
 	s.nextButton.SetOnClickFunc(s.onNextButtonClicked)
 	// Label & info.
 	s.label = NewText(params.Size-1, s.Size().X)
-	s.label.JustCenter()
+	s.label.Align(AlignCenter)
 	s.info = NewInfoWindow(SizeSmall, pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	// Values.
 	s.index = 0

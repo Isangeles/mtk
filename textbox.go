@@ -24,7 +24,6 @@
 package mtk
 
 import (
-	"bytes"
 	"fmt"
 	"image/color"
 	"strings"
@@ -56,7 +55,7 @@ func NewTextbox(params Params) *Textbox {
 	t.color = params.MainColor
 	// Text.
 	t.textarea = NewText(params.FontSize, t.bgSize.X)
-	t.textarea.JustLeft()
+	t.textarea.Align(AlignLeft)
 	// Buttons.
 	buttonParams := Params{
 		Size:      SizeMini,
@@ -194,7 +193,6 @@ func (t *Textbox) updateTextVisibility() {
 			bl := breakLines[j]
 			visibleText = append(visibleText, bl)
 		}
-		//visibleText = append(visibleText, breakLines...)
 		visibleTextHeight += t.textarea.BoundsOf(line).H() * float64(len(breakLines))
 	}
 	t.textarea.Clear()
@@ -246,28 +244,4 @@ func (tb *Textbox) onButtonUpClicked(b *Button) {
 func (tb *Textbox) onButtonDownClicked(b *Button) {
 	tb.startID++
 	tb.updateTextVisibility()
-}
-
-// Splits string to chunks with n as max chunk width.
-// Author: mozey(@stackoverflow).
-func SplitSubN(s string, n int) []string {
-	if n == 0 {
-		return []string{s}
-	}
-	sub := ""
-	subs := []string{}
-
-	runes := bytes.Runes([]byte(s))
-	l := len(runes)
-	for i, r := range runes {
-		sub = sub + string(r)
-		if (i+1)%n == 0 {
-			subs = append(subs, sub)
-			sub = ""
-		} else if (i + 1) == l {
-			subs = append(subs, sub)
-		}
-	}
-
-	return subs
 }

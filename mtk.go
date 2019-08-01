@@ -50,6 +50,10 @@ const (
 	// Shapes.
 	ShapeRectangle Shape = iota
 	ShapeSquare
+	// Aligns
+	AlignCenter Align = iota
+	AlignRight
+	AlignLeft
 )
 
 var (
@@ -70,6 +74,10 @@ type Shape int
 // Type for sizes of UI elements, like buttons, switches, etc.
 // Sizes: mini(0), small(1), medium(2), big(3), huge(4).
 type Size int
+
+// Type for aligns.
+// Directions: center(0), right(1), left(2)
+type Align int
 
 // Interface for all 'focusable' UI elements, like buttons,
 // switches, etc.
