@@ -73,9 +73,27 @@ func run() {
 	}
 	textbox := mtk.NewTextbox(textboxParams)
 	// Insert text to textbox.
-	text := fmt.Sprintf("This is multi-line text,\nyou can scroll it with\nUP\nand\nDOWN\nkeys!\n")
+	text := `This is multi-line text,
+you can scroll it with
+UP
+and
+DOWN
+keys!
+`
 	textbox.SetText(text)
-	textbox.AddText("veeeeeeeeeeeeeeery veeeeeeeeery loooooooooooooooong linnnnnnnnnnnnnnnnnne? No problem!")
+	textbox.AddText("veeeeeeeeeeeeeeery veeeeeeeeery loooooooooooooooong linnnnnnnnnnnnnnnnnne? No problem!\n")
+	textbox.AddText("line 1\n")
+	textbox.AddText("line 2\n")
+	textbox.AddText("line 3\n")
+	textbox.AddText("line 4\n")
+	textbox.AddText("line 5\n")
+	textbox.AddText("line 6\n")
+	textbox.AddText("line 7\n")
+	textbox.AddText("line 8\n")
+	textbox.AddText("line 9\n")
+	textbox.AddText("line 10\n")
+	textbox.AddText("line 11\n")
+	textbox.AddText("line 12\n")
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.

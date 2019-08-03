@@ -205,10 +205,15 @@ func (t *Text) breakLine(line string, width float64) []string {
 // breakPoint return break position for specified line and width.
 func (t *Text) breakPoint(line string, width float64) int {
 	checkLine := ""
-	for i, c := range line {
+	breakPoint := -1
+	for _, c := range line {
+		if c == '\n' {
+			breakPoint = -1
+		}
 		checkLine += string(c)
+		breakPoint++
 		if t.BoundsOf(checkLine).W() >= width {
-			return i
+			return breakPoint
 		}
 	}
 	return len(line)-1
@@ -222,7 +227,6 @@ func SplitSubN(s string, n int) []string {
 	}
 	sub := ""
 	subs := []string{}
-
 	runes := bytes.Runes([]byte(s))
 	l := len(runes)
 	for i, r := range runes {
@@ -234,6 +238,5 @@ func SplitSubN(s string, n int) []string {
 			subs = append(subs, sub)
 		}
 	}
-
 	return subs
 }
