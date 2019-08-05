@@ -54,7 +54,11 @@ func NewTextbox(params Params) *Textbox {
 	t.bgSize = params.SizeRaw
 	t.color = params.MainColor
 	// Text.
-	t.textarea = NewText(params.FontSize, t.bgSize.X)
+	textParams := Params{
+		SizeRaw: pixel.V(t.bgSize.X, 0),
+		FontSize: params.FontSize,
+	}
+	t.textarea = NewText(textParams)
 	t.textarea.Align(AlignLeft)
 	// Buttons.
 	buttonParams := Params{

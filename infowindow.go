@@ -42,7 +42,10 @@ type InfoWindow struct {
 // NewInfoWindow creates new information window.
 func NewInfoWindow(size Size, color color.Color) *InfoWindow {
 	iw := new(InfoWindow)
-	iw.Text = NewText(size, 0)
+	textParams := Params{
+		FontSize: size,
+	}
+	iw.Text = NewText(textParams)
 	iw.draw = imdraw.New(nil)
 	iw.bgColor = color
 	return iw

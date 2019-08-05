@@ -26,8 +26,12 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 
 	"golang.org/x/image/colornames"
+
+	"github.com/golang/freetype/truetype"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
@@ -53,9 +57,20 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("fail to create mtk window: %v", err))
 	}
+	// Load & set main UI font.
+	font, err := loadFont("SIMSUN.ttf")
+	if err != nil {
+		// MTK has fallback font, so we don't need to panic.
+		fmt.Printf("fail_to_load_main_font:%v\n", err)
+	}
+	mtk.SetMainFont(font)
 	// Create text.
-	text := mtk.NewText(mtk.SizeHuge, 100)
-	//fmt.Fprintf(text, )
+	textParams := mtk.Params{
+		FontSize:  mtk.SizeMedium,
+		SizeRaw:   pixel.V(100, 0), // max width
+		MainColor: colornames.White,
+	}
+	text := mtk.NewText(textParams)
 	text.SetText("Hello MTK!\nnew line\ntooo loooooooooong linnnnnne")
 	// Main loop.
 	for !win.Closed() {
@@ -67,4 +82,24 @@ func run() {
 		// Update.
 		win.Update()
 	}
+}
+
+// loadFont reads font file from specified path
+// and returns font face or error if file was
+// not found.
+func loadFont(path string) (*truetype.Font, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, fmt.Errorf("fail_to_open_file:%v", err)
+	}
+	defer file.Close()
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, fmt.Errorf("fail_to_read_file:%v", err)
+	}
+	font, err := truetype.Parse(bytes)
+	if err != nil {
+		return nil, fmt.Errorf("fail_to_parse_font:%v", err)
+	}
+	return font, nil
 }

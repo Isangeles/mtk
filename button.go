@@ -73,7 +73,12 @@ func NewButton(params Params) *Button {
 	b.bgDraw = imdraw.New(nil)
 	b.bgSpr = params.Background
 	// Label.
-	b.label = NewText(params.FontSize, b.Size().X)
+	labelParams := Params{
+		SizeRaw:  pixel.V(b.Size().X, 0),
+		FontSize: params.FontSize,
+
+	}
+	b.label = NewText(labelParams)
 	// Info window.
 	b.info = NewInfoWindow(SizeSmall, pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	// Global click sound.

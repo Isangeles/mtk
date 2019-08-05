@@ -30,7 +30,7 @@ import (
 	"image/color"
 
 	"golang.org/x/image/colornames"
-	
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/text"
 )
@@ -46,18 +46,21 @@ type Text struct {
 	align    Align
 }
 
-// NewText creates new text with specified text content,
-// font size and with max width of text line(0 for no max width).
-func NewText(fontSize Size, width float64) *Text {
+// NewText creates new text with specified
+// parameters.
+func NewText(p Params) *Text {
 	t := new(Text)
 	// Parameters.
-	t.fontSize = fontSize
-	t.width = width
+	t.fontSize = p.FontSize
+	t.width = p.SizeRaw.X
  	// Text.
 	font := MainFont(t.fontSize)
 	atlas := Atlas(&font)
 	t.text = text.New(pixel.V(0, 0), atlas)
-	t.color = colornames.White // default color white
+	t.color = p.MainColor
+	if t.color == nil {
+			t.color = colornames.White // default color white
+	}
 	t.align = AlignCenter
 	return t
 }
@@ -90,13 +93,6 @@ func (t *Text) Content() string {
 	return t.content
 }
 
-// AddText adds specified text to current text
-// content.
-func (tx *Text) AddText(text string) {
-	tx.content += "\n" + text
-	tx.SetText(tx.content)
-}
-
 // Write writes specified data as text to text
 // area.
 func (tx *Text) Write(p []byte) (n int, err error) {
@@ -122,29 +118,6 @@ func (t *Text) Align(a Align) {
 		t.text.Clear()
 		t.text.WriteString(t.content)
 	}
-}
-
-// JustRight adjusts text origin position to right.
-func (tx *Text) JustRight() {
-	mariginX := (-tx.text.BoundsOf(tx.content).Max.X)
-	tx.text.Orig = pixel.V(mariginX, 0)
-	tx.text.Clear()
-	tx.text.WriteString(tx.content)
-}
-
-// JustCenter adjusts text origin position to center.
-func (tx *Text) JustCenter() {
-	mariginX := (-tx.text.BoundsOf(tx.content).Max.X) / 2
-	tx.text.Orig = pixel.V(mariginX, 0)
-	tx.text.Clear()
-	tx.text.WriteString(tx.content)
-}
-
-// JustLeft adjusts text origin to left.
-func (tx *Text) JustLeft() {
-	tx.text.Orig = pixel.V(0, 0)
-	tx.text.Clear()
-	tx.text.WriteString(tx.content)
 }
 
 // Draw draws text.
