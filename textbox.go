@@ -97,18 +97,17 @@ func (tb *Textbox) Update(win *Window) {
 	if win.JustPressed(pixelgl.KeyDown) {
 		if tb.startID < len(tb.textContent)-1 {
 			tb.startID++
-			tb.updateTextVisibility()
 		}
 	}
 	if win.JustPressed(pixelgl.KeyUp) {
 		if tb.startID > 0 {
 			tb.startID--
-			tb.updateTextVisibility()
 		}
 	}
 	// Elements.
 	tb.upButton.Update(win)
 	tb.downButton.Update(win)
+	tb.updateTextVisibility()
 }
 
 // SetSize sets background size.
@@ -144,20 +143,17 @@ func (tb *Textbox) SetText(text ...string) {
 	tb.Clear()
 	tb.textContent = text
 	tb.startID = len(tb.textContent)-1
-	tb.updateTextVisibility()
 }
 
 // AddText adds specified text to box.
 func (tb *Textbox) AddText(text string) {
 	tb.textContent = append(tb.textContent, text)
 	tb.startID = len(tb.textContent)-1
-	tb.updateTextVisibility()
 }
 
 // Clear clears textbox.
 func (tb *Textbox) Clear() {
 	tb.textContent = []string{}
-	tb.updateTextVisibility()
 }
 
 // String returns textbox content.
@@ -276,7 +272,6 @@ func (tb *Textbox) onButtonUpClicked(b *Button) {
 		return
 	}
 	tb.startID--
-	tb.updateTextVisibility()
 }
 
 // Triggered after button down clicked.
@@ -285,5 +280,4 @@ func (tb *Textbox) onButtonDownClicked(b *Button) {
 		return
 	}
 	tb.startID++
-	tb.updateTextVisibility()
 }
