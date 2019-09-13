@@ -4,7 +4,7 @@ MTK(Mural Toolkit) is a simple widget toolkit for creating graphical user interf
 The toolkit provides basic UI elements(buttons, text boxes, switches, lists, etc.) and simple audio handling.
 
 ## Examples
-Check [example](https://github.com/Isangeles/mtk/tree/master/core/mtk/example) package for few MTK usage examples.
+Check [example](https://github.com/Isangeles/mtk/tree/master/example) package for few MTK usage examples.
 
 ## Contributing
 You are welcome to contribute to project development.
