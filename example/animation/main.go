@@ -50,16 +50,17 @@ func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "MTK animation example",
 		Bounds: pixel.R(0, 0, 1600, 900),
+		VSync:  true,
 	}
 	// Create MTK warpper for Pixel window.
 	win, err := mtk.NewWindow(cfg)
 	if err != nil {
-		panic(fmt.Errorf("fail_to_create_mtk_window:%v", err))
+		panic(fmt.Errorf("fail to create mtk window: %v", err))
 	}
 	// Load spritesheet image.
 	ss, err := loadPicture("spritesheet.png")
 	if err != nil {
-		panic(fmt.Errorf("fail_to_load_spritesheet:%v", err))
+		panic(fmt.Errorf("fail to load spritesheet: %v", err))
 	}
 	// Retrieve frames from spritesheet.
 	frames := cutFrames(ss)
@@ -83,12 +84,12 @@ func run() {
 func loadPicture(path string) (pixel.Picture, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, fmt.Errorf("fail_to_open_image_file:%v", err)
+		return nil, fmt.Errorf("fail to open image file: %v", err)
 	}
 	defer file.Close()
 	img, _, err := image.Decode(file)
 	if err != nil {
-		return nil, fmt.Errorf("fail_to_decode_image:%v", err)
+		return nil, fmt.Errorf("fail to decode image: %v", err)
 	}
 	return pixel.PictureDataFromImage(img), nil
 }
