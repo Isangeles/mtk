@@ -1,12 +1,59 @@
 ## Introduction
 MTK([Mural](https://github.com/Isangeles/mural) Toolkit) is a simple widget toolkit for creating graphical user interfaces written in Go with [Pixel](https://github.com/faiface/pixel) library.
 
-The toolkit provides basic UI elements(buttons, text boxes, switches, lists, etc.) and simple audio handling.
+The toolkit provides basic UI elements(buttons, text boxes, switches, lists, animations, etc.), simple audio handling and automatic scaling of UI elements.
 
 Originally created as a part of [Mural](https://github.com/Isangeles/mural) GUI.
 
 ## Examples
-Check [example](https://github.com/Isangeles/mtk/tree/master/example) package for few MTK usage examples.
+MTK highly relies on [Pixel](https://github.com/faiface/pixel) library, make sure to check [Pixel wiki](https://github.com/faiface/pixel/wiki) first.
+
+All UI elements are automatically scaled to size specified in Pixel WindowConfig.
+
+Create window:
+```
+// Create Pixel window configuration.
+cfg := pixelgl.WindowConfig{
+       Title:  "MTK window",
+       Bounds: pixel.R(0, 0, 1600, 900),
+}
+// Create MTK warpper for Pixel window.
+win, err := mtk.NewWindow(cfg)
+if err != nil {
+       panic(fmt.Errorf("fail to create mtk window: %v", err))
+}
+```
+Create button:
+```
+// Specify button parameters.
+params := mtk.Params{
+	Size:      mtk.SizeBig,
+	FontSize:  mtk.SizeMedium,
+	Shape:     mtk.ShapeRectangle,
+	MainColor: colornames.Red,
+}
+// Create button.
+button := mtk.NewButton(params)
+// Set label and on-hover info.
+button.SetLabel("Button")
+button.SetInfo("Button info")
+// Set some function on button click event.
+button.SetOnClickFunc(onButtonClickedFunc)
+```
+Draw button in window:
+```
+for !win.Closed() {
+	// Clear window.
+	win.Clear(colornames.Black)
+	// Draw button.
+	buttonPos := win.Bounds().Center()
+	button.Draw(win, mtk.Matrix().Moved(buttonPos))
+	// Update.
+	win.Update()
+	button.Update(win)
+}
+```
+Check [example](https://github.com/Isangeles/mtk/tree/master/example) package for more detailed examples.
 
 ## Contributing
 You are welcome to contribute to project development.
