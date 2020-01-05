@@ -131,7 +131,11 @@ func NewSwitch(params Params) *Switch {
 	}
 	s.label = NewText(labelParams)
 	s.label.Align(AlignCenter)
-	s.info = NewInfoWindow(SizeSmall, pixel.RGBA{0.1, 0.1, 0.1, 0.5})
+	infoParams := Params{
+		FontSize:  SizeSmall,
+		MainColor: pixel.RGBA{0.1, 0.1, 0.1, 0.5},
+	}
+	s.info = NewInfoWindow(infoParams)
 	// Values.
 	s.index = 0
 	s.valueText = NewText(labelParams)

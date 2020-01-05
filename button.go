@@ -80,7 +80,11 @@ func NewButton(params Params) *Button {
 	}
 	b.label = NewText(labelParams)
 	// Info window.
-	b.info = NewInfoWindow(SizeSmall, pixel.RGBA{0.1, 0.1, 0.1, 0.5})
+	infoParams := Params{
+		FontSize:  SizeSmall,
+		MainColor: pixel.RGBA{0.1, 0.1, 0.1, 0.5},
+	}
+	b.info = NewInfoWindow(infoParams)
 	// Global click sound.
 	b.SetClickSound(buttonClickSound)
 	return b
