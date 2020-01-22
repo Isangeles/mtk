@@ -44,6 +44,7 @@ type Textbox struct {
 	visibleText []string
 	startID     int
 	buttons     bool
+	focused     bool
 }
 
 // NewTextbox creates new textbox with specified
@@ -94,14 +95,16 @@ func (tb *Textbox) Draw(t pixel.Target, matrix pixel.Matrix) {
 // Update handles key events.
 func (tb *Textbox) Update(win *Window) {
 	// Key events.
-	if win.JustPressed(pixelgl.KeyDown) {
-		if tb.startID < len(tb.textContent)-1 {
-			tb.startID++
+	if tb.Focused() {
+		if win.JustPressed(pixelgl.KeyDown) {
+			if tb.startID < len(tb.textContent)-1 {
+				tb.startID++
+			}
 		}
-	}
-	if win.JustPressed(pixelgl.KeyUp) {
-		if tb.startID > 0 {
-			tb.startID--
+		if win.JustPressed(pixelgl.KeyUp) {
+			if tb.startID > 0 {
+				tb.startID--
+			}
 		}
 	}
 	// Elements.
@@ -118,6 +121,16 @@ func (tb *Textbox) SetSize(s pixel.Vec) {
 // Size returns size of textbox background.
 func (tb *Textbox) Size() pixel.Vec {
 	return tb.bgSize
+}
+
+// Focus sets/removes focus from textbox.
+func (tb *Textbox) Focus(focus bool) {
+	tb.focused = focus
+}
+
+// Focused checks if textbox is focused.
+func (tb *Textbox) Focused() bool {
+	return tb.focused
 }
 
 // TextSize returns size of text content.

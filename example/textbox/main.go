@@ -72,6 +72,7 @@ func run() {
 		AccentColor: colornames.Red,
 	}
 	textbox := mtk.NewTextbox(textboxParams)
+	textbox.Focus(true)
 	// Insert text to textbox.
 	text := `This is multi-line text,
 you can scroll it with
