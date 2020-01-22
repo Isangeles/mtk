@@ -28,7 +28,7 @@ import (
 )
 
 // MessagesQueue struct for list with messages to display.
-type MessagesQueue struct{
+type MessagesQueue struct {
 	queue []*MessageWindow
 	focus *Focus
 }
@@ -41,7 +41,7 @@ func NewMessagesQueue(focus *Focus) *MessagesQueue {
 	return mq
 }
 
-// Draw draws all messages 
+// Draw draws all messages
 func (mq *MessagesQueue) Draw(t pixel.Target, matrix pixel.Matrix) {
 	for _, m := range mq.queue {
 		if m.Opened() {
@@ -88,4 +88,3 @@ func (mq *MessagesQueue) ContainsPosition(pos pixel.Vec) bool {
 	}
 	return false
 }
-

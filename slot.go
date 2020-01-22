@@ -28,8 +28,8 @@ import (
 	"image/color"
 
 	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/imdraw"
+	"github.com/faiface/pixel/pixelgl"
 )
 
 var (
@@ -186,7 +186,7 @@ func (s *Slot) Pop() interface{} {
 	if s.values == nil {
 		return nil
 	}
-	lastID := len(s.values)-1
+	lastID := len(s.values) - 1
 	v := s.values[lastID]
 	s.values = s.values[:lastID]
 	if len(s.values) < 1 {
@@ -236,7 +236,7 @@ func (s *Slot) SetIcon(pic pixel.Picture) {
 
 // AddValue adds specified interface to slot
 // values list.
-func (s *Slot) AddValues(vls... interface{}) {
+func (s *Slot) AddValues(vls ...interface{}) {
 	s.values = append(s.values, vls...)
 }
 

@@ -26,8 +26,8 @@ package mtk
 import (
 	"bytes"
 	"fmt"
-	"strings"
 	"image/color"
+	"strings"
 
 	"golang.org/x/image/colornames"
 
@@ -53,13 +53,13 @@ func NewText(p Params) *Text {
 	// Parameters.
 	t.fontSize = p.FontSize
 	t.width = p.SizeRaw.X
- 	// Text.
+	// Text.
 	font := MainFont(t.fontSize)
 	atlas := Atlas(&font)
 	t.text = text.New(pixel.V(0, 0), atlas)
 	t.color = p.MainColor
 	if t.color == nil {
-			t.color = colornames.White // default color white
+		t.color = colornames.White // default color white
 	}
 	t.align = AlignCenter
 	return t
@@ -102,7 +102,7 @@ func (tx *Text) Write(p []byte) (n int, err error) {
 // Align aligns text to specified position.
 func (t *Text) Align(a Align) {
 	t.align = a
-	switch(a) {
+	switch a {
 	case AlignCenter:
 		mariginX := (-t.text.BoundsOf(t.content).Max.X) / 2
 		t.text.Orig = pixel.V(mariginX, 0)
@@ -189,7 +189,7 @@ func (t *Text) breakPoint(line string, width float64) int {
 			return breakPoint
 		}
 	}
-	return len(line)-1
+	return len(line) - 1
 }
 
 // Splits string to chunks with n as max chunk width.

@@ -40,7 +40,7 @@ type Textbox struct {
 	drawArea    pixel.Rect // updated at every draw
 	upButton    *Button
 	downButton  *Button
-	textContent []string   // every line of text content
+	textContent []string // every line of text content
 	visibleText []string
 	startID     int
 	buttons     bool
@@ -56,7 +56,7 @@ func NewTextbox(params Params) *Textbox {
 	t.color = params.MainColor
 	// Text.
 	textParams := Params{
-		SizeRaw: pixel.V(t.bgSize.X, 0),
+		SizeRaw:  pixel.V(t.bgSize.X, 0),
 		FontSize: params.FontSize,
 	}
 	t.textarea = NewText(textParams)
@@ -155,13 +155,13 @@ func (tb *Textbox) SetMaxTextWidth(width float64) {
 func (tb *Textbox) SetText(text ...string) {
 	tb.Clear()
 	tb.textContent = text
-	tb.startID = len(tb.textContent)-1
+	tb.startID = len(tb.textContent) - 1
 }
 
 // AddText adds specified text to box.
 func (tb *Textbox) AddText(text string) {
 	tb.textContent = append(tb.textContent, text)
-	tb.startID = len(tb.textContent)-1
+	tb.startID = len(tb.textContent) - 1
 }
 
 // Clear clears textbox.
@@ -181,36 +181,36 @@ func (tb *Textbox) String() string {
 // ScrollBottom scrolls textbox to last lines
 // of text content.
 func (tb *Textbox) ScrollBottom() {
-	tb.startID = len(tb.textContent)-1
+	tb.startID = len(tb.textContent) - 1
 }
 
 // updateTextVisibility updates conte nt of visible
 // text area.
 func (tb *Textbox) updateTextVisibility() {
 	/*
-	tb.textarea.Clear()
-	for i := 0; i < len(tb.textContent); i++ {
-		if i < tb.startID {
-			continue
+		tb.textarea.Clear()
+		for i := 0; i < len(tb.textContent); i++ {
+			if i < tb.startID {
+				continue
+			}
+			text := tb.textarea.Content()
+			tb.textarea.SetText(text + tb.textContent[i])
 		}
-		text := tb.textarea.Content()
-		tb.textarea.SetText(text + tb.textContent[i])
-	}
-	for tb.textarea.Size().Y > tb.Size().Y {
-		lines := strings.Split(tb.textarea.Content(), "\n")
-		text := ""
-		for _, l := range lines[1:] {
-			text = fmt.Sprintf("%s\n%s", text, l)
+		for tb.textarea.Size().Y > tb.Size().Y {
+			lines := strings.Split(tb.textarea.Content(), "\n")
+			text := ""
+			for _, l := range lines[1:] {
+				text = fmt.Sprintf("%s\n%s", text, l)
+			}
+			tb.textarea.SetText(text)
 		}
-		tb.textarea.SetText(text)
-	}
-        */
+	*/
 	var (
 		visibleText       []string
 		visibleTextHeight float64
 	)
 	boxWidth := tb.Size().X
-	for i := len(tb.textContent)-1; i >= 0; i-- {
+	for i := len(tb.textContent) - 1; i >= 0; i-- {
 		if i > tb.startID {
 			continue
 		}
@@ -219,14 +219,14 @@ func (tb *Textbox) updateTextVisibility() {
 		}
 		line := tb.textContent[i]
 		breakLines := tb.breakLine(line, boxWidth)
-		for j := len(breakLines)-1; j >= 0; j-- { // reverse order
+		for j := len(breakLines) - 1; j >= 0; j-- { // reverse order
 			bl := breakLines[j]
 			visibleText = append(visibleText, bl)
 		}
 		visibleTextHeight += tb.textarea.BoundsOf(line).H() * float64(len(breakLines))
 	}
 	tb.textarea.Clear()
-	for i := len(visibleText)-1; i >= 0; i-- {
+	for i := len(visibleText) - 1; i >= 0; i-- {
 		txt := visibleText[i]
 		fmt.Fprintf(tb.textarea, txt)
 	}
@@ -255,15 +255,15 @@ func (t *Textbox) breakLine(line string, width float64) []string {
 // breakPoint return break position for specified line and width.
 func (t *Textbox) breakPoint(line string, width float64) int {
 	/*
-	checkLine := ""
-	for i, c := range line {
-		checkLine += string(c)
-		if t.textarea.BoundsOf(checkLine).W() >= width {
-			return i
+		checkLine := ""
+		for i, c := range line {
+			checkLine += string(c)
+			if t.textarea.BoundsOf(checkLine).W() >= width {
+				return i
+			}
 		}
-	}
-	return len(line)-1
-        */
+		return len(line)-1
+	*/
 	checkLine := ""
 	breakPoint := -1
 	for _, c := range line {
@@ -276,7 +276,7 @@ func (t *Textbox) breakPoint(line string, width float64) int {
 			return breakPoint
 		}
 	}
-	return len(line)-1
+	return len(line) - 1
 }
 
 // Triggered after button up clicked.

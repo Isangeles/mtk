@@ -67,8 +67,8 @@ func NewSlotList(bgSize pixel.Vec, bgColor color.Color, slotSize Size) *SlotList
 	// buttons sizes.
 	slotSizeRaw := slotSize.SlotSize()
 	bgWidth := sl.Size().X - sl.upButton.Size().X
-	sl.spl = int(bgWidth/(slotSizeRaw.X + ConvSize(2)))
-	sl.lines = int(sl.Size().Y / (slotSizeRaw.Y + ConvSize(2))) - 1
+	sl.spl = int(bgWidth / (slotSizeRaw.X + ConvSize(2)))
+	sl.lines = int(sl.Size().Y/(slotSizeRaw.Y+ConvSize(2))) - 1
 	return sl
 }
 

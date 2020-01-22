@@ -63,7 +63,7 @@ func (anim *Animation) Update(win *Window) {
 		return
 	}
 	anim.lastChange += win.Delta()
-	if anim.lastChange >= int64(1000 / anim.fps) {
+	if anim.lastChange >= int64(1000/anim.fps) {
 		if !anim.looping && anim.drawFrameID == len(anim.frames)-1 {
 			anim.finished = true
 			return
@@ -85,7 +85,7 @@ func (anim *Animation) DrawArea() pixel.Rect {
 func (anim *Animation) SetCurrentFrameID(id int) {
 	switch {
 	case id < 0:
-		anim.drawFrameID = len(anim.frames)-1
+		anim.drawFrameID = len(anim.frames) - 1
 	case id > len(anim.frames)-1:
 		anim.drawFrameID = 0
 	default:
@@ -114,6 +114,3 @@ func (anim *Animation) Finished() bool {
 func (anim *Animation) SetFPS(fps int) {
 	anim.fps = fps
 }
-
-
-

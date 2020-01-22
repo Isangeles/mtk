@@ -114,7 +114,7 @@ func NewSwitch(params Params) *Switch {
 		buttonColor = colornames.Red
 	}
 	buttonParams := Params{
-		Size:      params.Size-2,
+		Size:      params.Size - 2,
 		Shape:     ShapeSquare,
 		MainColor: buttonColor,
 	}
@@ -127,7 +127,7 @@ func NewSwitch(params Params) *Switch {
 	// Label & info.
 	labelParams := Params{
 		SizeRaw:  pixel.V(s.Size().X, 0),
-		FontSize: params.Size-1,
+		FontSize: params.Size - 1,
 	}
 	s.label = NewText(labelParams)
 	s.label.Align(AlignCenter)

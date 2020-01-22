@@ -52,7 +52,7 @@ func NewProgressBar(size Size, color color.Color) *ProgressBar {
 	pb.color = color
 	pb.maxSize = size.BarSize()
 	labelParams := Params{
-		FontSize: size-1,
+		FontSize: size - 1,
 	}
 	pb.label = NewText(labelParams)
 	return pb

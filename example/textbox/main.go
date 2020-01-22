@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -104,7 +104,7 @@ keys!
 		textbox.Draw(win, mtk.Matrix().Moved(textboxPos))
 		// Update.
 		win.Update()
-		textbox.Update(win) // update made scrolling possible
+		textbox.Update(win) // update makes scrolling possible
 	}
 }
 

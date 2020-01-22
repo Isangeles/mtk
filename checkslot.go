@@ -52,7 +52,7 @@ func NewCheckSlot(label string, value interface{}, bgSize pixel.Vec,
 	labelParams := Params{
 		FontSize: SizeMedium,
 	}
-	cs.label = NewText(labelParams);
+	cs.label = NewText(labelParams)
 	cs.label.SetText(label)
 	cs.value = value
 	return cs

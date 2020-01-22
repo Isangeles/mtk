@@ -27,7 +27,7 @@ import (
 	"image/color"
 
 	"golang.org/x/image/colornames"
-	
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
@@ -88,13 +88,13 @@ func (te *Textedit) Update(win *Window) {
 	}
 	if te.focused {
 		if win.JustPressed(pixelgl.KeyEnter) {
-			if te.onInput != nil {	
+			if te.onInput != nil {
 				te.onInput(te)
 			}
 		}
 		if win.JustPressed(pixelgl.KeyBackspace) {
 			if len(te.text) > 0 {
-		 		te.SetText(te.text[:len(te.text)-1])
+				te.SetText(te.text[:len(te.text)-1])
 			}
 		}
 		te.SetText(te.text + win.Typed())

@@ -76,7 +76,6 @@ func NewButton(params Params) *Button {
 	labelParams := Params{
 		SizeRaw:  pixel.V(b.Size().X, 0),
 		FontSize: params.FontSize,
-
 	}
 	b.label = NewText(labelParams)
 	// Info window.
