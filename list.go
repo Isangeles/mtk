@@ -1,7 +1,7 @@
 /*
  * list.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -180,8 +180,8 @@ func (l *List) SetStartIndex(index int) {
 
 // InsertItems sets specified values with labels as
 // current list content.
-func (l *List) InsertItems(content map[string]interface{}) {
-	for label, val := range content {
+func (l *List) InsertItems(items map[string]interface{}) {
+	for label, val := range items {
 		l.AddItem(label, val)
 	}
 }
@@ -189,7 +189,7 @@ func (l *List) InsertItems(content map[string]interface{}) {
 // AddItem adds specified value with label to current
 // list content.
 func (l *List) AddItem(label string, value interface{}) {
-	itemSize := pixel.V(l.Size().X-l.upButton.Size().X, ConvSize(20))
+	itemSize := pixel.V(l.Size().X-l.upButton.Size().X*2, ConvSize(20))
 	itemSlot := NewCheckSlot(label, value, itemSize, l.secColor, l.accentColor)
 	itemSlot.SetOnCheckFunc(l.onItemSelected)
 	l.items = append(l.items, itemSlot)
@@ -223,7 +223,7 @@ func (l *List) drawListItems(t pixel.Target) {
 		lastItemDA pixel.Rect
 	)
 	for i := l.startIndex; i < len(l.items) && contentH+lastItemDA.H() < listH; i++ {
-		if i == 0 { // Draw first visible item.
+		if i == l.startIndex { // Draw first visible item.
 			item := l.items[l.startIndex]
 			drawPos := DrawPosTC(l.DrawArea(), item.Size())
 			item.Draw(t, Matrix().Moved(drawPos))
