@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ func run() {
 	}
 	// Create list.
 	listParams := mtk.Params{
-		SizeRaw:     mtk.ConvVec(pixel.V(350, 500)),
+		SizeRaw:     mtk.ConvVec(pixel.V(350, 300)),
 		MainColor:   colornames.Grey,
 		SecColor:    colornames.Red,
 		AccentColor: colornames.Blue,
@@ -66,6 +66,14 @@ func run() {
 	items["Item 1"] = "it1"
 	items["Item 2"] = "it2"
 	items["Item 3"] = "it3"
+	items["Item 4"] = "it4"
+	items["Item 5"] = "it5"
+	items["Item 6"] = "it6"
+	items["Item 7"] = "it7"
+	items["Item 8"] = "it8"
+	items["Item 9"] = "it9"
+	items["Item 10"] = "it10"
+	items["Item 11"] = "it11"
 	list.InsertItems(items)
 	// Main loop.
 	for !win.Closed() {
