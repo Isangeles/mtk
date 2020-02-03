@@ -1,3 +1,4 @@
 * Title for message windows
 * Refactor all graphical widgets constructors to use params struct
 * Examples for: slot list, bar, dialog
+* List should preserve order of inserted items
