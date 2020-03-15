@@ -1,7 +1,7 @@
 /*
  * switch.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 package mtk
 
 import (
-	"fmt"
 	"image/color"
 
 	"golang.org/x/image/colornames"
@@ -33,70 +32,32 @@ import (
 	"github.com/faiface/pixel/imdraw"
 )
 
+// Switch struct represents graphical switch for values.
+type Switch struct {
+	bgDraw      *imdraw.IMDraw
+	bgSpr       *pixel.Sprite
+	prevButton  *Button
+	nextButton  *Button
+	valueText   *Text
+	valueSprite *pixel.Sprite
+	label       *Text
+	info        *InfoWindow
+	drawArea    pixel.Rect // updated on each draw
+	size        pixel.Vec
+	color       color.Color
+	index       int
+	focused     bool
+	disabled    bool
+	hovered     bool
+	values      []SwitchValue
+	onChange    func(s *Switch, old, new *SwitchValue)
+}
+
 // Tuple for switch values, contains value to
 // display(view) and real value.
 type SwitchValue struct {
 	View  interface{}
 	Value interface{}
-}
-
-// Label returns string representation of switch value.
-func (s SwitchValue) Label() string {
-	switch v := s.View.(type) {
-	case string:
-		return v
-	default:
-		return "none"
-	}
-}
-
-// Sprite returns graphical representation of switch value.
-func (s SwitchValue) Picture() (pixel.Picture, error) {
-	pic, ok := s.View.(pixel.Picture)
-	if !ok {
-		return nil, fmt.Errorf("fail_to_retrieve_view_picture")
-	}
-	return pic, nil
-}
-
-// IntValue returns value as integer, or error if not
-// possible.
-func (s SwitchValue) IntValue() (int, error) {
-	num, ok := s.Value.(int)
-	if !ok {
-		return 0, fmt.Errorf("fail_to_retrieve_switch_integer_value")
-	}
-	return num, nil
-}
-
-// TextValue returns value as text, or error if not
-// possible.
-func (s SwitchValue) TextValue() (string, error) {
-	txt, ok := s.Value.(string)
-	if !ok {
-		return "", fmt.Errorf("fail_to_retrieve_switch_text_value")
-	}
-	return txt, nil
-}
-
-// Switch struct represents graphical switch for values.
-type Switch struct {
-	bgDraw                 *imdraw.IMDraw
-	bgSpr                  *pixel.Sprite
-	prevButton, nextButton *Button
-	valueText              *Text
-	valueSprite            *pixel.Sprite
-	label                  *Text
-	info                   *InfoWindow
-	drawArea               pixel.Rect // updated on each draw
-	size                   pixel.Vec
-	color                  color.Color
-	index                  int
-	focused                bool
-	disabled               bool
-	hovered                bool
-	values                 []SwitchValue
-	onChange               func(s *Switch, old, new *SwitchValue)
 }
 
 // NewSwitch creates new switch with specified size and color.
@@ -229,43 +190,19 @@ func (s *Switch) SetPrevButtonBackground(spr *pixel.Sprite) {
 }
 
 // SetValues sets specified list with values as switch values.
-func (s *Switch) SetValues(values []SwitchValue) {
+func (s *Switch) SetValues(values ...SwitchValue) {
 	s.values = values
 	s.updateValueView()
 }
 
-// SetTextValues sets specified textual values as switch
-// values
-func (s *Switch) SetTextValues(values []string) {
-	// All string values to switchString helper struct.
-	strValues := make([]SwitchValue, len(values))
-	for i, v := range values {
-		ss := SwitchValue{v, v}
-		strValues[i] = ss
-	}
-	s.SetValues(strValues)
-}
-
-// SetIntValue sets all integer values from specified range as
-// switch values.
+// SwtIntValues adds to witch all integers from
+// specified min/max range.
 func (s *Switch) SetIntValues(min, max int) {
-	intValues := make([]SwitchValue, max+1)
-	for i := min; i < max+1; i++ {
-		value := i
-		intVal := SwitchValue{fmt.Sprint(value), value}
-		intValues[i] = intVal
+	values := make([]SwitchValue, max-min)
+	for i := min; i < max; i++ {
+		values[i] = SwitchValue{i, i}
 	}
-	s.SetValues(intValues)
-}
-
-// SetPictureValues sets specified pictures as switch values.
-func (s *Switch) SetPictureValues(pics map[string]pixel.Picture) {
-	var picValues []SwitchValue
-	for name, pic := range pics {
-		val := SwitchValue{pic, name}
-		picValues = append(picValues, val)
-	}
-	s.SetValues(picValues)
+	s.SetValues(values...)
 }
 
 // Focus toggles focus on element.
@@ -364,10 +301,11 @@ func (s *Switch) updateValueView() {
 	if s.values == nil || len(s.values) < 1 {
 		return
 	}
-	if pic, err := s.Value().Picture(); err != nil {
-		s.valueText.SetText(s.Value().Label())
-	} else {
+	if pic, ok := s.Value().View.(pixel.Picture); ok {
 		s.valueSprite = pixel.NewSprite(pic, pic.Bounds())
+	} else {
+		label, _ := s.Value().View.(string)
+		s.valueText.SetText(label)
 	}
 }
 
