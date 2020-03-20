@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *
  */
 
-// Example for creating MTK switch.
+// Example for creating MTK switch with number values.
 package main
 
 import (
@@ -65,13 +65,8 @@ func run() {
 		SecColor:  colornames.Red,
 	}
 	exitSwitch := mtk.NewSwitch(switchParams)
-	// Add values.
-	onValue := mtk.SwitchValue{"on", true}
-	offValue := mtk.SwitchValue{"off", false}
-	switchValues := []mtk.SwitchValue{onValue, offValue}
-	exitSwitch.SetValues(switchValues...)
-	exitSwitch.SetLabel("Toggle exit button")
-	exitSwitch.SetOnChangeFunc(onExitSwitchChanged)
+	exitSwitch.SetIntValues(0, 70)
+	exitSwitch.SetLabel("Number switch")
 	// Create button to enable/disable.
 	buttonParams := mtk.Params{
 		Size:      mtk.SizeBig,
@@ -81,7 +76,7 @@ func run() {
 	}
 	exitButton = mtk.NewButton(buttonParams)
 	exitButton.SetLabel("Exit")
-	exitButton.SetInfo("Exit menu")
+	exitButton.SetInfo("Exit example")
 	exitButton.SetOnClickFunc(onExitButtonClicked)
 	// Main loop.
 	for !win.Closed() {
@@ -101,16 +96,6 @@ func run() {
 			win.SetClosed(true)
 		}
 	}
-}
-
-// onExitSwitchChanged handles exit switch change event.
-func onExitSwitchChanged(s *mtk.Switch, old, new *mtk.SwitchValue) {
-	enabled, ok := new.Value.(bool)
-	if !ok {
-		fmt.Printf("invalid switch value type")
-		return
-	}
-	exitButton.Active(enabled)
 }
 
 // onExitButtonClicked handles exit button click event.
