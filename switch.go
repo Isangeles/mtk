@@ -24,6 +24,7 @@
 package mtk
 
 import (
+	"fmt"
 	"image/color"
 
 	"golang.org/x/image/colornames"
@@ -198,9 +199,9 @@ func (s *Switch) SetValues(values ...SwitchValue) {
 // SwtIntValues adds to witch all integers from
 // specified min/max range.
 func (s *Switch) SetIntValues(min, max int) {
-	values := make([]SwitchValue, max-min)
-	for i := min; i < max; i++ {
-		values[i] = SwitchValue{i, i}
+	values := make([]SwitchValue, max+1-min)
+	for i, n := 0, min; i < len(values); i, n = i+1, n+1 {
+		values[i] = SwitchValue{fmt.Sprintf("%d", n), n}
 	}
 	s.SetValues(values...)
 }
