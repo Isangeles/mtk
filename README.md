@@ -20,7 +20,7 @@ cfg := pixelgl.WindowConfig{
 // Create MTK warpper for Pixel window.
 win, err := mtk.NewWindow(cfg)
 if err != nil {
-       panic(fmt.Errorf("fail to create mtk window: %v", err))
+       panic(fmt.Errorf("Unable to create MTK window: %v", err))
 }
 ```
 Create button:
@@ -54,6 +54,9 @@ for !win.Closed() {
 }
 ```
 Check [example](https://github.com/Isangeles/mtk/tree/master/example) package for more detailed examples.
+
+## Documentation
+Source code documentation can be easily browsed with `go doc` command.
 
 ## Contributing
 You are welcome to contribute to project development.
