@@ -108,7 +108,7 @@ func run() {
 func onExitSwitchChanged(s *mtk.Switch, old, new *mtk.SwitchValue) {
 	enabled, ok := new.Value.(bool)
 	if !ok {
-		fmt.Printf("invalid switch value type")
+		fmt.Printf("Invalid switch value type")
 		return
 	}
 	exitButton.Active(enabled)

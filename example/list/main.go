@@ -51,7 +51,7 @@ func run() {
 	// Create MTK warpper for Pixel window.
 	win, err := mtk.NewWindow(cfg)
 	if err != nil {
-		panic(fmt.Errorf("fail to create mtk window: %v", err))
+		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
 	// Create list.
 	listParams := mtk.Params{

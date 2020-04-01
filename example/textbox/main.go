@@ -55,13 +55,13 @@ func run() {
 	// Create MTK warpper for Pixel window.
 	win, err := mtk.NewWindow(cfg)
 	if err != nil {
-		panic(fmt.Errorf("fail_to_create_mtk_window:%v", err))
+		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
 	// Load & set main UI font.
 	font, err := loadFont("SIMSUN.ttf")
 	if err != nil {
 		// MTK has fallback font, so we don't need to panic.
-		fmt.Printf("fail_to_load_main_font:%v\n", err)
+		fmt.Printf("Unable to load main font: %v\n", err)
 	}
 	mtk.SetMainFont(font)
 	// Create textbox.
@@ -114,16 +114,16 @@ keys!
 func loadFont(path string) (*truetype.Font, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, fmt.Errorf("fail_to_open_file:%v", err)
+		return nil, fmt.Errorf("unable to open file: %v", err)
 	}
 	defer file.Close()
 	bytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		return nil, fmt.Errorf("fail_to_read_file:%v", err)
+		return nil, fmt.Errorf("unable to read file: %v", err)
 	}
 	font, err := truetype.Parse(bytes)
 	if err != nil {
-		return nil, fmt.Errorf("fail_to_parse_font:%v", err)
+		return nil, fmt.Errorf("unable to parse font: %v", err)
 	}
 	return font, nil
 }

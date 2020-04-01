@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,18 +58,18 @@ func run() {
 	// Create MTK warpper for Pixel window.
 	win, err := mtk.NewWindow(cfg)
 	if err != nil {
-		panic(fmt.Errorf("fail to create mtk window: %v", err))
+		panic(fmt.Errorf("Unable to create mtk window: %v", err))
 	}
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
 	mtk.InitAudio(audioFormat)
 	if mtk.Audio() == nil {
-		panic("fail to init MTK audio")
+		panic("Unable to init MTK audio")
 	}
 	// Load example music.
 	music, err := audioBuffer("../res/music.ogg")
 	if err != nil {
-		panic(fmt.Sprintf("fail to load example music: %v", err))
+		panic(fmt.Sprintf("Unable to load example music: %v", err))
 	}
 	// Play music.
 	mtk.Audio().AddAudio(music)
@@ -88,14 +88,14 @@ func run() {
 func audioBuffer(path string) (*beep.Buffer, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, fmt.Errorf("fail to open file: %v", err)
+		return nil, fmt.Errorf("unable to open file: %v", err)
 	}
 	defer file.Close()
 	switch {
 	case strings.HasSuffix(path, ".ogg"): // vorbis
 		s, f, err := vorbis.Decode(file)
 		if err != nil {
-			return nil, fmt.Errorf("fail to decode vorbis data: %v", err)
+			return nil, fmt.Errorf("unable to decode vorbis data: %v", err)
 		}
 		ab := beep.NewBuffer(f)
 		ab.Append(s)
@@ -103,7 +103,7 @@ func audioBuffer(path string) (*beep.Buffer, error) {
 	case strings.HasSuffix(path, ".wav"): // wav
 		s, f, err := wav.Decode(file)
 		if err != nil {
-			return nil, fmt.Errorf("fail to decode wav data: %v", err)
+			return nil, fmt.Errorf("unable to decode wav data: %v", err)
 		}
 		ab := beep.NewBuffer(f)
 		ab.Append(s)
@@ -111,7 +111,7 @@ func audioBuffer(path string) (*beep.Buffer, error) {
 	case strings.HasSuffix(path, ".mp3"): // mp3
 		s, f, err := mp3.Decode(file)
 		if err != nil {
-			return nil, fmt.Errorf("fail to decode mp3 data: %v", err)
+			return nil, fmt.Errorf("unable to decode mp3 data: %v", err)
 		}
 		ab := beep.NewBuffer(f)
 		ab.Append(s)

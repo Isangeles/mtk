@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,12 +55,12 @@ func run() {
 	// Create MTK warpper for Pixel window.
 	win, err := mtk.NewWindow(cfg)
 	if err != nil {
-		panic(fmt.Errorf("fail to create mtk window: %v", err))
+		panic(fmt.Errorf("Unable to create mtk window: %v", err))
 	}
 	// Load spritesheet image.
 	ss, err := loadPicture("spritesheet.png")
 	if err != nil {
-		panic(fmt.Errorf("fail to load spritesheet: %v", err))
+		panic(fmt.Errorf("Unable to load spritesheet: %v", err))
 	}
 	// Retrieve frames from spritesheet.
 	frames := cutFrames(ss)
@@ -84,12 +84,12 @@ func run() {
 func loadPicture(path string) (pixel.Picture, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, fmt.Errorf("fail to open image file: %v", err)
+		return nil, fmt.Errorf("unable to open image file: %v", err)
 	}
 	defer file.Close()
 	img, _, err := image.Decode(file)
 	if err != nil {
-		return nil, fmt.Errorf("fail to decode image: %v", err)
+		return nil, fmt.Errorf("unable to decode image: %v", err)
 	}
 	return pixel.PictureDataFromImage(img), nil
 }
