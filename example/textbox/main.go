@@ -95,6 +95,7 @@ keys!
 	textbox.AddText("line 10\n")
 	textbox.AddText("line 11\n")
 	textbox.AddText("line 12\n")
+	textbox.ScrollBottom()
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.

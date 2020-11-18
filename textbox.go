@@ -161,7 +161,6 @@ func (tb *Textbox) SetText(text ...string) {
 // AddText adds specified text to box.
 func (tb *Textbox) AddText(text string) {
 	tb.textContent = append(tb.textContent, text)
-	tb.startID = len(tb.textContent) - 1
 }
 
 // Clear clears textbox.
@@ -178,33 +177,23 @@ func (tb *Textbox) String() string {
 	return content
 }
 
+// AtBottom checks if textbox is scrolled to the bottom.
+func (tb *Textbox) AtBottom() bool {
+	return (tb.startID == 0 && len(tb.textContent) < 1) || tb.startID == len(tb.textContent)-1
+}
+
 // ScrollBottom scrolls textbox to last lines
 // of text content.
 func (tb *Textbox) ScrollBottom() {
+	if len(tb.textContent) < 1 {
+		return
+	}
 	tb.startID = len(tb.textContent) - 1
 }
 
 // updateTextVisibility updates conte nt of visible
 // text area.
 func (tb *Textbox) updateTextVisibility() {
-	/*
-		tb.textarea.Clear()
-		for i := 0; i < len(tb.textContent); i++ {
-			if i < tb.startID {
-				continue
-			}
-			text := tb.textarea.Content()
-			tb.textarea.SetText(text + tb.textContent[i])
-		}
-		for tb.textarea.Size().Y > tb.Size().Y {
-			lines := strings.Split(tb.textarea.Content(), "\n")
-			text := ""
-			for _, l := range lines[1:] {
-				text = fmt.Sprintf("%s\n%s", text, l)
-			}
-			tb.textarea.SetText(text)
-		}
-	*/
 	var (
 		visibleText       []string
 		visibleTextHeight float64
@@ -254,16 +243,6 @@ func (t *Textbox) breakLine(line string, width float64) []string {
 
 // breakPoint return break position for specified line and width.
 func (t *Textbox) breakPoint(line string, width float64) int {
-	/*
-		checkLine := ""
-		for i, c := range line {
-			checkLine += string(c)
-			if t.textarea.BoundsOf(checkLine).W() >= width {
-				return i
-			}
-		}
-		return len(line)-1
-	*/
 	checkLine := ""
 	breakPoint := -1
 	for _, c := range line {
