@@ -1,7 +1,7 @@
 /*
  * textbox.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2021 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -247,6 +247,7 @@ func (t *Textbox) breakPoint(line string, width float64) int {
 	breakPoint := -1
 	for _, c := range line {
 		if c == '\n' {
+			checkLine = ""
 			breakPoint = -1
 		}
 		checkLine += string(c)
@@ -255,7 +256,7 @@ func (t *Textbox) breakPoint(line string, width float64) int {
 			return breakPoint
 		}
 	}
-	return len(line) - 1
+	return len(line)
 }
 
 // Triggered after button up clicked.
