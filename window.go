@@ -1,7 +1,7 @@
 /*
  * window.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2022 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,8 +63,7 @@ func (w *Window) Update() {
 		w.frameCount = 0
 	default:
 	}
-	dtNano := time.Since(w.lastUpdate).Nanoseconds()
-	w.delta = dtNano / int64(time.Millisecond) // delta to milliseconds
+	w.delta = time.Since(w.lastUpdate).Milliseconds()
 	w.lastUpdate = time.Now()
 }
 
