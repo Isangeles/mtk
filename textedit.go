@@ -1,7 +1,7 @@
 /*
  * textedit.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2022 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,15 +46,16 @@ type Textedit struct {
 	onInput    func(t *Textedit)
 }
 
-// NewTextedit creates new instance of textedit with specified
-// font size, background color and optional label(empty string == no label).
-func NewTextedit(fontSize Size, color color.Color) *Textedit {
+// NewTextedit creates new textedit based on
+// specified parameters.
+func NewTextedit(params Params) *Textedit {
 	t := new(Textedit)
 	// Background.
-	t.color = color
+	t.color = params.MainColor
 	t.colorFocus = colornames.Crimson
 	// Text input.
-	font := MainFont(fontSize)
+	t.size = params.SizeRaw
+	font := MainFont(params.FontSize)
 	atlas := Atlas(&font)
 	t.input = text.New(pixel.V(0, 0), atlas)
 	return t

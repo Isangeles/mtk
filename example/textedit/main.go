@@ -65,8 +65,12 @@ func run() {
 	}
 	mtk.SetMainFont(font)
 	// Create textedit.
-	textedit := mtk.NewTextedit(mtk.SizeMedium, colornames.Grey)
-	textedit.SetSize(pixel.V(200, 30))
+	params := mtk.Params{
+		FontSize:  mtk.SizeMedium,
+		MainColor: colornames.Grey,
+		SizeRaw:   pixel.V(200, 30),
+	}
+	textedit := mtk.NewTextedit(params)
 	textedit.SetOnInputFunc(onTexteditInput)
 	// Main loop.
 	for !win.Closed() {
