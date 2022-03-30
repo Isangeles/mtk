@@ -71,7 +71,6 @@ func run() {
 		SizeRaw:   pixel.V(200, 30),
 	}
 	textedit := mtk.NewTextedit(params)
-	textedit.SetOnInputFunc(onTexteditInput)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
@@ -82,6 +81,10 @@ func run() {
 		// Update.
 		win.Update()
 		textedit.Update(win)
+		// Key events.
+		if win.JustPressed(pixelgl.KeyEnter) {
+			fmt.Printf("Input: %s\n", textedit.Text())
+		}
 	}
 }
 
@@ -103,9 +106,4 @@ func loadFont(path string) (*truetype.Font, error) {
 		return nil, fmt.Errorf("unable to parse font: %v", err)
 	}
 	return font, nil
-}
-
-// Triggered after textedit input.
-func onTexteditInput(textedit *mtk.Textedit) {
-	fmt.Printf("Input: %s\n", textedit.Text())
 }

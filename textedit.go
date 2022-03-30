@@ -43,7 +43,6 @@ type Textedit struct {
 	text       string
 	focused    bool
 	disabled   bool
-	onInput    func(t *Textedit)
 }
 
 // NewTextedit creates new textedit based on
@@ -88,11 +87,6 @@ func (te *Textedit) Update(win *Window) {
 		}
 	}
 	if te.focused {
-		if win.JustPressed(pixelgl.KeyEnter) {
-			if te.onInput != nil {
-				te.onInput(te)
-			}
-		}
 		if win.JustPressed(pixelgl.KeyBackspace) {
 			if len(te.text) > 0 {
 				te.SetText(te.text[:len(te.text)-1])
@@ -153,10 +147,4 @@ func (te *Textedit) Size() pixel.Vec {
 // DrawArea returns current draw area rectangle.
 func (te *Textedit) DrawArea() pixel.Rect {
 	return te.drawArea
-}
-
-// SetOnInputFunc sets callback function triggered after
-// input in text edit was accepted(i.e. enter key was pressed).
-func (te *Textedit) SetOnInputFunc(f func(t *Textedit)) {
-	te.onInput = f
 }
