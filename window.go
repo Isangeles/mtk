@@ -38,6 +38,7 @@ type Window struct {
 	delta      int64 // time from last update in millis
 	frameCount int
 	fps        int
+	fpsTick    *time.Ticker
 }
 
 // NewWindow creates new MTK window.
@@ -65,11 +66,24 @@ func (w *Window) Update() {
 	}
 	w.delta = time.Since(w.lastUpdate).Milliseconds()
 	w.lastUpdate = time.Now()
+	if w.fpsTick != nil {
+		<-w.fpsTick.C
+	}
 }
 
 // FPS returns current frame per second value.
 func (w *Window) FPS() int {
 	return w.fps
+}
+
+// SetMaxFPS sets maximal value for window FPS.
+// Value <= 0 removes FPS limit.
+func (w *Window) SetMaxFPS(fps int) {
+    if fps <= 0 {
+	    w.fpsTick = nil
+	    return
+    }
+    w.fpsTick = time.NewTicker(time.Second / time.Duration(fps))
 }
 
 // Delta returns time from last window update
