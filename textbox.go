@@ -1,7 +1,7 @@
 /*
  * textbox.go
  *
- * Copyright 2018-2021 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2022 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -142,6 +142,21 @@ func (tb *Textbox) TextSize() pixel.Vec {
 // background.
 func (t *Textbox) DrawArea() pixel.Rect {
 	return t.drawArea
+}
+
+
+// SetUpButtonBackground sets specified sprite as scroll up
+// button background.
+func (tb *Textbox) SetUpButtonBackground(s *pixel.Sprite) {
+	tb.upButton.SetBackground(s)
+	tb.upButton.SetColor(nil)
+}
+
+// SetDownButtonBackground sets specified sprite as scroll
+// down button background.
+func (tb *Textbox) SetDownButtonBackground(s *pixel.Sprite) {
+	tb.downButton.SetBackground(s)
+	tb.downButton.SetColor(nil)
 }
 
 // SetMaxTextWidth sets maximal width of single
