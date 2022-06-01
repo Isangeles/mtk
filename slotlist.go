@@ -1,7 +1,7 @@
 /*
  * slotlist.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2022 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,10 +58,8 @@ func NewSlotList(bgSize pixel.Vec, bgColor color.Color, slotSize Size) *SlotList
 		MainColor: colornames.Red,
 	}
 	sl.upButton = NewButton(buttonParams)
-	sl.upButton.SetLabel("+")
 	sl.upButton.SetOnClickFunc(sl.onUpButtonClicked)
 	sl.downButton = NewButton(buttonParams)
-	sl.downButton.SetLabel("-")
 	sl.downButton.SetOnClickFunc(sl.onDownButtonClicked)
 	// Calculating amount of slots based on background and
 	// buttons sizes.

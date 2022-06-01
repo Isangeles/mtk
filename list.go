@@ -1,7 +1,7 @@
 /*
  * list.go
  *
- * Copyright 2018-2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2022 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,10 +65,8 @@ func NewList(params Params) *List {
 		MainColor: params.AccentColor,
 	}
 	l.upButton = NewButton(buttonParams)
-	l.upButton.SetLabel("^")
 	l.upButton.SetOnClickFunc(l.onButtonUpClicked)
 	l.downButton = NewButton(buttonParams)
-	l.downButton.SetLabel(".")
 	l.downButton.SetOnClickFunc(l.onButtonDownClicked)
 	return l
 }
