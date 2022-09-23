@@ -5,9 +5,21 @@ The toolkit provides basic UI elements(buttons, text boxes, switches, lists, ani
 
 Originally created as a part of [Mural](https://github.com/Isangeles/mural) GUI.
 
-## Examples
 MTK highly relies on [Pixel](https://github.com/faiface/pixel) library, make sure to check [Pixel wiki](https://github.com/faiface/pixel/wiki) first.
 
+## Dependencies
+Basic dependencies are OpenGL development libraries, and some audio development libraries.
+
+### Linux
+On Fedora-like distribution install: `go` `libX11-devel` `libXcursor-devel` `libXrandr-devel` `libXinerama-devel` `mesa-libGL-devel` `libXi-devel` `libXxf86vm-devel` `alsa-lib-devel`.
+
+On other distributions, you need to install the equivalence of these packages.
+### macOS
+Install [Go](https://go.dev/) and Xcode or Command Line Tools for Xcode.
+### Windows
+Install [Go](https://go.dev/)
+
+## Examples
 All UI elements are automatically scaled to size specified in Pixel WindowConfig.
 
 Create window:
