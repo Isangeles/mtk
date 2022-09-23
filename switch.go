@@ -1,7 +1,7 @@
 /*
  * switch.go
  *
- * Copyright 2018-2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2022 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -81,10 +81,8 @@ func NewSwitch(params Params) *Switch {
 		MainColor: buttonColor,
 	}
 	s.prevButton = NewButton(buttonParams)
-	s.prevButton.SetLabel("<")
 	s.prevButton.SetOnClickFunc(s.onPrevButtonClicked)
 	s.nextButton = NewButton(buttonParams)
-	s.nextButton.SetLabel(">")
 	s.nextButton.SetOnClickFunc(s.onNextButtonClicked)
 	// Label & info.
 	labelParams := Params{

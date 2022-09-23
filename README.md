@@ -73,16 +73,16 @@ Source code documentation can be easily browsed with `go doc` command.
 ## Contributing
 You are welcome to contribute to project development.
 
-If you looking for things to do, then check [TODO file](https://github.com/Isangeles/mtk/blob/master/TODO) or contact me(dev@isangeles.pl).
+If you looking for things to do, then check [TODO file](https://github.com/Isangeles/mtk/blob/master/TODO) or contact maintainer(ds@isangeles.dev).
 
 When you find something to do, create new branch for your feature.
 After you finish, open pull request to merge your changes with master branch.
 
 ## Contact
-* Isangeles <<dev@isangeles.pl>>
+* Isangeles <<ds@isangeles.dev>>
 
 ## License
-Copyright 2018-2022 Dariusz Sikora <<dev@isangeles.pl>>
+Copyright 2018-2022 Dariusz Sikora <<ds@isangeles.dev>>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

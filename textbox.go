@@ -69,10 +69,8 @@ func NewTextbox(params Params) *Textbox {
 		MainColor: params.AccentColor,
 	}
 	t.upButton = NewButton(buttonParams)
-	t.upButton.SetLabel("^")
 	t.upButton.SetOnClickFunc(t.onButtonUpClicked)
 	t.downButton = NewButton(buttonParams)
-	t.downButton.SetLabel(".")
 	t.downButton.SetOnClickFunc(t.onButtonDownClicked)
 	return t
 }
