@@ -1,7 +1,7 @@
 /*
  * window.go
  *
- * Copyright 2018-2022 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2023 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@ type Window struct {
 
 // NewWindow creates new MTK window.
 func NewWindow(conf pixelgl.WindowConfig) (*Window, error) {
-	initScale(conf.Bounds.Max)
 	w := new(Window)
 	win, err := pixelgl.NewWindow(conf)
 	if err != nil {
@@ -51,6 +50,7 @@ func NewWindow(conf pixelgl.WindowConfig) (*Window, error) {
 	}
 	win.SetSmooth(true)
 	w.Window = win
+	initScale(w.Bounds().Max)
 	return w, nil
 }
 
