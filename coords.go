@@ -30,7 +30,7 @@ import (
 )
 
 const (
-	def_res_x, def_res_y float64 = 1920, 1080
+	defResX, defResY float64 = 1920, 1080
 )
 
 var (
@@ -40,13 +40,6 @@ var (
 
 // Scale return scale value for current resolution.
 func Scale() float64 {
-	/*
-		res := config.Resolution()
-		scaleX := res.X / def_res_x;
-		scaleY := res.Y / def_res_y;
-		s := math.Round(math.Min(scaleX, scaleY) * 10) / 10;
-		return s
-	*/
 	return scale
 }
 
@@ -247,8 +240,8 @@ func MatrixToDrawArea(matrix pixel.Matrix, rectSize pixel.Vec) (drawArea pixel.R
 // Called on new MTK window create.
 func initScale(r pixel.Vec) {
 	res = r
-	scaleX := res.X / def_res_x
-	scaleY := res.Y / def_res_y
+	scaleX := res.X / defResX
+	scaleY := res.Y / defResY
 	scale = math.Round(math.Min(scaleX, scaleY)*10) / 10
 	if scale > 1 {
 		scale = 1
