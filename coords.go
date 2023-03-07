@@ -1,7 +1,7 @@
 /*
  * coords.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2023 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -250,4 +250,7 @@ func initScale(r pixel.Vec) {
 	scaleX := res.X / def_res_x
 	scaleY := res.Y / def_res_y
 	scale = math.Round(math.Min(scaleX, scaleY)*10) / 10
+	if scale > 1 {
+		scale = 1
+	}
 }
