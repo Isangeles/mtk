@@ -58,7 +58,7 @@ func run() {
 	// Create MTK warpper for Pixel window.
 	win, err := mtk.NewWindow(cfg)
 	if err != nil {
-		panic(fmt.Errorf("fail to create mtk window: %v", err))
+		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
 	// Volume buttons.
 	buttonParams := mtk.Params{
@@ -85,13 +85,10 @@ func run() {
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
 	mtk.InitAudio(audioFormat)
-	if mtk.Audio() == nil {
-		panic("fail to init MTK audio")
-	}
 	// Load example music.
 	music, err := audioBuffer("../res/music.ogg")
 	if err != nil {
-		panic(fmt.Sprintf("fail to load example music: %v", err))
+		panic(fmt.Sprintf("Unable to load example music: %v", err))
 	}
 	// Play music.
 	mtk.Audio().AddAudio(music)
@@ -127,14 +124,14 @@ func run() {
 func audioBuffer(path string) (*beep.Buffer, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, fmt.Errorf("fail to open file: %v", err)
+		return nil, fmt.Errorf("Unable to open file: %v", err)
 	}
 	defer file.Close()
 	switch {
 	case strings.HasSuffix(path, ".ogg"): // vorbis
 		s, f, err := vorbis.Decode(file)
 		if err != nil {
-			return nil, fmt.Errorf("fail to decode vorbis data: %v", err)
+			return nil, fmt.Errorf("Unable to decode vorbis data: %v", err)
 		}
 		ab := beep.NewBuffer(f)
 		ab.Append(s)
@@ -142,7 +139,7 @@ func audioBuffer(path string) (*beep.Buffer, error) {
 	case strings.HasSuffix(path, ".wav"): // wav
 		s, f, err := wav.Decode(file)
 		if err != nil {
-			return nil, fmt.Errorf("fail to decode wav data: %v", err)
+			return nil, fmt.Errorf("Unable to decode wav data: %v", err)
 		}
 		ab := beep.NewBuffer(f)
 		ab.Append(s)
@@ -150,13 +147,13 @@ func audioBuffer(path string) (*beep.Buffer, error) {
 	case strings.HasSuffix(path, ".mp3"): // mp3
 		s, f, err := mp3.Decode(file)
 		if err != nil {
-			return nil, fmt.Errorf("fail to decode mp3 data: %v", err)
+			return nil, fmt.Errorf("Unable to decode mp3 data: %v", err)
 		}
 		ab := beep.NewBuffer(f)
 		ab.Append(s)
 		return ab, nil
 	default:
-		return nil, fmt.Errorf("unsupported format: %s", path)
+		return nil, fmt.Errorf("Unsupported format: %s", path)
 	}
 }
 
