@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,22 +28,22 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	
+
 	"golang.org/x/image/colornames"
-	
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-	
+
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/vorbis"
 	"github.com/faiface/beep/wav"
-	
+
 	"github.com/isangeles/mtk"
 )
 
 // Main function.
-func main () {
+func main() {
 	// Run Pixel graphic.
 	pixelgl.Run(run)
 }
@@ -77,7 +77,11 @@ func run() {
 	muteButton.SetLabel("Mute")
 	muteButton.SetOnClickFunc(onMuteButtonClicked)
 	// Volume info.
-	volInfo := mtk.NewText(mtk.SizeMedium, 0)
+	textParams := mtk.Params{
+		Size:     mtk.SizeMedium,
+		FontSize: mtk.SizeBig,
+	}
+	volInfo := mtk.NewText(textParams)
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
 	mtk.InitAudio(audioFormat)
@@ -161,7 +165,7 @@ func onUpButtonClicked(b *mtk.Button) {
 	if mtk.Audio() == nil {
 		return
 	}
-	mtk.Audio().SetVolume(mtk.Audio().Volume()+1)
+	mtk.Audio().SetVolume(mtk.Audio().Volume() + 1)
 }
 
 // Triggered on down button click event.
@@ -169,7 +173,7 @@ func onDownButtonClicked(b *mtk.Button) {
 	if mtk.Audio() == nil {
 		return
 	}
-	mtk.Audio().SetVolume(mtk.Audio().Volume()-1)
+	mtk.Audio().SetVolume(mtk.Audio().Volume() - 1)
 }
 
 // Triggered on mute button click event.
