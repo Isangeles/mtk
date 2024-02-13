@@ -179,9 +179,5 @@ func onMuteButtonClicked(b *mtk.Button) {
 		return
 	}
 	// Toggle mute.
-	if mtk.Audio().Muted() {
-		mtk.Audio().SetMute(false)
-	} else {
-		mtk.Audio().SetMute(true)
-	}
+	mtk.Audio().SetMute(!mtk.Audio().Muted())
 }
