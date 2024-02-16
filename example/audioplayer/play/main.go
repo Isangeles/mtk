@@ -60,21 +60,20 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("Unable to create mtk window: %v", err))
 	}
-	// Init MTK audio.
+	// Create audio player.
 	audioFormat := beep.Format{44100, 2, 2}
 	audio, err := mtk.NewAudioPlayer(audioFormat)
 	if err != nil {
 		panic(fmt.Sprintf("Unable to create audio player: %v", err))
 	}
-	mtk.SetAudio(audio)
 	// Load example music.
 	music, err := audioBuffer("../res/music.ogg")
 	if err != nil {
 		panic(fmt.Sprintf("Unable to load example music: %v", err))
 	}
 	// Play music.
-	mtk.Audio().AddAudio(music)
-	mtk.Audio().ResumePlaylist()
+	audio.AddAudio(music)
+	audio.ResumePlaylist()
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.

@@ -42,6 +42,8 @@ import (
 	"github.com/isangeles/mtk"
 )
 
+var audio *mtk.AudioPlayer
+
 // Main function.
 func main() {
 	// Run Pixel graphic.
@@ -84,19 +86,18 @@ func run() {
 	volInfo := mtk.NewText(textParams)
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
-	audio, err := mtk.NewAudioPlayer(audioFormat)
+	audio, err = mtk.NewAudioPlayer(audioFormat)
 	if err != nil {
 		panic(fmt.Sprintf("Unable to create audio player: %v", err))
 	}
-	mtk.SetAudio(audio)
 	// Load example music.
 	music, err := audioBuffer("../res/music.ogg")
 	if err != nil {
 		panic(fmt.Sprintf("Unable to load example music: %v", err))
 	}
 	// Play music.
-	mtk.Audio().AddAudio(music)
-	mtk.Audio().ResumePlaylist()
+	audio.AddAudio(music)
+	audio.ResumePlaylist()
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
@@ -115,10 +116,10 @@ func run() {
 		muteButton.Update(win)
 		upButton.Update(win)
 		downButton.Update(win)
-		if mtk.Audio().Muted() {
+		if audio.Muted() {
 			volInfo.SetText("Volume: muted")
 		} else {
-			volInfo.SetText(fmt.Sprintf("Volume: %f", mtk.Audio().Volume()))
+			volInfo.SetText(fmt.Sprintf("Volume: %f", audio.Volume()))
 		}
 	}
 }
@@ -163,25 +164,15 @@ func audioBuffer(path string) (*beep.Buffer, error) {
 
 // Triggered on up button click event.
 func onUpButtonClicked(b *mtk.Button) {
-	if mtk.Audio() == nil {
-		return
-	}
-	mtk.Audio().SetVolume(mtk.Audio().Volume() + 1)
+	audio.SetVolume(audio.Volume() + 1)
 }
 
 // Triggered on down button click event.
 func onDownButtonClicked(b *mtk.Button) {
-	if mtk.Audio() == nil {
-		return
-	}
-	mtk.Audio().SetVolume(mtk.Audio().Volume() - 1)
+	audio.SetVolume(audio.Volume() - 1)
 }
 
 // Triggered on mute button click event.
 func onMuteButtonClicked(b *mtk.Button) {
-	if mtk.Audio() == nil {
-		return
-	}
-	// Toggle mute.
-	mtk.Audio().SetMute(!mtk.Audio().Muted())
+	audio.SetMute(!audio.Muted())
 }
