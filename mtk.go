@@ -1,7 +1,7 @@
 /*
  * mtk.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -238,7 +238,7 @@ func Audio() *AudioPlayer {
 
 // InitAudio creates audio player for toolkit.
 func InitAudio(format beep.Format) {
-	audio = NewAudioPlayer(format)
+	audio, _ = NewAudioPlayer(format)
 }
 
 // DrawRectangle draw rectangle on specified target with
