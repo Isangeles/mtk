@@ -236,9 +236,11 @@ func Audio() *AudioPlayer {
 	return audio
 }
 
-// InitAudio creates audio player for toolkit.
-func InitAudio(format beep.Format) {
-	audio, _ = NewAudioPlayer(format)
+// SetAudio sets audio player for the toolkit.
+// Toolkit audio player is used to play various audio effects,
+// like button click sounds for example.
+func SetAudio(a *AudioPlayer) {
+	audio = a
 }
 
 // DrawRectangle draw rectangle on specified target with

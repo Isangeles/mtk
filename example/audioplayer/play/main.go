@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,10 +62,11 @@ func run() {
 	}
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
-	mtk.InitAudio(audioFormat)
-	if mtk.Audio() == nil {
-		panic("Unable to init MTK audio")
+	audio, err := mtk.NewAudioPlayer(audioFormat)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to create audio player: %v", err))
 	}
+	mtk.SetAudio(audio)
 	// Load example music.
 	music, err := audioBuffer("../res/music.ogg")
 	if err != nil {
