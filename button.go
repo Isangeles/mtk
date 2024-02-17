@@ -1,7 +1,7 @@
 /*
  * button.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -135,8 +135,8 @@ func (b *Button) Update(win *Window) {
 			if b.onClick != nil {
 				b.onClick(b)
 			}
-			if Audio() != nil && b.clickSound != nil {
-				Audio().Play(b.clickSound)
+			if Audio != nil && b.clickSound != nil {
+				Audio.Play(b.clickSound)
 			}
 		}
 		b.pressed = false

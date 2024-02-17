@@ -57,12 +57,13 @@ const (
 )
 
 var (
+	// Toolkit audio player used to play various sound effects,
+	// like button click sound for example.
+	Audio            *AudioPlayer
+	buttonClickSound *beep.Buffer
 	// Font.
 	fallbackFont font.Face = basicfont.Face7x13
 	mainFontBase *truetype.Font
-	// Audio.
-	audio            *AudioPlayer
-	buttonClickSound *beep.Buffer
 	// Time.
 	secTimer = time.Tick(time.Second)
 )
@@ -229,18 +230,6 @@ func Atlas(f *font.Face) *text.Atlas {
 // Matrix return scaled identity matrix.
 func Matrix() pixel.Matrix {
 	return pixel.IM.Scaled(pixel.V(0, 0), Scale())
-}
-
-// Audio returns toolkit audio player.
-func Audio() *AudioPlayer {
-	return audio
-}
-
-// SetAudio sets audio player for the toolkit.
-// Toolkit audio player is used to play various audio effects,
-// like button click sounds for example.
-func SetAudio(a *AudioPlayer) {
-	audio = a
 }
 
 // DrawRectangle draw rectangle on specified target with
