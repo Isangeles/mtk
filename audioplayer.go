@@ -43,6 +43,7 @@ type AudioPlayer struct {
 
 // NewAudioPlayer creates new audio player for specified
 // stream format.
+// Error will be returned if audio initialization fails.
 func NewAudioPlayer(format beep.Format) (*AudioPlayer, error) {
 	p := new(AudioPlayer)
 	p.playlist = make([]beep.Streamer, 0)
