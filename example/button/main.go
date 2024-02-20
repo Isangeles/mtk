@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,17 +21,21 @@
  *
  */
 
-// Example for creating simple MTK button with draw background
-// and custom on-click function.
+// Example for creating simple MTK button with draw background,
+// custom on-click function, and click sound effect.
 package main
 
 import (
 	"fmt"
+	"os"
 
 	"golang.org/x/image/colornames"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+
+	"github.com/faiface/beep"
+	"github.com/faiface/beep/flac"
 
 	"github.com/isangeles/mtk"
 )
@@ -58,6 +62,12 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
+	// Initialize MTK audio player(for button click sound).
+	audioFormat := beep.Format{44100, 2, 2}
+	mtk.Audio, err = mtk.NewAudioPlayer(audioFormat)
+	if err != nil {
+		panic(fmt.Errorf("Unable to create audio player: %v", err))
+	}
 	// Create button for exit.
 	buttonParams := mtk.Params{
 		Size:      mtk.SizeBig,
@@ -70,6 +80,12 @@ func run() {
 	exitButton.SetInfo("Exit menu")
 	// Set function for exit button click event.
 	exitButton.SetOnClickFunc(onExitButtonClicked)
+	// Set button click sound effect.
+	soundEffect, err := audioBuffer("res/click.flac")
+	if err != nil {
+		panic(fmt.Errorf("Unable to load click sound effect: %v", err))
+	}
+	exitButton.SetClickSound(soundEffect)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
@@ -91,4 +107,20 @@ func run() {
 // event.
 func onExitButtonClicked(b *mtk.Button) {
 	exitreq = true
+}
+
+// audioBuffer loads flac audio file with specified path.
+func audioBuffer(path string) (*beep.Buffer, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, fmt.Errorf("unable to open file: %v", err)
+	}
+	defer file.Close()
+	stream, format, err := flac.Decode(file)
+	if err != nil {
+		return nil, fmt.Errorf("unable to decode flac data: %v", err)
+	}
+	buffer := beep.NewBuffer(format)
+	buffer.Append(stream)
+	return buffer, nil
 }
