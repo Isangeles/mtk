@@ -40,10 +40,6 @@ import (
 	"github.com/isangeles/mtk"
 )
 
-var (
-	exitreq bool // menu exit request flag
-)
-
 // Main function.
 func main() {
 	// Run Pixel graphic.
@@ -68,45 +64,41 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("Unable to create audio player: %v", err))
 	}
-	// Create button for exit.
+	// Create the button.
 	buttonParams := mtk.Params{
 		Size:      mtk.SizeBig,
 		FontSize:  mtk.SizeMedium,
 		Shape:     mtk.ShapeRectangle,
 		MainColor: colornames.Red,
 	}
-	exitButton := mtk.NewButton(buttonParams)
-	exitButton.SetLabel("Exit")
-	exitButton.SetInfo("Exit menu")
-	// Set function for exit button click event.
-	exitButton.SetOnClickFunc(onExitButtonClicked)
+	button := mtk.NewButton(buttonParams)
+	button.SetLabel("Click")
+	button.SetInfo("Click me!")
+	// Set function for button click event.
+	button.SetOnClickFunc(onButtonClicked)
 	// Set button click sound effect.
 	soundEffect, err := audioBuffer("res/click.flac")
 	if err != nil {
 		panic(fmt.Errorf("Unable to load click sound effect: %v", err))
 	}
-	exitButton.SetClickSound(soundEffect)
+	button.SetClickSound(soundEffect)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
-		// Draw exit button.
-		exitButtonPos := win.Bounds().Center()
-		exitButton.Draw(win, mtk.Matrix().Moved(exitButtonPos))
+		// Draw button.
+		buttonPos := win.Bounds().Center()
+		button.Draw(win, mtk.Matrix().Moved(buttonPos))
 		// Update.
 		win.Update()
-		exitButton.Update(win)
-		// On exit request.
-		if exitreq {
-			win.SetClosed(true)
-		}
+		button.Update(win)
 	}
 }
 
-// onExitButtonClicked handles exit button click
+// onButtonClicked handles button click
 // event.
-func onExitButtonClicked(b *mtk.Button) {
-	exitreq = true
+func onButtonClicked(b *mtk.Button) {
+	fmt.Println("Click!")
 }
 
 // audioBuffer loads flac audio file with specified path.
