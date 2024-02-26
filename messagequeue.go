@@ -1,7 +1,7 @@
 /*
- * messagesqueue.go
+ * messagequeue.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,22 +27,22 @@ import (
 	"github.com/faiface/pixel"
 )
 
-// MessagesQueue struct for list with messages to display.
-type MessagesQueue struct {
+// MessageQueue struct for list with messages to display.
+type MessageQueue struct {
 	queue []*MessageWindow
 	focus *Focus
 }
 
-// NewMessagesQueue creates new messages queue.
-func NewMessagesQueue(focus *Focus) *MessagesQueue {
-	mq := new(MessagesQueue)
+// NewMessageQueue creates new messages queue.
+func NewMessageQueue(focus *Focus) *MessageQueue {
+	mq := new(MessageQueue)
 	mq.queue = make([]*MessageWindow, 0)
 	mq.focus = focus
 	return mq
 }
 
 // Draw draws all messages
-func (mq *MessagesQueue) Draw(t pixel.Target, matrix pixel.Matrix) {
+func (mq *MessageQueue) Draw(t pixel.Target, matrix pixel.Matrix) {
 	for _, m := range mq.queue {
 		if m.Opened() {
 			m.Draw(t, matrix)
@@ -51,7 +51,7 @@ func (mq *MessagesQueue) Draw(t pixel.Target, matrix pixel.Matrix) {
 }
 
 // Update updates all messages in queue.
-func (mq *MessagesQueue) Update(win *Window) {
+func (mq *MessageQueue) Update(win *Window) {
 	for i, m := range mq.queue {
 		if m.Opened() {
 			if i == len(mq.queue)-1 {
@@ -69,18 +69,18 @@ func (mq *MessagesQueue) Update(win *Window) {
 }
 
 // Append adds specified message to the front of queue.
-func (mq *MessagesQueue) Append(m *MessageWindow) {
+func (mq *MessageQueue) Append(m *MessageWindow) {
 	mq.queue = append(mq.queue, m)
 }
 
 // Remove removes message with specified index from queue.
-func (mq *MessagesQueue) Remove(i int) {
+func (mq *MessageQueue) Remove(i int) {
 	mq.queue = append(mq.queue[:i], mq.queue[i+1:]...)
 }
 
 // ContainsPosition checks whether specified position is
 // contained by any message window in the queue.
-func (mq *MessagesQueue) ContainsPosition(pos pixel.Vec) bool {
+func (mq *MessageQueue) ContainsPosition(pos pixel.Vec) bool {
 	for _, msg := range mq.queue {
 		if msg.DrawArea().Contains(pos) {
 			return true
