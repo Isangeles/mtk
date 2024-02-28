@@ -1,7 +1,7 @@
 /*
  * messagewindow.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +53,7 @@ type MessageWindow struct {
 // NewMessageWindow creates new message window instance.
 func NewMessageWindow(params Params) *MessageWindow {
 	mw := new(MessageWindow)
+	mw.opened = true
 	// Background.
 	mw.size = params.Size.MessageWindowSize()
 	mw.color = params.MainColor

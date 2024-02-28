@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,7 +77,6 @@ func run() {
 	}
 	msg := mtk.NewMessageWindow(msgParams)
 	msg.SetAcceptLabel("OK")
-	msg.Show(true)
 	// Set function for exit button click event.
 	exitButton.SetOnClickFunc(onExitButtonClicked)
 	// Main loop.
