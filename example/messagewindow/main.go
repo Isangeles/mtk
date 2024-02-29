@@ -35,10 +35,6 @@ import (
 	"github.com/isangeles/mtk"
 )
 
-var (
-	exitreq bool // menu exit request flag
-)
-
 // Main function.
 func main() {
 	// Run Pixel graphic.
@@ -48,61 +44,36 @@ func main() {
 // All window code fired from there.
 func run() {
 	// Create Pixel window configuration.
-	cfg := pixelgl.WindowConfig{
+	winConfig := pixelgl.WindowConfig{
 		Title:  "MTK message window example",
 		Bounds: pixel.R(0, 0, 1600, 900),
 	}
-	// Create MTK warpper for Pixel window.
-	win, err := mtk.NewWindow(cfg)
+	// Create MTK wrapper for Pixel window.
+	win, err := mtk.NewWindow(winConfig)
 	if err != nil {
 		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
-	// Create button for exit.
-	buttonParams := mtk.Params{
-		Size:      mtk.SizeBig,
-		FontSize:  mtk.SizeMedium,
-		Shape:     mtk.ShapeRectangle,
-		MainColor: colornames.Red,
-	}
-	exitButton := mtk.NewButton(buttonParams)
-	exitButton.SetLabel("Exit")
-	exitButton.SetInfo("Exit menu")
 	// Create info message.
-	msgParams := mtk.Params{
+	messageParams := mtk.Params{
 		Size:      mtk.SizeMedium,
 		FontSize:  mtk.SizeMedium,
 		MainColor: colornames.Grey,
 		SecColor:  colornames.Red,
-		Info:      "Click exit to close example program",
+		Info:      "Click OK to close this message",
 	}
-	msg := mtk.NewMessageWindow(msgParams)
-	msg.SetAcceptLabel("OK")
-	// Set function for exit button click event.
-	exitButton.SetOnClickFunc(onExitButtonClicked)
+	message := mtk.NewMessageWindow(messageParams)
+	message.SetAcceptLabel("OK")
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
 		// Draw.
-		exitButtonPos := win.Bounds().Center()
-		msgPos := win.Bounds().Center()
-		exitButton.Draw(win, mtk.Matrix().Moved(exitButtonPos))
-		if msg.Opened() {
-			msg.Draw(win, mtk.Matrix().Moved(msgPos))
+		messagePos := win.Bounds().Center()
+		if message.Opened() {
+			message.Draw(win, mtk.Matrix().Moved(messagePos))
 		}
 		// Update.
 		win.Update()
-		exitButton.Update(win)
-		msg.Update(win)
-		// On exit request.
-		if exitreq {
-			win.SetClosed(true)
-		}
+		message.Update(win)
 	}
-}
-
-// onExitButtonClicked handles exit button click
-// event.
-func onExitButtonClicked(b *mtk.Button) {
-	exitreq = true
 }
