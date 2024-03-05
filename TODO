@@ -2,3 +2,4 @@
 * Refactor all graphical widgets constructors to use params struct
 * Examples for: slot list, checkslot, progress bar, multianimation, info window
 * List should preserve order of inserted items
+* Functions to check current state of the audio player(playing/not playing)
