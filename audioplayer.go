@@ -34,7 +34,7 @@ import (
 
 // Struct for audio player.
 type AudioPlayer struct {
-	playlist []beep.Streamer
+	playlist []*beep.Buffer
 	playID   int
 	mixer    *beep.Mixer
 	control  *beep.Ctrl
@@ -46,7 +46,7 @@ type AudioPlayer struct {
 // Error will be returned if audio initialization fails.
 func NewAudioPlayer(format beep.Format) (*AudioPlayer, error) {
 	p := new(AudioPlayer)
-	p.playlist = make([]beep.Streamer, 0)
+	p.playlist = make([]*beep.Buffer, 0)
 	p.mixer = new(beep.Mixer)
 	p.control = new(beep.Ctrl)
 	p.volume = &effects.Volume{
@@ -65,14 +65,13 @@ func NewAudioPlayer(format beep.Format) (*AudioPlayer, error) {
 
 // AddAudio adds specified audio stream to playlist.
 func (p *AudioPlayer) AddAudio(ab *beep.Buffer) error {
-	s := ab.Streamer(0, ab.Len())
-	p.playlist = append(p.playlist, s)
+	p.playlist = append(p.playlist, ab)
 	return nil
 }
 
 // SetPlaylist sets specified slice with audio streams
 // as player playlist.
-func (p *AudioPlayer) SetPlaylist(playlist []beep.Streamer) {
+func (p *AudioPlayer) SetPlaylist(playlist []*beep.Buffer) {
 	p.playlist = playlist
 }
 
@@ -81,16 +80,16 @@ func (p *AudioPlayer) ResumePlaylist() error {
 	if p.playID < 0 || p.playID > len(p.playlist)-1 {
 		return fmt.Errorf("audio_player: current playlist position nil")
 	}
-	m := p.playlist[p.playID]
-	p.volume.Streamer = m
-	p.mixer.Add(p.volume)
+	buffer := p.playlist[p.playID]
+	p.Play(buffer)
 	return nil
 }
 
 // Play starts playing specified audio stream.
-func (p *AudioPlayer) Play(ab *beep.Buffer) error {
-	s := ab.Streamer(0, ab.Len())
-	p.mixer.Add(s)
+func (p *AudioPlayer) Play(buffer *beep.Buffer) error {
+	streamer := buffer.Streamer(0, buffer.Len())
+	p.control.Streamer = streamer
+	p.mixer.Add(p.volume)
 	return nil
 }
 
@@ -116,7 +115,6 @@ func (p *AudioPlayer) Reset() {
 func (p *AudioPlayer) Next() {
 	p.StopPlaylist()
 	p.SetPlayIndex(p.playID + 1)
-	p.ResumePlaylist()
 }
 
 // Prev moves play index to previous position
@@ -124,7 +122,6 @@ func (p *AudioPlayer) Next() {
 func (p *AudioPlayer) Prev() {
 	p.StopPlaylist()
 	p.SetPlayIndex(p.playID - 1)
-	p.ResumePlaylist()
 }
 
 // SetVolume sets specified value as current
@@ -152,7 +149,7 @@ func (ap *AudioPlayer) Muted() bool {
 
 // Clear clears music playlist.
 func (p *AudioPlayer) Clear() {
-	p.playlist = make([]beep.Streamer, 0)
+	p.playlist = make([]*beep.Buffer, 0)
 }
 
 // SetPlayIndex sets specified index as current index
