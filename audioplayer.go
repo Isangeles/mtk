@@ -76,13 +76,13 @@ func (p *AudioPlayer) SetPlaylist(playlist []*beep.Buffer) {
 }
 
 // Play starts player.
-func (p *AudioPlayer) ResumePlaylist() error {
+func (p *AudioPlayer) ResumePlaylist() {
 	if p.playID < 0 || p.playID > len(p.playlist)-1 {
-		return fmt.Errorf("audio_player: current playlist position nil")
+		return
 	}
 	buffer := p.playlist[p.playID]
 	p.Play(buffer)
-	return nil
+	return
 }
 
 // Play starts playing specified audio stream.
