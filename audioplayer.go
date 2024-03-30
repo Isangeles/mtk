@@ -110,20 +110,6 @@ func (p *AudioPlayer) Reset() {
 	p.SetPlayIndex(0)
 }
 
-// Next moves play index to next position
-// on music playlist.
-func (p *AudioPlayer) Next() {
-	p.StopPlaylist()
-	p.SetPlayIndex(p.playID + 1)
-}
-
-// Prev moves play index to previous position
-// on music playlist.
-func (p *AudioPlayer) Prev() {
-	p.StopPlaylist()
-	p.SetPlayIndex(p.playID - 1)
-}
-
 // SetVolume sets specified value as current
 // value.
 // 0 - unmodified, > 0 - lauder, < 0 quieter.
@@ -150,6 +136,12 @@ func (ap *AudioPlayer) Muted() bool {
 // Clear clears music playlist.
 func (p *AudioPlayer) Clear() {
 	p.playlist = make([]*beep.Buffer, 0)
+}
+
+// PlayIndex returns index of currently playing audio
+// buffer from the playlist.
+func (p *AudioPlayer) PlayIndex() int {
+	return p.playID
 }
 
 // SetPlayIndex sets specified index as current index
