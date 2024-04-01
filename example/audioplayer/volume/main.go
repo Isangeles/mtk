@@ -27,7 +27,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"golang.org/x/image/colornames"
 
@@ -35,9 +34,7 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 
 	"github.com/faiface/beep"
-	"github.com/faiface/beep/mp3"
 	"github.com/faiface/beep/vorbis"
-	"github.com/faiface/beep/wav"
 
 	"github.com/isangeles/mtk"
 )
@@ -124,42 +121,20 @@ func run() {
 	}
 }
 
-// audioBuffer loads audio file with specified path.
-// Supported formats: vorbis, wav, mp3.
+// audioBuffer loads vorbis(.ogg) file with specified path.
 func audioBuffer(path string) (*beep.Buffer, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to open file: %v", err)
 	}
 	defer file.Close()
-	switch {
-	case strings.HasSuffix(path, ".ogg"): // vorbis
-		s, f, err := vorbis.Decode(file)
-		if err != nil {
-			return nil, fmt.Errorf("Unable to decode vorbis data: %v", err)
-		}
-		ab := beep.NewBuffer(f)
-		ab.Append(s)
-		return ab, nil
-	case strings.HasSuffix(path, ".wav"): // wav
-		s, f, err := wav.Decode(file)
-		if err != nil {
-			return nil, fmt.Errorf("Unable to decode wav data: %v", err)
-		}
-		ab := beep.NewBuffer(f)
-		ab.Append(s)
-		return ab, nil
-	case strings.HasSuffix(path, ".mp3"): // mp3
-		s, f, err := mp3.Decode(file)
-		if err != nil {
-			return nil, fmt.Errorf("Unable to decode mp3 data: %v", err)
-		}
-		ab := beep.NewBuffer(f)
-		ab.Append(s)
-		return ab, nil
-	default:
-		return nil, fmt.Errorf("Unsupported format: %s", path)
+	stream, format, err := vorbis.Decode(file)
+	if err != nil {
+		return nil, fmt.Errorf("Unable to decode vorbis data: %v", err)
 	}
+	buffer := beep.NewBuffer(format)
+	buffer.Append(stream)
+	return buffer, nil
 }
 
 // Triggered on up button click event.
