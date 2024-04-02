@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *
  */
 
-// Example of controlling audio player volume.
+// Example of controlling audio player.
 package main
 
 import (
@@ -51,7 +51,7 @@ func main() {
 func run() {
 	// Create Pixel window configuration.
 	cfg := pixelgl.WindowConfig{
-		Title:  "MTK audio volume example",
+		Title:  "MTK audio control example",
 		Bounds: pixel.R(0, 0, 1600, 900),
 	}
 	// Create MTK warpper for Pixel window.
@@ -66,6 +66,18 @@ func run() {
 		Shape:     mtk.ShapeRectangle,
 		MainColor: colornames.Red,
 	}
+	playButton := mtk.NewButton(buttonParams)
+	playButton.SetLabel("Play")
+	playButton.SetOnClickFunc(onPlayButtonClicked)
+	stopButton := mtk.NewButton(buttonParams)
+	stopButton.SetLabel("Stop")
+	stopButton.SetOnClickFunc(onStopButtonClicked)
+	nextButton := mtk.NewButton(buttonParams)
+	nextButton.SetLabel("Next")
+	nextButton.SetOnClickFunc(onNextButtonClicked)
+	prevButton := mtk.NewButton(buttonParams)
+	prevButton.SetLabel("Previous")
+	prevButton.SetOnClickFunc(onPrevButtonClicked)
 	upButton := mtk.NewButton(buttonParams)
 	upButton.SetLabel("+")
 	upButton.SetOnClickFunc(onUpButtonClicked)
@@ -75,12 +87,13 @@ func run() {
 	muteButton := mtk.NewButton(buttonParams)
 	muteButton.SetLabel("Mute")
 	muteButton.SetOnClickFunc(onMuteButtonClicked)
-	// Volume info.
+	// Track & volume info.
 	textParams := mtk.Params{
 		Size:     mtk.SizeMedium,
 		FontSize: mtk.SizeBig,
 	}
 	volInfo := mtk.NewText(textParams)
+	trackInfo := mtk.NewText(textParams)
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
 	audio, err = mtk.NewAudioPlayer(audioFormat)
@@ -92,32 +105,53 @@ func run() {
 	if err != nil {
 		panic(fmt.Sprintf("Unable to load example music: %v", err))
 	}
-	// Play music.
 	audio.AddAudio(music)
+	music, err = audioBuffer("../res/music2.ogg")
+	if err != nil {
+		panic(fmt.Sprintf("Unable to load exmaple music: %v", err))
+	}
+	audio.AddAudio(music)
+	// Play music.
 	audio.ResumePlaylist()
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
 		// Draw.
-		muteButtonPos := win.Bounds().Center()
+		playButtonPos := win.Bounds().Center()
+		stopButtonPos := mtk.LeftOf(playButton.DrawArea(), stopButton.Size(), 10)
+		nextButtonPos := mtk.RightOf(playButton.DrawArea(), nextButton.Size(), 10)
+		prevButtonPos := mtk.LeftOf(stopButton.DrawArea(), prevButton.Size(), 10)
+		muteButtonPos := mtk.BottomOf(playButton.DrawArea(), muteButton.Size(), 10)
 		upButtonPos := mtk.RightOf(muteButton.DrawArea(), upButton.Size(), 10)
 		downButtonPos := mtk.LeftOf(muteButton.DrawArea(), downButton.Size(), 10)
-		volInfoPos := mtk.TopOf(muteButton.DrawArea(), volInfo.Size(), 10)
+		volInfoPos := mtk.TopOf(playButton.DrawArea(), volInfo.Size(), 10)
+		trackInfoPos := mtk.TopOf(volInfo.DrawArea(), trackInfo.Size(), 10)
+		playButton.Draw(win, mtk.Matrix().Moved(playButtonPos))
+		stopButton.Draw(win, mtk.Matrix().Moved(stopButtonPos))
+		nextButton.Draw(win, mtk.Matrix().Moved(nextButtonPos))
+		prevButton.Draw(win, mtk.Matrix().Moved(prevButtonPos))
 		muteButton.Draw(win, mtk.Matrix().Moved(muteButtonPos))
 		upButton.Draw(win, mtk.Matrix().Moved(upButtonPos))
 		downButton.Draw(win, mtk.Matrix().Moved(downButtonPos))
 		volInfo.Draw(win, mtk.Matrix().Moved(volInfoPos))
+		trackInfo.Draw(win, mtk.Matrix().Moved(trackInfoPos))
 		// Update.
 		win.Update()
+		playButton.Update(win)
+		stopButton.Update(win)
+		nextButton.Update(win)
+		prevButton.Update(win)
 		muteButton.Update(win)
 		upButton.Update(win)
 		downButton.Update(win)
+		trackText := fmt.Sprintf("Track: %d", audio.PlayIndex())
+		trackInfo.SetText(trackText)
+		volText := fmt.Sprintf("%f", audio.Volume())
 		if audio.Muted() {
-			volInfo.SetText("Volume: muted")
-		} else {
-			volInfo.SetText(fmt.Sprintf("Volume: %f", audio.Volume()))
+			volText = "muted"
 		}
+		volInfo.SetText(fmt.Sprintf("Volume: %s", volText))
 	}
 }
 
@@ -135,6 +169,28 @@ func audioBuffer(path string) (*beep.Buffer, error) {
 	buffer := beep.NewBuffer(format)
 	buffer.Append(stream)
 	return buffer, nil
+}
+
+// Triggered on play button click event.
+func onPlayButtonClicked(b *mtk.Button) {
+	audio.ResumePlaylist()
+}
+
+// Triggered on stop button click event.
+func onStopButtonClicked(b *mtk.Button) {
+	audio.StopPlaylist()
+}
+
+// Triggered on next button click event.
+func onNextButtonClicked(b *mtk.Button) {
+	audio.StopPlaylist()
+	audio.SetPlayIndex(audio.PlayIndex()+1)
+}
+
+// Triggered on previous button click event.
+func onPrevButtonClicked(b *mtk.Button) {
+	audio.StopPlaylist()
+	audio.SetPlayIndex(audio.PlayIndex()-1)
 }
 
 // Triggered on up button click event.
