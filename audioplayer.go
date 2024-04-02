@@ -69,6 +69,11 @@ func (p *AudioPlayer) AddAudio(ab *beep.Buffer) error {
 	return nil
 }
 
+// Playlist returns the audio player playlist.
+func (p *AudioPlayer) Playlist() []*beep.Buffer {
+	return p.playlist
+}
+
 // SetPlaylist sets specified slice with audio streams
 // as player playlist.
 func (p *AudioPlayer) SetPlaylist(playlist []*beep.Buffer) {
