@@ -59,7 +59,7 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
-	// Volume buttons.
+	// Control buttons.
 	buttonParams := mtk.Params{
 		Size:      mtk.SizeBig,
 		FontSize:  mtk.SizeMedium,
@@ -87,13 +87,14 @@ func run() {
 	muteButton := mtk.NewButton(buttonParams)
 	muteButton.SetLabel("Mute")
 	muteButton.SetOnClickFunc(onMuteButtonClicked)
-	// Track & volume info.
+	// Track, status, volume info.
 	textParams := mtk.Params{
 		Size:     mtk.SizeMedium,
 		FontSize: mtk.SizeBig,
 	}
-	volInfo := mtk.NewText(textParams)
 	trackInfo := mtk.NewText(textParams)
+	statusInfo := mtk.NewText(textParams)
+	volInfo := mtk.NewText(textParams)
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
 	audio, err = mtk.NewAudioPlayer(audioFormat)
@@ -126,7 +127,8 @@ func run() {
 		upButtonPos := mtk.RightOf(muteButton.DrawArea(), upButton.Size(), 10)
 		downButtonPos := mtk.LeftOf(muteButton.DrawArea(), downButton.Size(), 10)
 		volInfoPos := mtk.TopOf(playButton.DrawArea(), volInfo.Size(), 10)
-		trackInfoPos := mtk.TopOf(volInfo.DrawArea(), trackInfo.Size(), 10)
+		statusInfoPos := mtk.TopOf(volInfo.DrawArea(), statusInfo.Size(), 10)
+		trackInfoPos := mtk.TopOf(statusInfo.DrawArea(), trackInfo.Size(), 10)
 		playButton.Draw(win, mtk.Matrix().Moved(playButtonPos))
 		stopButton.Draw(win, mtk.Matrix().Moved(stopButtonPos))
 		nextButton.Draw(win, mtk.Matrix().Moved(nextButtonPos))
@@ -135,6 +137,7 @@ func run() {
 		upButton.Draw(win, mtk.Matrix().Moved(upButtonPos))
 		downButton.Draw(win, mtk.Matrix().Moved(downButtonPos))
 		volInfo.Draw(win, mtk.Matrix().Moved(volInfoPos))
+		statusInfo.Draw(win, mtk.Matrix().Moved(statusInfoPos))
 		trackInfo.Draw(win, mtk.Matrix().Moved(trackInfoPos))
 		// Update.
 		win.Update()
@@ -145,8 +148,8 @@ func run() {
 		muteButton.Update(win)
 		upButton.Update(win)
 		downButton.Update(win)
-		trackText := fmt.Sprintf("Track: %d", audio.PlayIndex())
-		trackInfo.SetText(trackText)
+		statusInfo.SetText(fmt.Sprintf("Playing: %v", audio.Playing()))
+		trackInfo.SetText(fmt.Sprintf("Track: %d", audio.PlayIndex()))
 		volText := fmt.Sprintf("%f", audio.Volume())
 		if audio.Muted() {
 			volText = "muted"
