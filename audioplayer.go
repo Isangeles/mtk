@@ -138,6 +138,12 @@ func (ap *AudioPlayer) Muted() bool {
 	return ap.volume.Silent
 }
 
+// Playing checks if audio player is playing
+// any audio buffer.
+func (ap *AudioPlayer) Playing() bool {
+	return ap.control.Streamer != nil
+}
+
 // Clear clears music playlist.
 func (p *AudioPlayer) Clear() {
 	p.playlist = make([]*beep.Buffer, 0)
