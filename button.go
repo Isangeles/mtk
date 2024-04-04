@@ -28,7 +28,7 @@ import (
 
 	"golang.org/x/image/colornames"
 
-	"github.com/faiface/beep"
+	"github.com/gopxl/beep"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"

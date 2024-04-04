@@ -34,8 +34,8 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 
-	"github.com/faiface/beep"
-	"github.com/faiface/beep/flac"
+	"github.com/gopxl/beep"
+	"github.com/gopxl/beep/flac"
 
 	"github.com/isangeles/mtk"
 )

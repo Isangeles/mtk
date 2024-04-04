@@ -33,8 +33,8 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	
-	"github.com/faiface/beep"
-	"github.com/faiface/beep/vorbis"
+	"github.com/gopxl/beep"
+	"github.com/gopxl/beep/vorbis"
 	
 	"github.com/isangeles/mtk"
 )

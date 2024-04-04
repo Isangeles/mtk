@@ -33,7 +33,7 @@ import (
 
 	"github.com/golang/freetype/truetype"
 
-	"github.com/faiface/beep"
+	"github.com/gopxl/beep"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
