@@ -26,7 +26,7 @@ package mtk
 import (
 	"math"
 
-	"github.com/faiface/pixel"
+	"github.com/gopxl/pixel"
 )
 
 const (

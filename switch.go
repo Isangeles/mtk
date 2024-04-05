@@ -29,8 +29,8 @@ import (
 
 	"golang.org/x/image/colornames"
 
-	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/imdraw"
+	"github.com/gopxl/pixel"
+	"github.com/gopxl/pixel/imdraw"
 )
 
 // Switch struct represents graphical switch for values.

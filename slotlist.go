@@ -28,7 +28,7 @@ import (
 
 	"golang.org/x/image/colornames"
 
-	"github.com/faiface/pixel"
+	"github.com/gopxl/pixel"
 )
 
 // Struct for list with slots.

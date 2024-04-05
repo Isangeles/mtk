@@ -5,9 +5,9 @@ go 1.21
 toolchain go1.21.6
 
 require (
-	github.com/faiface/pixel v0.10.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/gopxl/beep v1.4.0
+	github.com/gopxl/pixel v1.0.0
 	golang.org/x/image v0.15.0
 )
 
@@ -25,5 +25,5 @@ require (
 	github.com/mewkiz/flac v1.0.10 // indirect
 	github.com/mewkiz/pkg v0.0.0-20231012081350-95d6616c5403 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
 )

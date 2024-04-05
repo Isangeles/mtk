@@ -26,8 +26,8 @@ package mtk
 import (
 	"time"
 
-	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/pixelgl"
+	"github.com/gopxl/pixel"
+	"github.com/gopxl/pixel/pixelgl"
 )
 
 // Wrapper struct for pixel window, to provide scalability.

@@ -31,8 +31,8 @@ import (
 
 	"golang.org/x/image/colornames"
 
-	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/text"
+	"github.com/gopxl/pixel"
+	"github.com/gopxl/pixel/text"
 )
 
 // Text struct for short text like labels, names, etc.

@@ -26,7 +26,7 @@ package mtk
 import (
 	"image/color"
 
-	"github.com/faiface/pixel"
+	"github.com/gopxl/pixel"
 )
 
 // Struct for MTK graphical widget parameters.

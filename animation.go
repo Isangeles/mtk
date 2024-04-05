@@ -24,7 +24,7 @@
 package mtk
 
 import (
-	"github.com/faiface/pixel"
+	"github.com/gopxl/pixel"
 )
 
 // Struct for animations.

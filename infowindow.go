@@ -26,8 +26,8 @@ package mtk
 import (
 	"image/color"
 
-	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/imdraw"
+	"github.com/gopxl/pixel"
+	"github.com/gopxl/pixel/imdraw"
 )
 
 // InfoWindow struct for small text boxes that

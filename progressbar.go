@@ -27,7 +27,7 @@ import (
 	"fmt"
 	"image/color"
 
-	"github.com/faiface/pixel"
+	"github.com/gopxl/pixel"
 )
 
 // Struct for progress bars.
