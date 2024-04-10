@@ -1,7 +1,7 @@
 /*
  * textbox.go
  *
- * Copyright 2018-2022 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -81,8 +81,8 @@ func (tb *Textbox) Draw(t pixel.Target, matrix pixel.Matrix) {
 	tb.drawArea = MatrixToDrawArea(matrix, tb.Size())
 	DrawRectangle(t, tb.DrawArea(), pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	// Text content.
-	tb.textarea.Draw(t, Matrix().Moved(pixel.V(tb.DrawArea().Min.X,
-		tb.DrawArea().Max.Y-tb.textarea.BoundsOf("AA").H())))
+	textareaPos := pixel.V(tb.DrawArea().Min.X, tb.DrawArea().Min.Y)
+	tb.textarea.Draw(t, Matrix().Moved(textareaPos))
 	// Buttons.
 	upButtonPos := MoveTR(tb.Size(), tb.upButton.Size())
 	downButtonPos := MoveBR(tb.Size(), tb.downButton.Size())
