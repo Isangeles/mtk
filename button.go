@@ -111,7 +111,8 @@ func (b *Button) Draw(t pixel.Target, matrix pixel.Matrix) {
 	}
 	// Drawing label.
 	if b.label != nil {
-		b.label.Draw(t, matrix)
+		labelPos := pixel.V(0, -b.label.Size().Y/2)
+		b.label.Draw(t, matrix.Moved(labelPos))
 	}
 	// Info window.
 	if b.info != nil && b.hovered {
