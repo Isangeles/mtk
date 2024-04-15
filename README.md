@@ -1,5 +1,5 @@
 ## Introduction
-MTK([Mural](https://github.com/Isangeles/mural) Toolkit) is a simple widget toolkit for creating graphical user interfaces written in Go with [Pixel](https://github.com/gopxl/pixel) library.
+MTK([Mural](https://github.com/Isangeles/mural) Toolkit) is a simple widget toolkit for creating graphical user interfaces written in Go with [Pixel](https://github.com/gopxl/pixel) and [Beep](https://github.com/gopxl/beep) libraries.
 
 The toolkit provides basic UI elements(buttons, text boxes, switches, lists, animations, etc.), simple audio handling and automatic scaling of UI elements.
 
