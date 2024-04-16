@@ -91,11 +91,10 @@ func (p *AudioPlayer) ResumePlaylist() {
 }
 
 // Play starts playing specified audio stream.
-func (p *AudioPlayer) Play(buffer *beep.Buffer) error {
+func (p *AudioPlayer) Play(buffer *beep.Buffer) {
 	streamer := buffer.Streamer(0, buffer.Len())
 	p.control.Streamer = streamer
 	p.mixer.Add(p.volume)
-	return nil
 }
 
 // Stop stops player.
