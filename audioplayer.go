@@ -80,7 +80,8 @@ func (p *AudioPlayer) SetPlaylist(playlist []*beep.Buffer) {
 	p.playlist = playlist
 }
 
-// Play starts player.
+// ResumePlaylist starts playing audio from the playlist
+// for current playlist ID.
 func (p *AudioPlayer) ResumePlaylist() {
 	if p.playID < 0 || p.playID > len(p.playlist)-1 {
 		return
@@ -98,7 +99,7 @@ func (p *AudioPlayer) Play(buffer *beep.Buffer) {
 }
 
 // Stop stops player.
-func (p *AudioPlayer) StopPlaylist() {
+func (p *AudioPlayer) Stop() {
 	if p.control.Streamer == nil {
 		return
 	}
