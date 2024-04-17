@@ -181,18 +181,18 @@ func onPlayButtonClicked(b *mtk.Button) {
 
 // Triggered on stop button click event.
 func onStopButtonClicked(b *mtk.Button) {
-	audio.StopPlaylist()
+	audio.Stop()
 }
 
 // Triggered on next button click event.
 func onNextButtonClicked(b *mtk.Button) {
-	audio.StopPlaylist()
+	audio.Stop()
 	audio.SetPlayIndex(audio.PlayIndex()+1)
 }
 
 // Triggered on previous button click event.
 func onPrevButtonClicked(b *mtk.Button) {
-	audio.StopPlaylist()
+	audio.Stop()
 	audio.SetPlayIndex(audio.PlayIndex()-1)
 }
 

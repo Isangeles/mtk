@@ -111,7 +111,7 @@ func (p *AudioPlayer) Stop() {
 // Reset stops player and moves play index to
 // first music playlist index.
 func (p *AudioPlayer) Reset() {
-	p.StopPlaylist()
+	p.Stop()
 	p.SetPlayIndex(0)
 }
 
