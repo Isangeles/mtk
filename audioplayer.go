@@ -40,84 +40,84 @@ type AudioPlayer struct {
 
 // NewAudioPlayer creates new audio player.
 func NewAudioPlayer() *AudioPlayer {
-	p := new(AudioPlayer)
-	p.playlist = make([]*beep.Buffer, 0)
-	p.mixer = new(beep.Mixer)
-	p.control = new(beep.Ctrl)
-	p.volume = &effects.Volume{
-		Streamer: p.control,
+	ap := new(AudioPlayer)
+	ap.playlist = make([]*beep.Buffer, 0)
+	ap.mixer = new(beep.Mixer)
+	ap.control = new(beep.Ctrl)
+	ap.volume = &effects.Volume{
+		Streamer: ap.control,
 		Base:     2,
 		Volume:   0,
 		Silent:   false,
 	}
-	return p
+	return ap
 }
 
-// AddAudio adds specified audio stream to playlist.
-func (p *AudioPlayer) AddAudio(ab *beep.Buffer) error {
-	p.playlist = append(p.playlist, ab)
+// AddAudio adds specified audio stream to the current playlist.
+func (ap *AudioPlayer) AddAudio(ab *beep.Buffer) error {
+	ap.playlist = append(ap.playlist, ab)
 	return nil
 }
 
 // Playlist returns the audio player playlist.
-func (p *AudioPlayer) Playlist() []*beep.Buffer {
-	return p.playlist
+func (ap *AudioPlayer) Playlist() []*beep.Buffer {
+	return ap.playlist
 }
 
 // SetPlaylist sets specified slice with audio streams
 // as player playlist.
-func (p *AudioPlayer) SetPlaylist(playlist []*beep.Buffer) {
-	p.playlist = playlist
+func (ap *AudioPlayer) SetPlaylist(playlist []*beep.Buffer) {
+	ap.playlist = playlist
 }
 
 // ResumePlaylist starts playing audio from the playlist
 // for current playlist ID.
-func (p *AudioPlayer) ResumePlaylist() {
-	if p.playID < 0 || p.playID > len(p.playlist)-1 {
+func (ap *AudioPlayer) ResumePlaylist() {
+	if ap.playID < 0 || ap.playID > len(ap.playlist)-1 {
 		return
 	}
-	buffer := p.playlist[p.playID]
-	p.Play(buffer)
+	buffer := ap.playlist[ap.playID]
+	ap.Play(buffer)
 	return
 }
 
 // Play starts playing specified audio stream.
-func (p *AudioPlayer) Play(buffer *beep.Buffer) {
+func (ap *AudioPlayer) Play(buffer *beep.Buffer) {
 	streamer := buffer.Streamer(0, buffer.Len())
-	p.control.Streamer = streamer
-	p.mixer.Add(p.volume)
+	ap.control.Streamer = streamer
+	ap.mixer.Add(ap.volume)
 	speaker.Clear()
-	speaker.Play(p.mixer)
+	speaker.Play(ap.mixer)
 }
 
 // Stop stops player.
-func (p *AudioPlayer) Stop() {
-	if p.control.Streamer == nil {
+func (ap *AudioPlayer) Stop() {
+	if ap.control.Streamer == nil {
 		return
 	}
 	speaker.Lock()
-	p.control.Streamer = nil
+	ap.control.Streamer = nil
 	speaker.Unlock()
-	p.mixer.Clear()
+	ap.mixer.Clear()
 	speaker.Clear()
 }
 
 // Reset stops player and moves play index to
 // first music playlist index.
-func (p *AudioPlayer) Reset() {
-	p.Stop()
-	p.SetPlayIndex(0)
+func (ap *AudioPlayer) Reset() {
+	ap.Stop()
+	ap.SetPlayIndex(0)
 }
 
 // SetVolume sets specified value as current
-// value.
-// 0 - unmodified, > 0 - lauder, < 0 quieter.
+// audio volume value.
+// 0 - unmodified(system volume), > 0 - lauder, < 0 quieter.
 func (ap *AudioPlayer) SetVolume(v float64) {
 	ap.volume.Volume = v
 }
 
 // Volume returns current volume value.
-// 0 - unmodified, > 0 - lauder, < 0 quieter.
+// 0 - unmodified(system volume), > 0 - lauder, < 0 quieter.
 func (ap *AudioPlayer) Volume() float64 {
 	return ap.volume.Volume
 }
@@ -127,7 +127,7 @@ func (ap *AudioPlayer) SetMute(m bool) {
 	ap.volume.Silent = m
 }
 
-// Muted check if audio player is muted.
+// Muted checks if audio player is muted.
 func (ap *AudioPlayer) Muted() bool {
 	return ap.volume.Silent
 }
@@ -139,14 +139,14 @@ func (ap *AudioPlayer) Playing() bool {
 }
 
 // Clear clears music playlist.
-func (p *AudioPlayer) Clear() {
-	p.playlist = make([]*beep.Buffer, 0)
+func (ap *AudioPlayer) Clear() {
+	ap.playlist = make([]*beep.Buffer, 0)
 }
 
 // PlayIndex returns index of currently playing audio
 // buffer from the playlist.
-func (p *AudioPlayer) PlayIndex() int {
-	return p.playID
+func (ap *AudioPlayer) PlayIndex() int {
+	return ap.playID
 }
 
 // SetPlayIndex sets specified index as current index
@@ -154,13 +154,13 @@ func (p *AudioPlayer) PlayIndex() int {
 // If specified value is bigger than playlist lenght
 // then first index is set, if is lower than 0 then
 // last index is set.
-func (p *AudioPlayer) SetPlayIndex(id int) {
+func (ap *AudioPlayer) SetPlayIndex(id int) {
 	switch {
-	case id > len(p.playlist)-1:
-		p.playID = 0
+	case id > len(ap.playlist)-1:
+		ap.playID = 0
 	case id < 0:
-		p.playID = len(p.playlist) - 1
+		ap.playID = len(ap.playlist) - 1
 	default:
-		p.playID = id
+		ap.playID = id
 	}
 }
