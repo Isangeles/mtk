@@ -136,8 +136,8 @@ func (b *Button) Update(win *Window) {
 			if b.onClick != nil {
 				b.onClick(b)
 			}
-			if Audio != nil && b.clickSound != nil {
-				Audio.Play(b.clickSound)
+			if audio != nil && b.clickSound != nil {
+				audio.Play(b.clickSound)
 			}
 		}
 		b.pressed = false

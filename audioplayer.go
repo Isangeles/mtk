@@ -24,9 +24,6 @@
 package mtk
 
 import (
-	"fmt"
-	"time"
-
 	"github.com/gopxl/beep"
 	"github.com/gopxl/beep/effects"
 	"github.com/gopxl/beep/speaker"
@@ -41,10 +38,8 @@ type AudioPlayer struct {
 	volume   *effects.Volume
 }
 
-// NewAudioPlayer creates new audio player for specified
-// stream format.
-// Error will be returned if audio initialization fails.
-func NewAudioPlayer(format beep.Format) (*AudioPlayer, error) {
+// NewAudioPlayer creates new audio player.
+func NewAudioPlayer() *AudioPlayer {
 	p := new(AudioPlayer)
 	p.playlist = make([]*beep.Buffer, 0)
 	p.mixer = new(beep.Mixer)
@@ -55,12 +50,7 @@ func NewAudioPlayer(format beep.Format) (*AudioPlayer, error) {
 		Volume:   0,
 		Silent:   false,
 	}
-	err := speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
-	if err != nil {
-		return nil, fmt.Errorf("Unable to initialize speaker: %v", err)
-	}
-	speaker.Play(p.mixer)
-	return p, nil
+	return p
 }
 
 // AddAudio adds specified audio stream to playlist.
@@ -96,6 +86,8 @@ func (p *AudioPlayer) Play(buffer *beep.Buffer) {
 	streamer := buffer.Streamer(0, buffer.Len())
 	p.control.Streamer = streamer
 	p.mixer.Add(p.volume)
+	speaker.Clear()
+	speaker.Play(p.mixer)
 }
 
 // Stop stops player.
@@ -106,6 +98,8 @@ func (p *AudioPlayer) Stop() {
 	speaker.Lock()
 	p.control.Streamer = nil
 	speaker.Unlock()
+	p.mixer.Clear()
+	speaker.Clear()
 }
 
 // Reset stops player and moves play index to

@@ -60,9 +60,9 @@ func run() {
 	}
 	// Initialize MTK audio player(for button click sound).
 	audioFormat := beep.Format{44100, 2, 2}
-	mtk.Audio, err = mtk.NewAudioPlayer(audioFormat)
+	err = mtk.InitAudio(audioFormat)
 	if err != nil {
-		panic(fmt.Errorf("Unable to create audio player: %v", err))
+		panic(fmt.Errorf("Unable to init MTK audio: %v", err))
 	}
 	// Create the button.
 	buttonParams := mtk.Params{

@@ -55,14 +55,15 @@ func run() {
 	// Create MTK warpper for Pixel window.
 	win, err := mtk.NewWindow(cfg)
 	if err != nil {
-		panic(fmt.Errorf("Unable to create mtk window: %v", err))
+		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
 	// Create audio player.
 	audioFormat := beep.Format{44100, 2, 2}
-	audio, err := mtk.NewAudioPlayer(audioFormat)
+	err = mtk.InitAudio(audioFormat)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to create audio player: %v", err))
+		panic(fmt.Sprintf("Unable to init MTK audio: %v", err))
 	}
+	audio := mtk.NewAudioPlayer()
 	// Load example music.
 	music, err := audioBuffer("../res/music.ogg")
 	if err != nil {

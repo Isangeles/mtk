@@ -97,11 +97,12 @@ func run() {
 	volInfo := mtk.NewText(textParams)
 	// Init MTK audio.
 	audioFormat := beep.Format{44100, 2, 2}
-	audio, err = mtk.NewAudioPlayer(audioFormat)
+	err = mtk.InitAudio(audioFormat)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to create audio player: %v", err))
+		panic(fmt.Sprintf("Unable to init MTK audio: %v", err))
 	}
-	// Load example music.
+	// Create audio player and load example music.
+	audio = mtk.NewAudioPlayer()
 	music, err := audioBuffer("../res/music.ogg")
 	if err != nil {
 		panic(fmt.Sprintf("Unable to load example music: %v", err))

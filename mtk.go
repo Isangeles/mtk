@@ -25,6 +25,7 @@
 package mtk
 
 import (
+	"fmt"
 	"image/color"
 	"time"
 
@@ -34,6 +35,7 @@ import (
 	"github.com/golang/freetype/truetype"
 
 	"github.com/gopxl/beep"
+	"github.com/gopxl/beep/speaker"
 
 	"github.com/gopxl/pixel"
 	"github.com/gopxl/pixel/imdraw"
@@ -59,7 +61,7 @@ const (
 var (
 	// Toolkit audio player used to play various sound effects,
 	// like button click sound for example.
-	Audio            *AudioPlayer
+	audio            *AudioPlayer = NewAudioPlayer()
 	buttonClickSound *beep.Buffer
 	// Font.
 	fallbackFont font.Face = basicfont.Face7x13
@@ -190,6 +192,23 @@ func (s Size) SlotSize() pixel.Vec {
 	default:
 		return ConvVec(pixel.V(25, 25))
 	}
+}
+
+// InitAudio initializes the system audio with specified format.
+// It need to be called before using the audio player struct.
+func InitAudio(format beep.Format) error {
+	err := speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+	if err != nil {
+		return fmt.Errorf("Unable to init the system speaker: %v", err)
+	}
+	return nil
+}
+
+// Audio returns toolkit audio player.
+// Returned audio player will not be operational if the audio
+// was not initialized before with InitAudio function.
+func Audio() *AudioPlayer {
+	return audio
 }
 
 // Sets specified truetype font as current main font of
