@@ -33,7 +33,6 @@ import (
 type AudioPlayer struct {
 	playlist []*beep.Buffer
 	playID   int
-	mixer    *beep.Mixer
 	control  *beep.Ctrl
 	volume   *effects.Volume
 }
@@ -42,7 +41,6 @@ type AudioPlayer struct {
 func NewAudioPlayer() *AudioPlayer {
 	ap := new(AudioPlayer)
 	ap.playlist = make([]*beep.Buffer, 0)
-	ap.mixer = new(beep.Mixer)
 	ap.control = new(beep.Ctrl)
 	ap.volume = &effects.Volume{
 		Streamer: ap.control,
@@ -85,8 +83,7 @@ func (ap *AudioPlayer) ResumePlaylist() {
 func (ap *AudioPlayer) Play(buffer *beep.Buffer) {
 	streamer := buffer.Streamer(0, buffer.Len())
 	ap.control.Streamer = streamer
-	ap.mixer.Add(ap.volume)
-	speaker.Play(ap.mixer)
+	speaker.Play(ap.volume)
 }
 
 // Stop stops player.
@@ -97,8 +94,6 @@ func (ap *AudioPlayer) Stop() {
 	speaker.Lock()
 	ap.control.Streamer = nil
 	speaker.Unlock()
-	ap.mixer.Clear()
-	speaker.Clear()
 }
 
 // Reset stops player and moves play index to
