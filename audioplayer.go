@@ -86,7 +86,6 @@ func (ap *AudioPlayer) Play(buffer *beep.Buffer) {
 	streamer := buffer.Streamer(0, buffer.Len())
 	ap.control.Streamer = streamer
 	ap.mixer.Add(ap.volume)
-	speaker.Clear()
 	speaker.Play(ap.mixer)
 }
 
