@@ -1,4 +1,4 @@
 * Title for message windows
 * Refactor all graphical widgets constructors to use params struct
-* Examples for: slot list, checkslot, progress bar, multianimation, info window
+* Examples for: slot list, checkslot, progress bar, multianimation
 * List should preserve order of inserted items
