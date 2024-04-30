@@ -170,6 +170,7 @@ func audioBuffer(path string) (*beep.Buffer, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Unable to decode vorbis data: %v", err)
 	}
+	defer stream.Close()
 	buffer := beep.NewBuffer(format)
 	buffer.Append(stream)
 	return buffer, nil
