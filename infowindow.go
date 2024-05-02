@@ -1,7 +1,7 @@
 /*
  * infowindow.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ package mtk
 import (
 	"image/color"
 
+	"golang.org/x/image/colornames"
+
 	"github.com/gopxl/pixel"
 	"github.com/gopxl/pixel/imdraw"
 )
@@ -47,7 +49,10 @@ func NewInfoWindow(params Params) *InfoWindow {
 	}
 	iw.Text = NewText(textParams)
 	iw.draw = imdraw.New(nil)
-	iw.bgColor = params.MainColor
+	iw.bgColor = colornames.Black
+	if params.MainColor != nil {
+		iw.bgColor = params.MainColor
+	}
 	return iw
 }
 
