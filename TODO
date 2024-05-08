@@ -2,3 +2,4 @@
 * Refactor all graphical widgets constructors to use params struct
 * Examples for: slot list, checkslot, progress bar, multianimation
 * List should preserve order of inserted items
+* Apply font size parameter to defult font
