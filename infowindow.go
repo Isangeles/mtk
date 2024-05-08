@@ -59,7 +59,8 @@ func NewInfoWindow(params Params) *InfoWindow {
 // Draw draws info window.
 func (iw *InfoWindow) Draw(t pixel.Target) {
 	iw.drawBackground(t)
-	iw.Text.Draw(t, Matrix().Moved(iw.drawArea.Center()))
+	textPos := pixel.V(iw.drawArea.Center().X, iw.drawArea.Center().Y-iw.Size().Y/2)
+	iw.Text.Draw(t, Matrix().Moved(textPos))
 }
 
 // Update updates info window.
@@ -73,8 +74,8 @@ func (iw *InfoWindow) Update(win *Window) {
 func (iw *InfoWindow) drawBackground(t pixel.Target) {
 	iw.draw.Clear()
 	iw.draw.Color = iw.bgColor
-	iw.draw.Push(iw.DrawArea().Min)
-	iw.draw.Push(iw.DrawArea().Max)
+	iw.draw.Push(iw.drawArea.Min)
+	iw.draw.Push(iw.drawArea.Max)
 	iw.draw.Rectangle(0)
 	iw.draw.Draw(t)
 }
