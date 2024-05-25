@@ -81,7 +81,7 @@ func (tb *Textbox) Draw(t pixel.Target, matrix pixel.Matrix) {
 	tb.drawArea = MatrixToDrawArea(matrix, tb.Size())
 	DrawRectangle(t, tb.DrawArea(), pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	// Text content.
-	textareaPos := pixel.V(tb.DrawArea().Min.X, tb.DrawArea().Min.Y)
+	textareaPos := pixel.V(tb.DrawArea().Min.X, tb.DrawArea().Max.Y-ConvSize(tb.textarea.Size().Y))
 	tb.textarea.Draw(t, Matrix().Moved(textareaPos))
 	// Buttons.
 	upButtonPos := MoveTR(tb.Size(), tb.upButton.Size())
@@ -224,8 +224,11 @@ func (tb *Textbox) updateTextVisibility() {
 		for j := len(breakLines) - 1; j >= 0; j-- { // reverse order
 			bl := breakLines[j]
 			visibleText = append(visibleText, bl)
+			visibleTextHeight += tb.textarea.BoundsOf(bl).H()
+			if visibleTextHeight >= tb.Size().Y {
+				break
+			}
 		}
-		visibleTextHeight += tb.textarea.BoundsOf(line).H() * float64(len(breakLines))
 	}
 	tb.textarea.Clear()
 	for i := len(visibleText) - 1; i >= 0; i-- {
