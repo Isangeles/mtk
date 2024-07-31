@@ -68,6 +68,8 @@ var (
 	mainFontBase *truetype.Font
 	// Time.
 	secTimer = time.Tick(time.Second)
+	// Draw for shape drawing functions.
+	draw = imdraw.New(nil)
 )
 
 // Type for shapes of UI elements.
@@ -254,7 +256,6 @@ func Matrix() pixel.Matrix {
 // DrawRectangle draw rectangle on specified target with
 // specified draw area(position and size) and color.
 func DrawRectangle(t pixel.Target, drawArea pixel.Rect, color color.Color) {
-	draw := imdraw.New(nil)
 	draw.Clear()
 	draw.Color = color
 	draw.Push(drawArea.Min)
