@@ -31,7 +31,6 @@ import (
 	"github.com/gopxl/beep"
 
 	"github.com/gopxl/pixel"
-	"github.com/gopxl/pixel/imdraw"
 	"github.com/gopxl/pixel/pixelgl"
 )
 
@@ -43,7 +42,6 @@ var (
 // Button struct for UI button.
 type Button struct {
 	bgSpr      *pixel.Sprite
-	bgDraw     *imdraw.IMDraw
 	label      *Text
 	info       *InfoWindow
 	size       pixel.Vec
@@ -70,7 +68,6 @@ func NewButton(params Params) *Button {
 	b.colorPush = buttonPushColor
 	b.colorHover = buttonHoverColor
 	// Background.
-	b.bgDraw = imdraw.New(nil)
 	b.bgSpr = params.Background
 	// Label.
 	labelParams := Params{

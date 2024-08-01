@@ -1,7 +1,7 @@
 /*
  * switch.go
  *
- * Copyright 2018-2022 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,12 +30,10 @@ import (
 	"golang.org/x/image/colornames"
 
 	"github.com/gopxl/pixel"
-	"github.com/gopxl/pixel/imdraw"
 )
 
 // Switch struct represents graphical switch for values.
 type Switch struct {
-	bgDraw      *imdraw.IMDraw
 	bgSpr       *pixel.Sprite
 	prevButton  *Button
 	nextButton  *Button
@@ -65,7 +63,6 @@ type SwitchValue struct {
 func NewSwitch(params Params) *Switch {
 	s := new(Switch)
 	// Background.
-	s.bgDraw = imdraw.New(nil)
 	s.bgSpr = params.Background
 	s.size = params.Size.SwitchSize()
 	s.color = params.MainColor
