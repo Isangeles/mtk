@@ -29,14 +29,12 @@ import (
 	"golang.org/x/image/colornames"
 
 	"github.com/gopxl/pixel"
-	"github.com/gopxl/pixel/imdraw"
 )
 
 // InfoWindow struct for small text boxes that
 // follows mouse cursor.
 type InfoWindow struct {
 	*Text
-	draw     *imdraw.IMDraw
 	bgColor  color.Color
 	drawArea pixel.Rect
 }
@@ -48,7 +46,6 @@ func NewInfoWindow(params Params) *InfoWindow {
 		FontSize: params.FontSize,
 	}
 	iw.Text = NewText(textParams)
-	iw.draw = imdraw.New(nil)
 	iw.bgColor = colornames.Black
 	if params.MainColor != nil {
 		iw.bgColor = params.MainColor
@@ -58,7 +55,7 @@ func NewInfoWindow(params Params) *InfoWindow {
 
 // Draw draws info window.
 func (iw *InfoWindow) Draw(t pixel.Target) {
-	iw.drawBackground(t)
+	DrawRectangle(t, iw.DrawArea(), iw.bgColor)
 	textPos := pixel.V(iw.drawArea.Center().X, iw.drawArea.Center().Y-iw.Size().Y/2)
 	iw.Text.Draw(t, Matrix().Moved(textPos))
 }
@@ -68,14 +65,4 @@ func (iw *InfoWindow) Update(win *Window) {
 	iw.drawArea = pixel.R(win.MousePosition().X, win.MousePosition().Y,
 		win.MousePosition().X+iw.Size().X,
 		win.MousePosition().Y+iw.Size().Y*1.5)
-}
-
-// drawBackground draws info background.
-func (iw *InfoWindow) drawBackground(t pixel.Target) {
-	iw.draw.Clear()
-	iw.draw.Color = iw.bgColor
-	iw.draw.Push(iw.drawArea.Min)
-	iw.draw.Push(iw.drawArea.Max)
-	iw.draw.Rectangle(0)
-	iw.draw.Draw(t)
 }

@@ -1,7 +1,7 @@
 /*
  * slot.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,6 @@ import (
 	"image/color"
 
 	"github.com/gopxl/pixel"
-	"github.com/gopxl/pixel/imdraw"
 	"github.com/gopxl/pixel/pixelgl"
 )
 
@@ -39,7 +38,6 @@ var (
 // Struct for slot.
 type Slot struct {
 	bgSpr               *pixel.Sprite
-	bgDraw              *imdraw.IMDraw
 	drawArea            pixel.Rect
 	size                pixel.Vec
 	color               color.Color
@@ -63,7 +61,6 @@ type Slot struct {
 func NewSlot(params Params) *Slot {
 	s := new(Slot)
 	// Background.
-	s.bgDraw = imdraw.New(nil)
 	s.size = params.Size.SlotSize()
 	s.color = params.MainColor
 	if s.color == nil {
@@ -125,7 +122,7 @@ func (s *Slot) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if s.bgSpr != nil {
 		s.bgSpr.Draw(t, matrix)
 	} else {
-		s.drawBG(t)
+		DrawRectangle(t, s.DrawArea(), s.color)
 	}
 	// Labels.
 	if len(s.values) > 0 {
@@ -309,15 +306,4 @@ func (s *Slot) SetOnSpecialRightClickFunc(f func(s *Slot)) {
 // triggered after special key pressed + left mouse click event.
 func (s *Slot) SetOnSpecialLeftClickFunc(f func(s *Slot)) {
 	s.onSpecialLeftClick = f
-}
-
-// drawBG draw background within current draw area
-// with IMDraw.
-func (s *Slot) drawBG(t pixel.Target) {
-	s.bgDraw.Clear()
-	s.bgDraw.Color = s.color
-	s.bgDraw.Push(s.DrawArea().Min)
-	s.bgDraw.Push(s.DrawArea().Max)
-	s.bgDraw.Rectangle(0)
-	s.bgDraw.Draw(t)
 }
