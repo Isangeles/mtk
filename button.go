@@ -104,7 +104,7 @@ func (b *Button) Draw(t pixel.Target, matrix pixel.Matrix) {
 			b.bgSpr.DrawColorMask(t, matrix, bgColor)
 		}
 	} else {
-		DrawRectangle(t, b.DrawArea(), bgColor)
+		DrawRect(t, b.DrawArea(), bgColor)
 	}
 	// Drawing label.
 	if b.label != nil {

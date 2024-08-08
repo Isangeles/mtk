@@ -253,9 +253,9 @@ func Matrix() pixel.Matrix {
 	return pixel.IM.Scaled(pixel.V(0, 0), Scale())
 }
 
-// DrawRectangle draw rectangle on specified target with
+// DrawRect draw rectangle on specified target with
 // specified draw area(position and size) and color.
-func DrawRectangle(t pixel.Target, drawArea pixel.Rect, color color.Color) {
+func DrawRect(t pixel.Target, drawArea pixel.Rect, color color.Color) {
 	draw.Clear()
 	draw.Color = color
 	draw.Push(drawArea.Min)

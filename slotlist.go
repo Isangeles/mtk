@@ -1,7 +1,7 @@
 /*
  * slotlist.go
  *
- * Copyright 2019-2022 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ func (sl *SlotList) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if sl.bgSpr != nil {
 		sl.bgSpr.Draw(t, matrix)
 	} else {
-		DrawRectangle(t, sl.drawArea, sl.bgColor)
+		DrawRect(t, sl.drawArea, sl.bgColor)
 	}
 	// Buttons.
 	upButtonPos := MoveTR(sl.Size(), sl.upButton.Size())

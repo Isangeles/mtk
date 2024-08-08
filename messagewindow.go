@@ -105,7 +105,7 @@ func (mw *MessageWindow) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if mw.Disabled() {
 		color = mw.colorDisable
 	}
-	DrawRectangle(t, mw.DrawArea(), color)
+	DrawRect(t, mw.DrawArea(), color)
 	// Buttons.
 	acceptButtonPos := MoveBR(mw.Size(), mw.acceptButton.Size())
 	mw.acceptButton.Draw(t, matrix.Moved(acceptButtonPos))

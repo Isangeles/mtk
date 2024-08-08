@@ -122,7 +122,7 @@ func (s *Slot) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if s.bgSpr != nil {
 		s.bgSpr.Draw(t, matrix)
 	} else {
-		DrawRectangle(t, s.DrawArea(), s.color)
+		DrawRect(t, s.DrawArea(), s.color)
 	}
 	// Labels.
 	if len(s.values) > 0 {

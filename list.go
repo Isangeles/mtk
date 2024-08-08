@@ -1,7 +1,7 @@
 /*
  * list.go
  *
- * Copyright 2018-2022 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ func (l *List) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if l.bgSpr != nil {
 		l.bgSpr.Draw(t, matrix)
 	} else {
-		DrawRectangle(t, l.DrawArea(), l.bgColor)
+		DrawRect(t, l.DrawArea(), l.bgColor)
 	}
 	// List.
 	l.drawListItems(t)

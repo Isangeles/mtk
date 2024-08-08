@@ -79,7 +79,7 @@ func NewTextbox(params Params) *Textbox {
 func (tb *Textbox) Draw(t pixel.Target, matrix pixel.Matrix) {
 	// Background.
 	tb.drawArea = MatrixToDrawArea(matrix, tb.Size())
-	DrawRectangle(t, tb.DrawArea(), pixel.RGBA{0.1, 0.1, 0.1, 0.5})
+	DrawRect(t, tb.DrawArea(), pixel.RGBA{0.1, 0.1, 0.1, 0.5})
 	// Text content.
 	textareaPos := pixel.V(tb.DrawArea().Min.X, tb.DrawArea().Max.Y-ConvSize(tb.textarea.Size().Y))
 	tb.textarea.Draw(t, Matrix().Moved(textareaPos))

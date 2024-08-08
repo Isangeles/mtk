@@ -1,7 +1,7 @@
 /*
  * checkslot.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ func (cs *CheckSlot) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if cs.Checked() {
 		color = cs.checkColor
 	}
-	DrawRectangle(t, cs.DrawArea(), color)
+	DrawRect(t, cs.DrawArea(), color)
 	labelMove := MoveBL(cs.Size(), cs.label.Size())
 	cs.label.Draw(t, matrix.Moved(labelMove))
 }

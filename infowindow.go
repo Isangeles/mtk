@@ -55,7 +55,7 @@ func NewInfoWindow(params Params) *InfoWindow {
 
 // Draw draws info window.
 func (iw *InfoWindow) Draw(t pixel.Target) {
-	DrawRectangle(t, iw.DrawArea(), iw.bgColor)
+	DrawRect(t, iw.DrawArea(), iw.bgColor)
 	textPos := pixel.V(iw.drawArea.Center().X, iw.drawArea.Center().Y-iw.Size().Y/2)
 	iw.Text.Draw(t, Matrix().Moved(textPos))
 }

@@ -1,7 +1,7 @@
 /*
  * textedit.go
  *
- * Copyright 2018-2022 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ func (te *Textedit) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if te.Focused() {
 		color = te.colorFocus
 	}
-	DrawRectangle(t, te.DrawArea(), color)
+	DrawRect(t, te.DrawArea(), color)
 	// Text input.
 	inputMove := pixel.V(-te.Size().X/2, 0)
 	te.input.Draw(t, matrix.Moved(inputMove))

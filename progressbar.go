@@ -1,7 +1,7 @@
 /*
  * progressbar.go
  *
- * Copyright 2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ func (pb *ProgressBar) Draw(t pixel.Target, matrix pixel.Matrix) {
 	if pb.bgSpr != nil {
 		pb.bgSpr.Draw(t, mx)
 	} else {
-		DrawRectangle(t, pb.DrawArea(), pb.color)
+		DrawRect(t, pb.DrawArea(), pb.color)
 	}
 	// Label.
 	if pb.hovered {
