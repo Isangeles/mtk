@@ -1,7 +1,7 @@
 /*
  * animation.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 package mtk
 
 import (
+	"image/color"
+
 	"github.com/gopxl/pixel"
 )
 
@@ -55,6 +57,13 @@ func (anim *Animation) Draw(t pixel.Target, matrix pixel.Matrix) {
 	frame := anim.frames[anim.drawFrameID]
 	anim.drawArea = MatrixToDrawArea(matrix, frame.Frame().Size())
 	frame.Draw(t, matrix)
+}
+
+// DrawColorMask draws current animation frame with specified color mask.
+func (anim *Animation) DrawColorMask(t pixel.Target, matrix pixel.Matrix, mask color.Color) {
+	frame := anim.frames[anim.drawFrameID]
+	anim.drawArea = MatrixToDrawArea(matrix, frame.Frame().Size())
+	frame.DrawColorMask(t, matrix, mask)
 }
 
 // Update updates animation.
