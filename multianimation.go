@@ -1,7 +1,7 @@
 /*
  * multianimation.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 package mtk
 
 import (
+	"image/color"
+
 	"github.com/gopxl/pixel"
 )
 
@@ -52,6 +54,11 @@ func NewMultiAnimation(up, right, down, left *Animation) *MultiAnimation {
 // Draw draws animation for current dirtection.
 func (ma *MultiAnimation) Draw(t pixel.Target, matrix pixel.Matrix) {
 	ma.drawAnim.Draw(t, matrix)
+}
+
+// Draw draws animation for current dirtection with color mask.
+func (ma *MultiAnimation) DrawColorMask(t pixel.Target, matrix pixel.Matrix, mask color.Color) {
+	ma.drawAnim.DrawColorMask(t, matrix, mask)
 }
 
 // Update updates animation for current direction.
