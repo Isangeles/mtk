@@ -3,3 +3,4 @@
 * Examples for: slot list, checkslot, progress bar, multianimation
 * List should preserve order of inserted items
 * Apply font size parameter to defult font
+* Fix infowindow multiline text positioning
