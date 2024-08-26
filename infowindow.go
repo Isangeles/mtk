@@ -56,7 +56,7 @@ func NewInfoWindow(params Params) *InfoWindow {
 // Draw draws info window.
 func (iw *InfoWindow) Draw(t pixel.Target) {
 	DrawRect(t, iw.DrawArea(), iw.bgColor)
-	textPos := pixel.V(iw.drawArea.Center().X, iw.drawArea.Center().Y-iw.Size().Y/2)
+	textPos := pixel.V(iw.DrawArea().Center().X, iw.DrawArea().Min.Y)
 	iw.Text.Draw(t, Matrix().Moved(textPos))
 }
 
@@ -64,5 +64,10 @@ func (iw *InfoWindow) Draw(t pixel.Target) {
 func (iw *InfoWindow) Update(win *Window) {
 	iw.drawArea = pixel.R(win.MousePosition().X, win.MousePosition().Y,
 		win.MousePosition().X+iw.Size().X,
-		win.MousePosition().Y+iw.Size().Y*1.5)
+		win.MousePosition().Y+iw.Size().Y)
+}
+
+// DrawArea returns the bounds of latest info window draw area.
+func (iw *InfoWindow) DrawArea() pixel.Rect {
+	return iw.drawArea
 }
