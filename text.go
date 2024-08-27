@@ -1,7 +1,7 @@
 /*
  * text.go
  *
- * Copyright 2018-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ import (
 
 // Text struct for short text like labels, names, etc.
 type Text struct {
-	text     *text.Text
+	*text.Text
 	content  string
 	drawArea pixel.Rect // updated on each draw
 	color    color.Color
@@ -56,7 +56,7 @@ func NewText(p Params) *Text {
 	// Text.
 	font := MainFont(t.fontSize)
 	atlas := Atlas(&font)
-	t.text = text.New(pixel.V(0, 0), atlas)
+	t.Text = text.New(pixel.V(0, 0), atlas)
 	t.color = p.MainColor
 	if t.color == nil {
 		t.color = colornames.White // default color white
@@ -93,54 +93,41 @@ func (t *Text) Content() string {
 	return t.content
 }
 
-// Write writes specified data as text to text
-// area.
-func (tx *Text) Write(p []byte) (n int, err error) {
-	return tx.text.Write(p)
-}
-
 // Align aligns text to specified position.
 func (t *Text) Align(a Align) {
 	t.align = a
 	switch a {
 	case AlignCenter:
-		mariginX := (-t.text.BoundsOf(t.content).Max.X) / 2
-		t.text.Orig = pixel.V(mariginX, 0)
-		t.text.Clear()
-		t.text.WriteString(t.content)
+		mariginX := (-t.BoundsOf(t.content).Max.X) / 2
+		t.Orig = pixel.V(mariginX, 0)
+		t.Text.Clear()
+		t.WriteString(t.content)
 	case AlignRight:
-		mariginX := (-t.text.BoundsOf(t.content).Max.X)
-		t.text.Orig = pixel.V(mariginX, 0)
-		t.text.Clear()
-		t.text.WriteString(t.content)
+		mariginX := (-t.BoundsOf(t.content).Max.X)
+		t.Orig = pixel.V(mariginX, 0)
+		t.Text.Clear()
+		t.WriteString(t.content)
 	case AlignLeft:
-		t.text.Orig = pixel.V(0, 0)
-		t.text.Clear()
-		t.text.WriteString(t.content)
+		t.Orig = pixel.V(0, 0)
+		t.Text.Clear()
+		t.WriteString(t.content)
 	}
 }
 
 // Draw draws text.
 func (tx *Text) Draw(t pixel.Target, matrix pixel.Matrix) {
 	tx.drawArea = MatrixToDrawArea(matrix, tx.Size())
-	tx.text.DrawColorMask(t, matrix, tx.color)
+	tx.Text.DrawColorMask(t, matrix, tx.color)
 }
 
 // Size returns size of current text.
 func (tx *Text) Size() pixel.Vec {
-	size := tx.text.Bounds().Size()
-	return size
-}
-
-// BoundsOf returns bounds of specified text
-// while displayed.
-func (tx *Text) BoundsOf(text string) pixel.Rect {
-	return tx.text.BoundsOf(text)
+	return tx.Text.Bounds().Size()
 }
 
 // Clear clears texts,
 func (t *Text) Clear() {
-	t.text.Clear()
+	t.Text.Clear()
 	t.content = ""
 	t.Align(t.align)
 }
