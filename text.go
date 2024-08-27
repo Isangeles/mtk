@@ -88,11 +88,6 @@ func (tx *Text) SetMaxWidth(width float64) {
 	tx.width = width
 }
 
-// Content returs text content.
-func (t *Text) Content() string {
-	return t.content
-}
-
 // Align aligns text to specified position.
 func (t *Text) Align(a Align) {
 	t.align = a
