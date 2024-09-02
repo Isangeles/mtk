@@ -59,7 +59,7 @@ func run() {
 		FontSize: mtk.SizeBig,
 	}
 	text := mtk.NewText(textParams)
-	text.SetText("Hoover this text to see infow window")
+	text.SetText("Hoover this text to see info window")
 	infoParams := mtk.Params{
 		FontSize:  mtk.SizeMedium,
 		MainColor: pixel.RGBA{0.1, 0.1, 0.1, 0.5},
