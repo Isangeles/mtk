@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2019-2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,8 +36,6 @@ import (
 )
 
 var (
-	// Exit request flag.
-	exitreq bool
 	// Colors.
 	slotColor      = colornames.Grey
 	slotColorCheck = colornames.Red
@@ -61,18 +59,6 @@ func run() {
 	if err != nil {
 		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
-	// Create button for exit.
-	buttonParams := mtk.Params{
-		Size:      mtk.SizeBig,
-		FontSize:  mtk.SizeMedium,
-		Shape:     mtk.ShapeRectangle,
-		MainColor: colornames.Red,
-	}
-	exitButton := mtk.NewButton(buttonParams)
-	exitButton.SetLabel("Exit")
-	exitButton.SetInfo("Exit menu")
-	// Set function for exit button click event.
-	exitButton.SetOnClickFunc(onExitButtonClicked)
 	// Create slot.
 	slotParams := mtk.Params{
 		Size:      mtk.SizeBig,
@@ -89,23 +75,10 @@ func run() {
 		// Draw.
 		slotPos := win.Bounds().Center()
 		slot.Draw(win, mtk.Matrix().Moved(slotPos))
-		exitButtonPos := mtk.BottomOf(slot.DrawArea(), exitButton.Size(), 10)
-		exitButton.Draw(win, mtk.Matrix().Moved(exitButtonPos))
 		// Update.
 		win.Update()
 		slot.Update(win)
-		exitButton.Update(win)
-		// On exit request.
-		if exitreq {
-			win.SetClosed(true)
-		}
 	}
-}
-
-// onExitButtonClicked handles exit button click
-// event.
-func onExitButtonClicked(b *mtk.Button) {
-	exitreq = true
 }
 
 // onSlotClicked handles slot click event.
@@ -114,18 +87,17 @@ func onSlotClicked(s *mtk.Slot) {
 		return
 	}
 	// Get first slot value.
-	v, ok := s.Values()[0].(bool)
+	value, ok := s.Values()[0].(bool)
 	if !ok {
 		return
 	}
+	s.Clear()
 	// Check/uncheck slot.
-	if v {
-		s.Clear()
-		s.AddValues(false)
-		s.SetColor(slotColor)
-	} else {
-		s.Clear()
+	if !value {
 		s.AddValues(true)
 		s.SetColor(slotColorCheck)
+		return
 	}
+	s.AddValues(false)
+	s.SetColor(slotColor)
 }
