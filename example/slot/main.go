@@ -26,12 +26,12 @@ package main
 
 import (
 	"fmt"
-	
+
 	"golang.org/x/image/colornames"
-	
+
 	"github.com/gopxl/pixel"
 	"github.com/gopxl/pixel/pixelgl"
-	
+
 	"github.com/isangeles/mtk"
 )
 
@@ -42,7 +42,7 @@ var (
 )
 
 // Main function.
-func main () {
+func main() {
 	// Run Pixel graphic.
 	pixelgl.Run(run)
 }
@@ -66,6 +66,7 @@ func run() {
 		MainColor: slotColor,
 	}
 	slot := mtk.NewSlot(slotParams)
+	slot.SetInfo("Click to check or uncheck")
 	slot.AddValues(false)
 	slot.SetOnLeftClickFunc(onSlotClicked)
 	// Main loop.
@@ -91,7 +92,7 @@ func onSlotClicked(s *mtk.Slot) {
 	if !ok {
 		return
 	}
-	s.Clear()
+	s.SetValues(nil)
 	// Check/uncheck slot.
 	if !value {
 		s.AddValues(true)
