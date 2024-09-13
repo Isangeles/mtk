@@ -1,7 +1,7 @@
 /*
  * main.go
  *
- * Copyright 2020 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2020-2024 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,11 +35,6 @@ import (
 	"github.com/isangeles/mtk"
 )
 
-var (
-	exitreq    bool        // menu exit request flag
-	exitButton *mtk.Button // button to enable/disable
-)
-
 // Main function.
 func main() {
 	// Run Pixel graphic.
@@ -64,41 +59,18 @@ func run() {
 		MainColor: colornames.Grey,
 		SecColor:  colornames.Red,
 	}
-	exitSwitch := mtk.NewSwitch(switchParams)
-	exitSwitch.SetIntValues(0, 70)
-	exitSwitch.SetLabel("Number switch")
-	// Create button to enable/disable.
-	buttonParams := mtk.Params{
-		Size:      mtk.SizeBig,
-		FontSize:  mtk.SizeMedium,
-		Shape:     mtk.ShapeRectangle,
-		MainColor: colornames.Red,
-	}
-	exitButton = mtk.NewButton(buttonParams)
-	exitButton.SetLabel("Exit")
-	exitButton.SetInfo("Exit example")
-	exitButton.SetOnClickFunc(onExitButtonClicked)
+	toggle := mtk.NewSwitch(switchParams)
+	toggle.SetIntValues(0, 70)
+	toggle.SetLabel("Number switch")
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
 		win.Clear(colornames.Black)
 		// Draw switch.
 		switchPos := win.Bounds().Center()
-		exitSwitch.Draw(win, mtk.Matrix().Moved(switchPos))
-		// Draw button.
-		buttonPos := mtk.BottomOf(exitSwitch.DrawArea(), exitButton.Size(), 10)
-		exitButton.Draw(win, mtk.Matrix().Moved(buttonPos))
+		toggle.Draw(win, mtk.Matrix().Moved(switchPos))
 		// Update.
 		win.Update()
-		exitSwitch.Update(win)
-		exitButton.Update(win)
-		if exitreq {
-			win.SetClosed(true)
-		}
+		toggle.Update(win)
 	}
-}
-
-// onExitButtonClicked handles exit button click event.
-func onExitButtonClicked(b *mtk.Button) {
-	exitreq = true
 }
