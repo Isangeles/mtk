@@ -26,6 +26,9 @@ package main
 
 import (
 	"fmt"
+	"image"
+	_ "image/png"
+	"os"
 
 	"golang.org/x/image/colornames"
 
@@ -37,8 +40,8 @@ import (
 
 var (
 	// Colors.
-	slotColor      = colornames.Grey
-	slotColorCheck = colornames.Red
+	slotColor      = pixel.RGBA{0.1, 0.1, 0.1, 0.5}
+	slotColorCheck = pixel.RGBA{255, 0, 0, 0.5}
 )
 
 // Main function.
@@ -69,6 +72,11 @@ func run() {
 	slot.SetInfo("Click to check or uncheck")
 	slot.AddValues(false)
 	slot.SetOnLeftClickFunc(onSlotClicked)
+	icon, err := loadPicture("icon.png")
+	if err != nil {
+		panic(fmt.Errorf("Unable to load icon picture: %v", err))
+	}
+	slot.SetIcon(icon)
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
@@ -101,4 +109,18 @@ func onSlotClicked(s *mtk.Slot) {
 	}
 	s.AddValues(false)
 	s.SetColor(slotColor)
+}
+
+// loadPicture loads picture from file with specified path.
+func loadPicture(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, fmt.Errorf("unable to open image file: %v", err)
+	}
+	defer file.Close()
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, fmt.Errorf("unable to decode image: %v", err)
+	}
+	return pixel.PictureDataFromImage(img), nil
 }
