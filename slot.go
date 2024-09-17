@@ -86,15 +86,18 @@ func NewSlot(params Params) *Slot {
 // (value, icon, label, info) to slot B and
 // vice versa.
 func SlotSwitch(slotA, slotB *Slot) {
-	slotC := *slotA
+	slotAValues := slotA.Values()
+	slotALabel := slotA.label.String()
+	slotAInfo := slotA.info.String()
+	slotAIcon := slotA.Icon()
 	slotA.SetValues(slotB.Values())
 	slotA.SetIcon(slotB.Icon())
 	slotA.SetInfo(slotB.info.String())
 	slotA.SetLabel(slotB.label.String())
-	slotB.SetValues(slotC.Values())
-	slotB.SetIcon(slotC.Icon())
-	slotB.SetInfo(slotC.info.String())
-	slotB.SetLabel(slotC.label.String())
+	slotB.SetValues(slotAValues)
+	slotB.SetIcon(slotAIcon)
+	slotB.SetInfo(slotAInfo)
+	slotB.SetLabel(slotALabel)
 }
 
 // SlotCopy copies content from slot A to
