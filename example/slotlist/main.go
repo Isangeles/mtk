@@ -80,6 +80,7 @@ func run() {
 		panic(fmt.Errorf("Unable to load icon 1"))
 	}
 	slot.SetIcon(icon)
+	slot.SetLabel("Slot 1")
 	slot.SetInfo("Use left click to drag and\n right click to drop")
 	slot = slots.EmptySlot()
 	slot.AddValues("value 2")
@@ -89,6 +90,7 @@ func run() {
 	}
 	slot.SetIcon(icon)
 	slot.SetInfo("Use left click to drag and\n right click to drop")
+	slot.SetLabel("Slot 2")
 	// Main loop.
 	for !win.Closed() {
 		// Clear window.
