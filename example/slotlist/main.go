@@ -49,12 +49,12 @@ func main() {
 // All window code fired from there.
 func run() {
 	// Create Pixel window configuration.
-	cfg := pixelgl.WindowConfig{
+	winConfig := pixelgl.WindowConfig{
 		Title:  "MTK slot list example",
 		Bounds: pixel.R(0, 0, 1600, 900),
 	}
 	// Create MTK warpper for Pixel window.
-	win, err := mtk.NewWindow(cfg)
+	win, err := mtk.NewWindow(winConfig)
 	if err != nil {
 		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
@@ -62,12 +62,12 @@ func run() {
 	slotsSize := mtk.ConvVec(pixel.V(250, 300))
 	slots = mtk.NewSlotList(slotsSize, colornames.Grey, mtk.SizeMedium)
 	// Create and add slots.
+	slotParams := mtk.Params{
+		Size:     mtk.SizeBig,
+		FontSize: mtk.SizeMedium,
+	}
 	for i := 0; i < 30; i++ {
-		params := mtk.Params{
-			Size:     mtk.SizeBig,
-			FontSize: mtk.SizeMedium,
-		}
-		slot := mtk.NewSlot(params)
+		slot := mtk.NewSlot(slotParams)
 		slot.SetOnLeftClickFunc(dragSlot)
 		slot.SetOnRightClickFunc(dropSlot)
 		slots.Add(slot)
