@@ -64,14 +64,15 @@ func run() {
 	}
 	// Create slot.
 	slotParams := mtk.Params{
-		Size:      mtk.SizeBig,
-		FontSize:  mtk.SizeMedium,
+		Size:      mtk.SizeHuge,
+		FontSize:  mtk.SizeSmall,
 		MainColor: slotColor,
 	}
 	slot := mtk.NewSlot(slotParams)
+	slot.SetLabel("Slot")
 	slot.SetInfo("Click to check or uncheck")
 	slot.AddValues(false)
-	slot.SetOnLeftClickFunc(onSlotClicked)
+	slot.SetOnLeftClickFunc(checkSlot)
 	icon, err := loadPicture("icon.png")
 	if err != nil {
 		panic(fmt.Errorf("Unable to load icon picture: %v", err))
@@ -90,8 +91,9 @@ func run() {
 	}
 }
 
-// onSlotClicked handles slot click event.
-func onSlotClicked(s *mtk.Slot) {
+// checkSlot checks specified slot by changing the underlying value
+// and slot color.
+func checkSlot(s *mtk.Slot) {
 	if len(s.Values()) < 1 {
 		return
 	}
