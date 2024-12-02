@@ -111,29 +111,7 @@ func SlotCopy(slotA, slotB *Slot) {
 
 // Draw draws slot.
 func (s *Slot) Draw(t pixel.Target, matrix pixel.Matrix) {
-	// Draw area.
-	s.drawArea = MatrixToDrawArea(matrix, s.Size())
-	// Icon.
-	if s.icon != nil && s.icon.Picture() != nil {
-		if s.dragged {
-			s.icon.Draw(t, Matrix().Moved(s.mousePos))
-		} else {
-			s.icon.Draw(t, matrix)
-		}
-	}
-	// Slot.
-	if s.bgSpr != nil {
-		s.bgSpr.Draw(t, matrix)
-	} else {
-		DrawRect(t, s.DrawArea(), s.color)
-	}
-	// Labels.
-	if len(s.values) > 0 {
-		countPos := MoveTL(s.Size(), s.countLabel.Size())
-		s.countLabel.Draw(t, matrix.Moved(countPos))
-	}
-	s.label.Draw(t, matrix)
-	// Info window.
+	s.drawWithoutInfo(t, matrix)
 	if s.hovered {
 		s.info.Draw(t)
 	}
@@ -309,4 +287,30 @@ func (s *Slot) SetOnSpecialRightClickFunc(f func(s *Slot)) {
 // triggered after special key pressed + left mouse click event.
 func (s *Slot) SetOnSpecialLeftClickFunc(f func(s *Slot)) {
 	s.onSpecialLeftClick = f
+}
+
+// drawWithoutInfo draws slot without the info window.
+func (s *Slot) drawWithoutInfo(t pixel.Target, matrix pixel.Matrix) {
+	// Draw area.
+	s.drawArea = MatrixToDrawArea(matrix, s.Size())
+	// Icon.
+	if s.icon != nil && s.icon.Picture() != nil {
+		if s.dragged {
+			s.icon.Draw(t, Matrix().Moved(s.mousePos))
+		} else {
+			s.icon.Draw(t, matrix)
+		}
+	}
+	// Slot.
+	if s.bgSpr != nil {
+		s.bgSpr.Draw(t, matrix)
+	} else {
+		DrawRect(t, s.DrawArea(), s.color)
+	}
+	// Labels.
+	if len(s.values) > 0 {
+		countPos := MoveTL(s.Size(), s.countLabel.Size())
+		s.countLabel.Draw(t, matrix.Moved(countPos))
+	}
+	s.label.Draw(t, matrix)
 }

@@ -3,4 +3,3 @@
 * Examples for: checkslot, progress bar, multianimation, focus
 * List should preserve order of inserted items
 * Apply font size parameter to defult font
-* Fix slot info windows drawing in slot list, currently slot infos are displayed beneth other slots on the list

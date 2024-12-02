@@ -101,7 +101,7 @@ func (sl *SlotList) Draw(t pixel.Target, matrix pixel.Matrix) {
 		if i < startSlot {
 			continue
 		}
-		s.Draw(t, matrix.Moved(slotMove))
+		s.drawWithoutInfo(t, matrix.Moved(slotMove))
 		slotMove.X += s.Size().X + ConvSize(2)
 		splCount += 1
 		if splCount >= sl.spl {
@@ -113,6 +113,11 @@ func (sl *SlotList) Draw(t pixel.Target, matrix pixel.Matrix) {
 		if lineCount > sl.lines {
 			break
 		}
+	}
+	// Drawing slot info separetly on the top of the list.
+	slot := sl.hoveredSlot()
+	if slot != nil {
+		slot.info.Draw(t)
 	}
 }
 
@@ -174,6 +179,16 @@ func (sl *SlotList) Size() pixel.Vec {
 		return sl.bgSize
 	}
 	return sl.bgSpr.Frame().Size()
+}
+
+// hoveredSlot returns currently hovered slot.
+func (sl *SlotList) hoveredSlot() *Slot {
+	for _, s := range sl.slots {
+		if s.hovered {
+			return s
+		}
+	}
+	return nil
 }
 
 // setStartLine sets specified line ID as current
