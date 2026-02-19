@@ -1,7 +1,7 @@
 /*
  * checkslot.go
  *
- * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2018-2026 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,6 +96,11 @@ func (cs *CheckSlot) SetSize(s pixel.Vec) {
 // Label returns slot label.
 func (cs *CheckSlot) Label() string {
 	return cs.label.String()
+}
+
+// Set value sets the check slot value.
+func (cs *CheckSlot) SetValue(value interface{}) {
+	cs.value = value
 }
 
 // Value returns slot value.
