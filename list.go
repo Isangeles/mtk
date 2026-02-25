@@ -1,7 +1,7 @@
 /*
  * list.go
  *
- * Copyright 2018-2024 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2018-2026 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -188,7 +188,14 @@ func (l *List) InsertItems(items map[string]interface{}) {
 // list content.
 func (l *List) AddItem(label string, value interface{}) {
 	itemSize := pixel.V(l.Size().X-l.upButton.Size().X*2, ConvSize(20))
-	itemSlot := NewCheckSlot(label, value, itemSize, l.secColor, l.accentColor)
+	params := Params{
+		MainColor: l.secColor,
+		SecColor: l.accentColor,
+		SizeRaw: itemSize,
+		Label: label,
+	}
+	itemSlot := NewCheckSlot(params)
+	itemSlot.SetValue(value)
 	itemSlot.SetOnCheckFunc(l.onItemSelected)
 	l.items = append(l.items, itemSlot)
 }

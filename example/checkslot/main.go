@@ -54,7 +54,15 @@ func run() {
 		panic(fmt.Errorf("Unable to create MTK window: %v", err))
 	}
 	// Create the check slot.
-	slot := mtk.NewCheckSlot("Check/Uncheck", false, mtk.SizeBig.ButtonSize(mtk.ShapeRectangle), colornames.Red, colornames.Blue)
+	params := mtk.Params{
+		MainColor: colornames.Red,
+		SecColor:  colornames.Blue,
+		FontSize:  mtk.SizeMedium,
+		Size:      mtk.SizeBig,
+		Shape:     mtk.ShapeRectangle,
+		Label:     "Check/Uncheck",
+	}
+	slot := mtk.NewCheckSlot(params)
 	// Set function for slot check event.
 	slot.SetOnCheckFunc(onSlotChecked)
 	// Main loop.

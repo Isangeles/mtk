@@ -42,19 +42,19 @@ type CheckSlot struct {
 	onCheck    func(s *CheckSlot)
 }
 
-// NewCheckSlot creates new item for list.
-func NewCheckSlot(label string, value interface{}, bgSize pixel.Vec,
-	color, checkColor color.Color) *CheckSlot {
+// NewCheckSlot creates new checkable slot.
+func NewCheckSlot(params Params) *CheckSlot {
 	cs := new(CheckSlot)
-	cs.bgSize = bgSize
-	cs.bgColor = color
-	cs.checkColor = checkColor
-	labelParams := Params{
-		FontSize: SizeMedium,
+	if params.SizeRaw.X > 0 && params.SizeRaw.Y > 0 {
+		cs.bgSize = params.SizeRaw
+	} else {
+		cs.bgSize = params.Size.ButtonSize(params.Shape)
 	}
+	cs.bgColor = params.MainColor
+	cs.checkColor = params.SecColor
+	labelParams := Params{FontSize: params.FontSize}
 	cs.label = NewText(labelParams)
-	cs.label.SetText(label)
-	cs.value = value
+	cs.label.SetText(params.Label)
 	return cs
 }
 
