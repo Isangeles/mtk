@@ -66,8 +66,8 @@ func (cs *CheckSlot) Draw(t pixel.Target, matrix pixel.Matrix) {
 		color = cs.checkColor
 	}
 	DrawRect(t, cs.DrawArea(), color)
-	labelMove := MoveBL(cs.Size(), cs.label.Size())
-	cs.label.Draw(t, matrix.Moved(labelMove))
+	labelPos := pixel.V(0, -cs.label.Size().Y/2)
+	cs.label.Draw(t, matrix.Moved(labelPos))
 }
 
 // Update updates slot.
