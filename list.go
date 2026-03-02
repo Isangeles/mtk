@@ -37,6 +37,7 @@ type List struct {
 	bgColor          color.Color
 	secColor         color.Color
 	accentColor      color.Color
+	fontSize         Size
 	drawArea         pixel.Rect
 	upButton         *Button
 	downButton       *Button
@@ -57,6 +58,7 @@ func NewList(params Params) *List {
 	l.bgColor = params.MainColor
 	l.secColor = params.SecColor
 	l.accentColor = params.AccentColor
+	l.fontSize = params.FontSize
 	// Buttons.
 	buttonParams := Params{
 		Size:      SizeMini,
@@ -193,6 +195,7 @@ func (l *List) AddItem(label string, value interface{}) {
 		SecColor: l.accentColor,
 		SizeRaw: itemSize,
 		Label: label,
+		FontSize: l.fontSize,
 	}
 	itemSlot := NewCheckSlot(params)
 	itemSlot.SetValue(value)
