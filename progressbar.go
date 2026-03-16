@@ -1,7 +1,7 @@
 /*
  * progressbar.go
  *
- * Copyright 2019-2024 Dariusz Sikora <ds@isangeles.dev>
+ * Copyright 2019-2026 Dariusz Sikora <ds@isangeles.dev>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,6 @@ type ProgressBar struct {
 	labelText  string
 	hovered    bool
 	bgSpr      *pixel.Sprite
-	size       pixel.Vec
 	color      color.Color
 	label      *Text
 	drawArea   pixel.Rect
@@ -46,13 +45,12 @@ type ProgressBar struct {
 
 // NewProgressBar creates new progress bar with IMDraw
 // background bar with specified size, color and label text.
-func NewProgressBar(size Size, color color.Color) *ProgressBar {
+func NewProgressBar(params Params) *ProgressBar {
 	pb := new(ProgressBar)
-	pb.size = size.BarSize()
-	pb.color = color
-	pb.maxSize = size.BarSize()
+	pb.maxSize = params.Size.BarSize()
+	pb.color = params.MainColor
 	labelParams := Params{
-		FontSize: size - 1,
+		FontSize: params.Size - 1,
 	}
 	pb.label = NewText(labelParams)
 	return pb
