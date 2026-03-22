@@ -1,5 +1,5 @@
 * Title for message windows
 * Refactor slot list constructor to use params struct
-* Examples for: progress bar, multianimation, focus
+* Examples for: multianimation, focus
 * List should preserve order of inserted items
 * Way to draw info windows on a fixed position
